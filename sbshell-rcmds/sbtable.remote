@@ -1,0 +1,26 @@
+#!/bin/bash
+
+eval `xargs` # ; sbfont green ; env | grep SB ; echo $PATH ; sbfont white
+
+echo $SBFLAGS | grep "APPEND" >/dev/null
+if [[ $? -eq 0 ]]
+	then
+	REDIR="APPEND"
+	fi
+
+TARGET="$SBPATH/$SBDIR/$SBPAGE-$SBSECTION.php"
+
+echo "<h1>$3</h1>" > $TARGET
+
+cat $SBPATH/$SBDIR/$1.temp | python $SBRCMDS/sbtable.py $2 >> $TARGET
+
+echo "
+<table border=1> 
+<tr><td>Pass<td><img src=/images/pass_s.png></tr>
+<tr><td>Warning<td><img src=/images/warning_s.png></tr>
+<tr><td>Exception<td><img src=/images/exception_s.png></tr>
+</table>
+" >> $TARGET
+
+rm /$SBPATH/$SBDIR/$1.temp
+

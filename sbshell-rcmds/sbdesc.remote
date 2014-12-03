@@ -1,0 +1,2 @@
+read LINE
+echo $LINE >> $1/desc.php

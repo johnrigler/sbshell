@@ -1,0 +1,39 @@
+#!/bin/bash
+
+eval `xargs` # ; sbfont green ; env | grep SB ; echo $PATH ; sbfont white
+
+echo $SBFLAGS | grep "APPEND" >/dev/null
+if [[ $? -eq 0 ]]
+	then
+	REDIR="APPEND"
+	fi
+
+TEMPFILE="$SBPATH/$SBDIR/$1.temp"
+
+TARGET="$SBPATH/$SBDIR/$SBPAGE-$SBSECTION.php"
+
+if [[ $REDIR == "APPEND" ]]
+	then
+	grep -v  '</pre>' $TARGET > $$
+#	mv $TEMPFILE $TARGET
+	else
+	echo "  <pre>" > $TARGET
+	fi
+
+sed 's/^$ /<span class=prompt>ksh-$<\/span>  /g' $TEMPFILE | sed -f $SBPATH/sbshell/sbshell-rcmds/tty-to-html.sed | while read LINE
+
+	do 
+	echo $LINE | grep "prompt" >/dev/null
+	if [[ $? -eq 0 ]]
+	then
+	 LINE=`echo $LINE | while read SPAN CLASS REST
+	   do
+	   echo "$SPAN $CLASS <span class=cmd> $REST </span>"
+           done`
+	fi
+
+	echo $LINE >> $TARGET
+	done
+
+echo "  </pre>" >> $TARGET
+

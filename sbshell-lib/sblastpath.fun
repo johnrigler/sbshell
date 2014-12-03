@@ -1,0 +1,4 @@
+sblastpath () 
+{ 
+    sbset $LASTDOCPATH
+}

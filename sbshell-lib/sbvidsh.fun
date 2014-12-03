@@ -1,0 +1,4 @@
+sbvidsh () 
+{ 
+    vim $SBDSH
+}

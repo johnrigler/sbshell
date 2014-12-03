@@ -1,0 +1,41 @@
+export SBSRV="uxdpodlx1"
+export SBSAVE="uxdpodlx1"
+export SBPATH="/usr/local/apache2/htdocs"
+export SBNOTE
+export SBPAGE="1"
+export SBSECTION="01"
+export SBCONSOLE="ubu"
+export SBCMDS
+export SBDIR
+export SBDSH=~/$$.dsh
+export SBDSHDIR=~/dev/python/DSH
+export SBRCMDS="sbshell-rcmds"
+export SBVER="11172014"
+export SBCMDS=~/bin/sbshell-cmds
+umask 000
+
+BASE="sbcs sbenv sbfont sbnote sbrenv sbset sbpre sbdiv sbvi"
+LIST=""
+
+function sbpurge { 
+	rm sbshell.lib 
+	}
+
+function sbaddfun {
+
+for SBFUN in $1
+        do
+        LIST="$LIST $SBFUN.fun"
+	echo "Adding $SBFUN"
+        done
+
+ssh $SBSAVE "cd sbshell-lib; cat $LIST" >> sbshell.lib
+
+}
+
+if [[ ! -e sbshell.lib ]]
+then
+	sbaddfun "$BASE"
+fi
+
+. sbshell.lib

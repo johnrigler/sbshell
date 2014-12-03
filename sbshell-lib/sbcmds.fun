@@ -1,0 +1,4 @@
+sbcmds () 
+{ 
+    cd $SBCMDS
+}

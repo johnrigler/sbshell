@@ -1,0 +1,43 @@
+export SBSRV="rigler@rigler.org"
+export SBPATH="/home/rigler/www"
+export SBNOTE
+export SBPAGE="1"
+export SBSECTION="01"
+export SBCONSOLE="ubu"
+export SBCMDS
+export SBDIR
+export SBDSH=~/$$.dsh
+export SBDSHDIR=~/dev/python/DSH
+export SBRCMDS="$SBPATH/sbshell/sbshell-rcmds"
+export SBVER="11182014"
+umask 000
+
+BASE="sbcs sbenv sbfont sbnote sbrenv sbset sbpre sbdiv sbvi"
+
+EXT="sbprep sbls sbcat sbcp"
+
+function sbpurge { 
+	rm sbshell.lib 
+	}
+
+function sbaddfun {
+
+LIST=""
+
+for SBFUN in $1
+        do
+        LIST="$LIST $SBPATH/sbshell/sbshell-lib/$SBFUN.fun"
+	echo "Adding $SBFUN"
+        done
+
+ssh $SBSRV "cat $LIST" >> sbshell.lib
+
+}
+
+if [[ ! -e sbshell.lib ]]
+	then
+	  sbaddfun "$BASE"
+	  sbaddfun "$EXT"
+	fi
+
+. sbshell.lib

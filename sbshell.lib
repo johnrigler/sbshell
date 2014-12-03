@@ -1,0 +1,142 @@
+sbcs () 
+{ 
+    SBSECTION=`echo $SBSECTION | sed 's/^0*//'`;
+    if [[ ! -n $1 ]]; then
+        let TEMPSECTION=${SBSECTION}+1;
+        echo $TEMPSECTION;
+        SBSECTION=`printf "%02d\n" $TEMPSECTION`;
+    else
+        TEMPSECTION=${1};
+        SBSECTION=`printf "%02d\n" $TEMPSECTION`;
+    fi;
+    sbfont green;
+    echo "Host: $HOST | Page: $SBPAGE | Section: $SBSECTION";
+    sbfont white
+}
+sbenv () 
+{ 
+    echo "SBDIR=$SBDIR";
+    echo "SBPATH=$SBPATH";
+    echo "SBSECTION=$SBSECTION";
+    echo "SBPAGE=$SBPAGE";
+    echo "SBSRV=$SBSRV";
+    echo "SBSAVE=$SBSAVE";
+    echo "SBCMDS=$SBCMDS";
+    echo "SBRCMDS=$SBRCMDS";
+    echo "SBDSH=$SBDSH"
+}
+sbfont () 
+{ 
+    case $1 in 
+        white)
+            FG='0m'
+        ;;
+        bold)
+            FG='1m'
+        ;;
+        underline)
+            FG='4m'
+        ;;
+        error)
+            FG='31m'
+        ;;
+        red)
+            FG='31m'
+        ;;
+        green)
+            FG='32m'
+        ;;
+        yellow)
+            FG='33m'
+        ;;
+        blue)
+            FG='34m'
+        ;;
+        purple)
+            FG='35m'
+        ;;
+        aqua)
+            FG='36m'
+        ;;
+    esac;
+#    echo -n -e 
+     printf "\033[$FG"
+}
+sbnote () 
+{ 
+    SBDATE=`date "+/%Y/%W/%w"`;
+    SBME="sbreports/riglerjo";
+    sbenv | ssh $SBSRV $SBRCMDS/sbdir.remote "$SBME$SBDATE";
+    SBTIME=`date '+%H:%M'`;
+    if [[ -n $1 ]]; then
+        NOTE="<br>$SBTIME $*";
+    else
+        NOTE="<br>$SBTIME <a href=/$SBDIR> $SBDIR </a>";
+    fi;
+    echo $NOTE | ssh $SBSRV $SBRCMDS/sbdesc.remote $SBPATH/$SBME$SBDATE
+}
+sbrenv () 
+{ 
+    echo "SBDIR=$SBDIR";
+    echo "SBPATH=$SBPATH";
+    echo "SBSECTION=$SBSECTION";
+    echo "SBPAGE=$SBPAGE";
+    echo "SBRCMDS=$SBRCMDS";
+    echo "PATH=/usr/local/bin:/bin:/usr/bin:$SBRCMDS:."
+}
+sbset () 
+{ 
+    SBSECTION=01;
+    SBPAGE=1;
+    SBDIR=$1;
+    URI="$SBSRV:$SBPATH/$SBDIR";
+    SBURI="$SBSRV:$SBPATH/$SBDIR";
+    if [[ $2 != "nonote" ]]; then
+        sbnote;
+    fi;
+    sbrenv | ssh $SBSRV "$SBRCMDS/sbdir.remote $SBDIR" & sbcs 1
+}
+sbpre ()
+{
+if [[ `uname` = 'AIX' ]]
+        then
+        sbfont yellow
+        script /tmp/$$.temp
+        fi
+
+if [[ `uname` = 'Linux' ]]
+        then
+        sbfont yellow
+        echo 'export PS1="{($PS1)} "' > $$.rc;
+        echo 'export PS2="{($PS2)} "' >> $$.rc;
+        script -c "bash --rcfile $$.rc" /tmp/$$.temp;
+        rm $$.rc;
+        fi
+
+        sbfont white
+        scp /tmp/$$.temp $SBSRV:$SBPATH/$SBDIR/.
+        sbenv | ssh $SBSRV $SBRCMDS/sbpre.`uname`.`basename $SHELL`.remote $$
+        rm /tmp/$$.*
+
+}
+sbdiv () 
+{ 
+    vim /tmp/$$.temp;
+    scp /tmp/$$.temp $URI/.;
+    sbenv | ssh $SBSRV $SBRCMDS/sbdiv.remote $$;
+    rm /tmp/$$.*
+}
+sbvi () 
+{ 
+    if [[ -e $1 ]]; then
+        if [[ -e $DOCBIN/$1.bash ]]; then
+            vi $DOCBIN/$1.bash;
+        fi;
+        . $SBCMDS/$1.bash;
+    else
+        scp $URI/$SBPAGE-$SBSECTION.php /tmp/$$.sbvi;
+        vi /tmp/$$.sbvi;
+        scp /tmp/$$.sbvi $URI/$SBPAGE-$SBSECTION.php;
+        rm /tmp/$$.sbvi;
+    fi
+}

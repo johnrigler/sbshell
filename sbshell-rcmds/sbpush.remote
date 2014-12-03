@@ -1,0 +1,17 @@
+#!/bin/bash
+
+eval `xargs` # sbfont green ; env | grep SB ; echo $PATH ; sbfont white
+
+THISPAGE=`echo "$SBPAGE"-`
+
+SBLASTSEC=`ls $SBPATH/$SBDIR/*-*.php 2>/dev/null | egrep -v 'desc|index|search' | while read LINE
+	do
+	basename $LINE 
+	done | grep "^$THISPAGE" | sed "s/^$THISPAGE//g" | \
+		sed "s/\.php//g" | sort -n | tail -1`
+
+SBNEXTSEC=`echo $SBLASTSEC | sed 's/^0*//g'`
+
+let SBNEXTSEC=$SBNEXTSEC+1
+
+printf "%2d\n" $SBNEXTSEC
