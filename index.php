@@ -4,6 +4,7 @@
 
 <head>
  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+ <meta http-equiv="refresh" content="10">
 <? if ($format !="htmldoc")
 	{
 	echo ' <title>rigler.org</title>
