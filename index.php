@@ -57,6 +57,7 @@ if($file == "hidden")continue;
 if($file == "cgi-bin")continue;
 if($file == ".")continue;
 if($file == "..")continue;
+if($file == ".git")continue;
 
 #echo "<br>$file";
 
