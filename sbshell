@@ -1,5 +1,5 @@
-export SBSRV="rigler@rigler.org"
-export SBPATH="/home/rigler/www"
+export SBSRV="john@purple"
+export SBPATH="/home/john/public_html"
 export SBNOTE
 export SBPAGE="1"
 export SBSECTION="01"
@@ -9,7 +9,7 @@ export SBDIR
 export SBDSH=~/$$.dsh
 export SBDSHDIR=~/dev/python/DSH
 export SBRCMDS="$SBPATH/sbshell/sbshell-rcmds"
-export SBVER="11182014"
+export SBVER="03152016"
 umask 000
 
 BASE="sbcs sbenv sbfont sbnote sbrenv sbset sbpre sbdiv sbvi"

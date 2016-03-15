@@ -1,11 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<? $format=$_GET['format']; ?>
+<?php $format=$_GET['format']; ?>
 
 <head>
  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
  <meta http-equiv="refresh" content="10">
-<? if ($format !="htmldoc")
+<?php if ($format !="htmldoc")
 	{
 	echo ' <title>rigler.org</title>
  		<link rel="stylesheet" type="text/css" href="/style.css">';
@@ -21,7 +21,7 @@ if ($format =="htmldoc")
 </head>
 
 
-<?
+<?php
 
 $search=$_GET['search'];
 
@@ -158,7 +158,7 @@ foreach($path as $index => $directory)
 
 <!-- Begin Table of Contents -->
 
-<? 
+<?php 
 
 if(file_exists("about.php"))
 	include "about.php";
@@ -172,24 +172,24 @@ if(count($dirs) > 0)
 ?>
   <!-- Begin Table of Contents Entry -->
   <div class=shortspacing>
-    <div class=contentsbox><a style='color:white' href=<? echo "$subdir > $subdir"; ?></a></div>
+    <div class=contentsbox><a style='color:white' href=<?php echo "$subdir > $subdir"; ?></a></div>
 
   </div>
   <div class=spacing>
-  <p><? if( file_exists("$subdir/desc.php"))include "$subdir/desc.php"; ?></p>
+  <p><?php if( file_exists("$subdir/desc.php"))include "$subdir/desc.php"; ?></p>
   <hr>
   <!-- End Table of Contents Entry -->
 
   </div>
-<?   } ?>
+<?php   } ?>
 </div>
-<? } ?>
+<?php } ?>
 
 <!-- End Table of Contents -->
 
 <div style='border:none;background-color: transparent'>
 
-<? 
+<?php 
 if($format != "htmldoc")
 {
  if($sections[$prevpage])
@@ -225,7 +225,7 @@ if($sections[$nextpage])
   <!-- Begin Body -->
 
 
-<?
+<?php
 
 //   }
 
