@@ -1,5 +1,7 @@
+#!/bin/bash
+
 export SBSRV="john@purple"
-export SBPATH="/home/john/public_html"
+export SBPATH="/home/john/public_html/sbshell"
 export SBNOTE
 export SBPAGE="1"
 export SBSECTION="01"
@@ -15,6 +17,26 @@ umask 000
 BASE="sbcs sbenv sbfont sbnote sbrenv sbset sbpre sbdiv sbvi"
 
 EXT="sbprep sbls sbcat sbcp"
+
+sb_cfg() {
+env | grep "SB"
+}
+
+sb_sed() {
+##sb_sed edit shell
+
+vi $SBPATH/sbshell/
+. $SBPATH/sbshell
+
+}
+
+sb_git() {
+##sb_git git add,commit,push
+
+git add .
+git commit .
+git push
+}
 
 function sbpurge { 
 	rm sbshell.lib 
