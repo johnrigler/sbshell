@@ -1,9 +1,0 @@
-SBDIR=dev
-SBPATH=~/www
-SBSECTION=01
-SBPAGE=1
-SBSRV=secret@rigler.org
-SBSAVE=secret@rigler.org
-SBCMDS=/home/rigler/bin/sbshell-cmds
-SBRCMDS=sbshell-rcmds
-SBDSH=/home/rigler/35287.dsh

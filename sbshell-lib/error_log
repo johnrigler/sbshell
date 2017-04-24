@@ -1,2 +1,0 @@
-[02-Dec-2014 21:48:59 America/Chicago] PHP Parse error:  syntax error, unexpected '[', expecting ',' or ';' in /home/rigler/public_html/sbshell/sbshell-lib/notation.php on line 3
-[02-Dec-2014 23:21:42 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/rigler/public_html/sbshell/sbshell-lib/notation.php:3) in /home/rigler/public_html/sbshell/sbshell-lib/notation.php on line 7

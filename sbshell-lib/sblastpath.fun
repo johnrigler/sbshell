@@ -1,4 +1,0 @@
-sblastpath () 
-{ 
-    sbset $LASTDOCPATH
-}

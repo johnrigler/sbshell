@@ -1,4 +1,0 @@
-sbcmds () 
-{ 
-    cd $SBCMDS
-}

@@ -1,4 +1,0 @@
-sbvidsh () 
-{ 
-    vim $SBDSH
-}
