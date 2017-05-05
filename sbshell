@@ -24,46 +24,52 @@
 #limitations under the License."
 #fi
 
+# Create a comment notation that is preserved.
+-() { return; }
 
-SB_WEB=/var/www/html/
-SB_HOME=/usr/local/sbshell
-SB_PS1="SBS"
-export SB_BLOCK SB_HOME
+.sb() {
 
-sb_env() {  
-##sb_env Show Environmental Settings
-
-sb_font green
-echo "SB_WEB			|	$SB_WEB"
-echo "SB_PATH			|	$SB_PATH"
-echo "SB_URL			|	$SB_URL"
-echo "SB_BLOCK		|	$SB_BLOCK"
-echo "SB_SEC			|	$SB_SEC"
-echo "SB_TYPE			|	$SB_TYPE"
-echo "SB_FILE			|	$SB_FILE"
-echo "SB_HOME			|	$SB_HOME"
-echo "SB_MODULE		|	$SB_MODULE"
-sb_font white
-
-}
-
-# Modify sbshell or [module]
-sb_svi() {
-##sb_svi Modify source file
-
-vi $SB_HOME/sbshell
-
-. $SB_HOME/sbshell
-
-}
-
-sb_mvi() {
+- this is a comment
 
 if [[ $1 ]] 
+then
+  declare -f $1
+else
+  declare -F # | cut -c 12-  | grep -v usb
+fi
+
+} 
+sb() {  
+- sb this system joins a command and its possible first variables to form an alias
+
+echo "$1.$2() { 
+ $1 $2 
+ }" > $$
+
+. $$
+rm $$
+
+}
+
+
+sb.env() {
+
+
+color green
+env | grep --color=never "SB_"
+color white
+
+}
+
+# Modify [module] 
+sb.vi() {
+
+if [[ "$1" ]] 
   then
+  echo true
   MOD=$1
   else 
-  MOD=$SB_MODULE
+  MOD="sbshell"
   fi
 
 vi $SB_HOME/$MOD
@@ -71,27 +77,24 @@ vi $SB_HOME/$MOD
 
 }
 
+# Change and modify $1
+
+
 # source all of the modules
-_sb_init(){
+sb.init(){
 
-cd $SB_HOME
-
-ls | xargs -n1 | while read MODULE
-  do
-  echo ". ./$MODULE" | grep -v '.php' | grep -v 'README.md' \
-                     | grep -v '.phar' | grep -v '.txt' \
-											 | grep -v 'sbshell' 
-  done > /tmp/$$
-
-. /tmp/$$
-
-rm /tmp/$$
-
-PS1="$SB_PS1> "
+. ~/.sbshell/sb.ini
 
 }
 
-_sb_file() {
+sb.init sbshell
+sb.init co
+
+sb.home() { 
+cd $SB_HOME 
+}
+
+sb.file() {
 
 export SB_FILE="${SB_BLOCK}_${SB_SEC}.${SB_TYPE}"
 
@@ -100,61 +103,13 @@ export SB_FILE="${SB_BLOCK}_${SB_SEC}.${SB_TYPE}"
 ## Opens up a new shell and records input into a script session (exit to escape)
 web_script() {
 
-sb_type "ts" 
+sb.type "ts" 
 
-script $SB_URL/$SB_FILE
-
-}
-
-
-sb_font() { 
-##sb_font Changed the font in the shell or web version
-##sb_font Possible colors are white,bold,underline,error,red,green,yellow,blue,purple,aqua
-
-	if [ -n $1 ]
-	then
-    case $1 in
-        white)
-            FG='00m'
-        ;;
-        bold)
-            FG='01m'
-        ;;
-        underline)
-            FG='04m'
-        ;;
-        error)
-            FG='31m'
-        ;;
-        red)
-            FG='31m'
-        ;;
-        green)
-            FG='32m'
-        ;;
-        yellow)
-            FG='33m'
-        ;;
-        blue)
-            FG='34m'
-        ;;
-        purple)
-            FG='35m'
-        ;;
-        aqua)
-            FG='36m'
-  			;;
-    esac;
-
-#    echo -n -e
-     printf "\033[$FG"
-	else 
-		sb_help sb_font
-	fi
+script $SB_LOCAL_URL/$SB_FILE
 
 }
 
-sb_grabit() {
+sb.grabit() {
 
 _GRAB=$(history | tail -2 | head -1 | cut -c 8-)
 
@@ -162,125 +117,86 @@ _GRAB=$(history | tail -2 | head -1 | cut -c 8-)
 eval $_GRAB | xargs -n1 echo "#")
 
 echo $SB_MODULE
-
-
 }
 
 
-sb_help() {
-##sb_help Display Help
+sb.help() {
+##sb.help Display Help
 
-cat $SB_HOME/sbshell |  egrep "^sb_*|^##sb_"  # | grep -v 'grep "##$1" $SB_HOME/sb_' | sed 's/##$1//g' > /tmp/$$
+cat $SB_HOME/sbshell |  egrep "^sb.*|^##sb."  # | grep -v 'grep "##$1" $SB_HOME/sb.' | sed 's/##$1//g' > /tmp/$$
 
-sb_font aqua
-sb_font underline
-sb_font bold
+color aqua
+color underline
+color bold
 echo "                      --> $1 <--                    "
-sb_font white
-sb_font aqua
+color white
+color aqua
 cat /tmp/$$ | grep -v "() {"
 
-sb_font white
+color white
 
 rm /tmp/$$
 
 }
 
-sb_module() {
-SB_MODULE=$1
+sb.set() {
+export SB_MODULE=$1
+}
+
+sb.set.vi(){
+sb.set $1
+sb.vi $1
 
 }
 
-sb_vi() {
-##sb_vi Edit current section
+sb.onload() { 
+##sb.onload Runs first as php, useful for setting up reload or debugging
 
-vi $SB_WEB/$SB_PATH/$SB_BLOCK"_"$SB_SEC".$SB_TYPE"
-
-}
-
-sb_onload() { 
-##sb_onload Runs first as php, useful for setting up reload or debugging
-
-vi $SB_WEB/$SB_PATH/.onload.php
+vi $SB_WEB_LOCAL/$SB_PATH/.onload.php
 
 }
 
-sb_wvi() {
-##sb_wvi  Edit index.php
+sb.wvi() {
+##sb.wvi  Edit index.php
 
-vi $SB_WEB/$SB_PATH/index.php
-
-}
-
-sb_style() {
-##sb_style  Edit CSS style
-
-vi $SB_WEB/sb_style.css
+vi $SB_WEB_LOCAL/$SB_PATH/index.php
 
 }
 
-sb_path() {
-##sb_path Set web Path
+sb.style() {
+##sb.style  Edit CSS style
+
+vi $SB_WEB_LOCAL/sb.style.css
+
+}
+
+sb.path() {
+##sb.path Set web Path
 
 export SB_PATH=$1
-export SB_URL=$SB_WEB$SB_PATH
-mkdir $SB_URL 2>/dev/null
-cd $SB_URL
+export SB_LOCAL_URL=$SB_WEB_LOCAL$SB_PATH
+mkdir $SB_LOCAL_URL 2>/dev/null
+cd $SB_LOCAL_URL
 ln -s ../index.php . 2>/dev/null
 
 }
 
-sb_type() {
-##sb_type Set type: php,bash,stat
+sb.type() {
+##sb.type Set type: php,bash,stat
 
 export SB_TYPE=$1
 
-_sb_file
+_sb.file
 
 }
 
 
-sb_ls() {
-##sb_ls Show components in location
-
-ls "$SB_WEB""$SB_PATH"
-}
-
-sb_sec() {
-##sb_sec Set web page section (numbered 00 to 99)
-
-export SB_SEC=$1
-
-_sb_file
-
-}
-
-sb_block() {
-##sb_block Set web page block (middle,left,right,top,bottom)
-
-export SB_BLOCK=$1
-
-_sb_file
-
-}
-
-_wassourced() {
+sb.wassourced() {
 ##_wassourced returns: "yes" if code was sources in and "no" if it was called directly
 
 echo $0 $1 $2
 
 }
 
-_COUNT=`echo $SB_BLOCK | wc -c`
 
-if [ $_COUNT -eq 1 ]
-	then
-	sb_block "middle" 
-	sb_sec "01" 
-	sb_path "test"
-	sb_type "php"
-	fi
-
-#_sb_init
-
-echo "reloaded sb_shell.."
+#sb.init sbshell

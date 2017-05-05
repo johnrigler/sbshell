@@ -1,0 +1,7 @@
+#!/bin/bash
+
+jenkins() {
+
+sudo apt-get install jenkins
+
+}
