@@ -1,5 +1,5 @@
 #!/bin/bash
-## Sbshell version 3.1 
+## sbshell version 3.1 
 
 #  Covered by Apache License
 #  12/14/2015
@@ -24,12 +24,18 @@
 #limitations under the License."
 #fi
 
-# Create a comment notation that is preserved.
+# Create and begin comment notation that is preserved.
+
+echo.off() {
 -() { return; }
+}
+
+echo.on() {
+-() { echo $*; }
+}
 
 .sb() {
 
-- this is a comment
 
 if [[ $1 ]] 
 then
@@ -40,7 +46,7 @@ fi
 
 } 
 sb() {  
-- sb this system joins a command and its possible first variables to form an alias
+# sb this system joins a command and its possible first variables to form an alias
 
 echo "$1.$2() { 
  $1 $2 
@@ -51,13 +57,14 @@ rm $$
 
 }
 
+echo.off
+
 
 sb.env() {
 
-
-color green
+- color green
 env | grep --color=never "SB_"
-color white
+- color white
 
 }
 
@@ -80,15 +87,14 @@ vi $SB_HOME/$MOD
 # Change and modify $1
 
 
-# source all of the modules
 sb.init(){
+# source all of the modules
 
 . ~/.sbshell/sb.ini
+. ~/$SB_HOME/color
 
 }
 
-sb.init sbshell
-sb.init co
 
 sb.home() { 
 cd $SB_HOME 
@@ -110,13 +116,13 @@ script $SB_LOCAL_URL/$SB_FILE
 }
 
 sb.grabit() {
+- grab last command from history
 
 _GRAB=$(history | tail -2 | head -1 | cut -c 8-)
+eval `echo "$1.$2() { - grabbed; $_GRAB; }"`
+declare -f $1.$2 >> $SB_HOME/$1 
+source $SB_HOME/$1 
 
-(echo "## $_GRAB"
-eval $_GRAB | xargs -n1 echo "#")
-
-echo $SB_MODULE
 }
 
 
@@ -198,5 +204,6 @@ echo $0 $1 $2
 
 }
 
-
+#echo "got here"
 #sb.init sbshell
+echo.off

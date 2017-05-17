@@ -25,10 +25,16 @@ grep "$1" >/dev/null
 # alp creates a function for each option defined
 alp ()
 {
-- alp $1 $2
-T=/tmp/$$
-echo "$1.$2() { $1 $2; }" > $T
-source $T
-#cat $T
-rm $T
+COMMAND=$1
+shift 1
+while [[ "$*" ]]
+do
+  - alp $COMMAND $1
+  T=/tmp/$$
+  echo "$COMMAND.$1() { $COMMAND $1; }" >> $T
+  shift 1
+done
+  source $T
+  - cat $T
+  rm $T
 }

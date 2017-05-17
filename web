@@ -13,8 +13,21 @@ env | grep --color=none "WEB_"
 
 }
 
+web.local.url.cd() {
+
+cd $WEB_LOCAL_URL/$1
+
+}
+
+web.local.url.mkdir() {
+- note creates subdirectories
+
+cd $WEB_LOCAL_URL
+mkdir -p $1 2>/dev/null
+}
+
 web.set() {
-WEB_HOME=$1
+WEB_LOCAL_URL=$1
 PS1="web> "
 
 }
@@ -24,7 +37,7 @@ web.pre() {
 if [[ "$1" ]]
   then
   sb.font green
-  script $WEB_HOME/$1_$2.php
+  script $WEB_LOCAL_URL/$1_$2.php
   sb.font white
 fi
 
