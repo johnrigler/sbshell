@@ -1,0 +1,24 @@
+#!/bin/bash
+
+makerspace() {
+
+export   MAKERSPACE=$SB_HOME/modules/makerspace
+mkdir -p $MAKERSPACE/$1
+vi       $MAKERSPACE/$1/$2
+
+}
+
+steal_your_svg() {
+
+mkdir ~/.sbshell/makespace
+cd ~/.sbshell/makerspace
+wget https://upload.wikimedia.org/wikipedia/en/7/78/The_Grateful_Dead_Channel_logo.svg
+
+}
+
+laser.example() {
+
+vi /var/www/html/newsvg/embedded.php 
+php /var/www/html/newsvg/embedded.php > /var/www/html/newsvg/out.svg
+
+}

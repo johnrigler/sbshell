@@ -46,6 +46,7 @@ fi
 
 } 
 sb() {  
+- edit various modules
 # sb this system joins a command and its possible first variables to form an alias
 
 echo "$1.$2() { 
@@ -62,18 +63,18 @@ echo.off
 
 sb.env() {
 
-- color green
+color.green
 env | grep --color=never "SB_"
-- color white
+color.white
 
 }
 
 # Modify [module] 
 sb.vi() {
+- edit various modules
 
 if [[ "$1" ]] 
   then
-  echo true
   MOD=$1
   else 
   MOD="sbshell"
@@ -84,14 +85,13 @@ vi $SB_HOME/$MOD
 
 }
 
-# Change and modify $1
-
 
 sb.init(){
 # source all of the modules
 
 . ~/.sbshell/sb.ini
-. ~/$SB_HOME/color
+. $SB_HOME/color
+. $SB_HOME/docker
 
 }
 
@@ -149,9 +149,10 @@ sb.set() {
 export SB_MODULE=$1
 }
 
-sb.set.vi(){
+sb.set.vi() {
 sb.set $1
 sb.vi $1
+ls $SB_HOME/$1
 
 }
 

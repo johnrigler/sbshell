@@ -1,0 +1,20 @@
+cat << EOF
+Ian Duncan - 8 year, php work, databases, manage vm stacks, keep pace
+Daniel Gallow - worked under network engineering, scripting changes across board
+   network engineer angle, background in perl
+Eric Ramsey - 18 tech support, network engineer, ruby and php, backend scripting, application.
+
+php best way to fit the task, own structures and frameworks, within larger applications
+php from user experience layer
+cron and utility scripts
+noc system toolkit, built completely in go or ruby
+oss is php
+
+Database platforms, mysql, postgresql, relational data
+time series tongo, stores in influx, redis cache layer, similar to mcached
+
+influx and griffana
+
+----------------------  
+Ben
+EOF

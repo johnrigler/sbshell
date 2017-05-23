@@ -1,0 +1,76 @@
+zork.init() {
+
+env | sed 's/=/ /g' | while read A B
+do
+echo unset $A | egrep -v 'PATH|HOME'
+done > $$
+
+. $$
+rm $$
+
+export HOME="/home/john"
+cd $HOME/.sbshell/zork
+
+}
+
+zork() {
+
+
+cd ~/.sbshell/zork
+
+
+while read FIRST REST 
+  do
+  declare -F $FIRST && $FIRST $REST || monkeyblood "$FIRST $REST"
+  done  
+}
+
+
+zork.process() {
+
+echo $LINE
+}
+
+monkeyblood() {
+
+echo "[[ $FIRST $REST ]]"
+
+}
+
+zork.frotz() {
+- zork game system
+
+cd /usr/local
+git clone https://github.com/DavidGriffith/frotz/
+
+}
+
+room() {
+
+pwd | sed 's/^.*zork\///g' | sed 's/\./ /g' | while read NS EW UD
+  do
+  [[ $1 ]] && let NS=NS+$1
+  [[ $2 ]] && let EW=EW+$2
+  [[ $3 ]] && let UD=UD+$3
+  echo $NS.$EW.$UD
+  done
+}
+
+move() {
+- move to new room if it is present
+
+ls ../$1  >/dev/null 2>&1
+
+[[ $? -eq 0 ]] && cd ../$1 
+
+. ./init 2>/dev/null 
+
+PS1="$ROOM> "
+
+}
+
+zork.calc.move() {
+- figure out relative rooms
+
+}
+
