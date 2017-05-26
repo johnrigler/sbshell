@@ -91,7 +91,11 @@ sb.init(){
 
 . ~/.sbshell/sb.ini
 . $SB_HOME/color
-. $SB_HOME/docker
+#. $SB_HOME/docker
+. $SB_HOME/www
+. $SB_HOME/svg
+
+color.blue
 
 }
 

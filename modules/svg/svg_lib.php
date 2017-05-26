@@ -3,6 +3,9 @@
 $xoff=20;
 $yoff=20;
 
+
+# 24 by 48 lasersaur
+
 function lasersaurheader() {
 
 echo '<?xml version="1.0" encoding="UTF-8" ?>
@@ -114,5 +117,29 @@ v$vm a$val,$val 0 0 1 $val,-$val
 '/>\n\n"; 
 
 }
+
+function square( $x , $y , $size, $val) {
+
+$unit="";
+$hm=$x*-1;
+$vm=$y*-1;
+
+$sw=1;
+
+$xoff=190;
+$yoff=70;
+
+
+echo "<path fill='none' stroke='purple' stroke-width='$sw'  d='";
+echo"
+M$xoff,$yoff 
+h$x a$val,$val 0 0 1 $val,$val 
+v$y a$val,$val 0 0 1 -$val,$val 
+h$hm a$val,$val 0 0 1 -$val,-$val 
+v$vm a$val,$val 0 0 1 $val,-$val
+'/>\n\n";
+
+}
+
 
 ?>

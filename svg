@@ -1,9 +1,20 @@
 #!/bin/bash
 
+. $SB_HOME/web
+
+color.aqua
+echo "Reload svg..."
+color.blue
+
 svg.git() {
 
 git clone https://github.com/johnrigler/svg
 
+}
+
+svg.home() {
+
+cd $WEB_LOCAL_URL
 }
 
 svg.rect.rounded() {

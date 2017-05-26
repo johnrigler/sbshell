@@ -1,5 +1,10 @@
 #!/bin/bash
 
+color.aqua
+echo "Reload web..."
+. ~/.sbshell/web.ini
+color.blue
+
 .web() {
 declare -f | grep --color=none "^web." | sed 's/()//g'
 }
@@ -81,8 +86,3 @@ if [[ $1 ]]
 echo $WEB_LOCAL_URL/$WEB_MODULE
 
 }
-
-. ~/.sbshell/web.ini
-
-echo "reload web..."
-

@@ -1,0 +1,9 @@
+bleugren() {
+
+color.aqua
+echo -n "Bleu"
+color.no.32
+echo "gren"
+color.white
+
+}
