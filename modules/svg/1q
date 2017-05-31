@@ -20,9 +20,7 @@ cd $WEB_LOCAL_URL
 
 svg.push() {
 
-php $1.php > $1.svg
-
-scp $1.svg rigler@rigler.org:public_html/svg/.
+scp $1 rigler@rigler.org:public_html/svg/.
 
 }
 
@@ -34,12 +32,6 @@ vi $WEB_LOCAL_URL/svg/svg_lib.php
 svg.rect.rounded() {
 
 echo '<svg:path d="M0,0 L0,27 A3,3 0 0,0 3,30 L7,30 A3,3 0 0,0 10,27 L10,0 Z" />'
-
-}
-
-svg.note.rockler() { 
-
-- www.rockler.com
 
 }
 

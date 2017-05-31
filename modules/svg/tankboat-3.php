@@ -12,7 +12,7 @@ lasersaurheader();
 //line(20,20,255,258);
 //line(20,255,255,20);
 /// split face
-line(10,160,506,160); // split face
+//line(10,160,506,160); // split face
 // cups
 cup_3( 128,140 );
 cup_3( 256,140 );
