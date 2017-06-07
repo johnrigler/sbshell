@@ -18,10 +18,9 @@ version="1.1" xmlns="http://www.w3.org/2000/svg">';
 
 function refresh() {
 
+if (php_sapi_name() != 'cli' ) {
 echo "<meta http-equiv='refresh' content='10'>";
-
-
-
+  }
 }
 
 function svgclose() {
@@ -50,20 +49,18 @@ echo "<circle cx='$x' cy='$y' r='$size'
 
 }
 
-function line( $x1, $y1, $x2, $y2  ) {
+function line( $x1, $y1, $x2, $y2 , $rotation=0 , $xrot=0, $yrot=0  ) {
 
 
 echo "<line x1='$x1' y1='$y1' x2='$x2' y2='$y2' 
-     style='stroke:rgb(255,0,0);stroke-width:2' />\n";
+     style='stroke:rgb(255,0,0);stroke-width:2'
+              transform = 'rotate($rotation $xrot $yrot)'
+
+      />\n";
 
 }
 
-function tooth( $x, $y, $w, $h, $off, $depth=5 ) {
-
-// build a basic box
-
-//$w2 = $w * 2;
-//$h2 = $h * 2;
+function tooth_x( $x, $y, $w, $h, $off, $depth=5 ) {
 
 $x1 = $x - $w;
 $x2 = $x + $w;
@@ -84,22 +81,47 @@ line ( $midleft, $y1, $midleft, $topdepth );
 line ( $midright, $y1, $midright, $topdepth );
 line ( $midleft, $topdepth, $midright, $topdepth );
 
+}
+
+function tooth_y( $x , $y , $w ,$h, $off, $depth=5) {
+
+$x1 = $x - $w;
+$x2 = $x + $w;
+$y1 = $y - $h;
+$y2 = $y + $h;
+
+$midtop = $y1 + $h - $off;
+$midbottom = $y2 - $h + $off;
+$sidedepth = $x1 + $depth;
+
+// line ($x1, $y1, $x1, $y2);
+line ($x1, $y1, $x1, $midtop);
+//line ($x2, $y1, $x2, $midbottom); 
 
 }
 
-function tooth_poly( $x, $y ) {
+function tooth_poly_x( $x, $y ) {
 
-$height = 30;
-
+$height = 20;
 $left = $x - 30;
 $right = $x + 30;
 $y2 = $y + $height;
 
-tooth($x,$y,30,10,8,18);
-tooth($x,$y2,30,10,10,20);
+$uncut = 20;
 
-line($left,$y - 20,$left,$y2);
-line($right,$y - 20,$right,$y2);
+tooth_x($x,$y,$uncut,10,8,18);
+tooth_x($x,$y2,$uncut,10,10,20);
+
+}
+
+function tooth_x_poly_y( $x, $y ) {
+
+$width = 20;
+$top = $y - 30;
+$botton = $y + 30;
+$x2 = $x + $width;
+
+$uncut = 20;
 
 }
 

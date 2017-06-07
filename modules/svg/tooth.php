@@ -9,11 +9,11 @@ refresh();
 
 lasersaurheader();
 
+tooth_poly_x( 50, 30 );
 
-tooth_poly( 40, 30 );
+tooth_poly_x( 80, 30 );
 
-tooth_poly ( 100, 30 );
-
+tooth_y ( 100, 100, 10, 10, 10 );
 
 svgclose();
 

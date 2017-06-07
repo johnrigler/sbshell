@@ -26,13 +26,27 @@
 
 # Create and begin comment notation that is preserved.
 
-echo.off() {
+-.off() {
 -() { return; }
 }
 
-echo.on() {
--() { echo $*; }
+-.off
+
+--.off() {
+--() { return; }
 }
+
+--.off
+
+-.on() {
+-() { echo $*; }
+} 
+
+--.on() {
+--() { echo "$*"; }
+}
+
+--.on
 
 .sb() {
 
@@ -58,7 +72,7 @@ rm $$
 
 }
 
-echo.off
+-.off
 
 
 sb.env() {
@@ -85,16 +99,23 @@ vi $SB_HOME/$MOD
 
 }
 
+sb.module() {
+- act on module
+  - you can yaml right into the code
+
+}
+
 
 sb.init(){
 # source all of the modules
 
+color.aqua
 . ~/.sbshell/sb.ini
 . $SB_HOME/color
-#. $SB_HOME/docker
-. $SB_HOME/www
+. $SB_HOME/docker
+. $SB_HOME/web
+. $SB_HOME/site5
 . $SB_HOME/svg
-
 color.blue
 
 }
@@ -209,6 +230,3 @@ echo $0 $1 $2
 
 }
 
-#echo "got here"
-#sb.init sbshell
-echo.off

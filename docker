@@ -29,8 +29,8 @@ $SUDO docker build -t "$1:tictactoe" .
 }
 
 
-docker.history.ingnx() {
-sudo docker history ingnx 
+docker.history() {
+sudo docker history $*
 }
 
 docker.images.dangling() {
