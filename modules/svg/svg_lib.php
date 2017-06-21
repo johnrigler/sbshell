@@ -60,30 +60,25 @@ echo "<line x1='$x1' y1='$y1' x2='$x2' y2='$y2'
 
 }
 
-function tooth_x( $x, $y, $w, $h, $off, $depth=5 ) {
+function tooth_x( $x, $y, $w, $h, $off ) {
 
 $x1 = $x - $w;
 $x2 = $x + $w;
 $y1 = $y - $h;
 $y2 = $y + $h;
 
-// find vertical middle
-
-// build top
-//line ( $x1, $y1, $x2, $y1 );  // top
 $midleft = $x1 + $w - $off;
 $midright = $x2 - $w + $off;
 
 line ( $x1, $y1, $midleft, $y1 );
 line ( $x2, $y1, $midright, $y1 );
-$topdepth = $y1 + $depth;
-line ( $midleft, $y1, $midleft, $topdepth );
-line ( $midright, $y1, $midright, $topdepth );
-line ( $midleft, $topdepth, $midright, $topdepth );
+line ( $midleft, $y1, $midleft, $y1 );
+line ( $midright, $y1, $midright, $y1 );
+line ( $midleft, $y1, $midright, $y1 );
 
 }
 
-function tooth_y( $x , $y , $w ,$h, $off, $depth=5) {
+function tooth_y( $x , $y , $w ,$h, $off) {
 
 $x1 = $x - $w;
 $x2 = $x + $w;
@@ -91,37 +86,34 @@ $y1 = $y - $h;
 $y2 = $y + $h;
 
 $midtop = $y1 + $h - $off;
-$midbottom = $y2 - $h + $off;
-$sidedepth = $x1 + $depth;
+$midbottom = $y2 + $h + $off;
 
-// line ($x1, $y1, $x1, $y2);
-line ($x1, $y1, $x1, $midtop);
-//line ($x2, $y1, $x2, $midbottom); 
+line ($x2, $y2, $x1, $y2);
+line ($x1, $y1, $x1, $y2);
+line ($x1, $y1, $x2, $y1);
+line ($x2, $y1, $x2, $midtop); 
+line ($x2, $y2, $x2, $midbottom);
+
 
 }
 
 function tooth_poly_x( $x, $y ) {
 
-$height = 20;
-$left = $x - 30;
-$right = $x + 30;
+$height = 16;
 $y2 = $y + $height;
 
-$uncut = 20;
-
-tooth_x($x,$y,$uncut,10,8,18);
-tooth_x($x,$y2,$uncut,10,10,20);
+tooth_x($x,$y,20,8,8);
+tooth_x($x,$y2,16,10,10);
 
 }
 
-function tooth_x_poly_y( $x, $y ) {
+function tooth_poly_y( $x, $y ) {
 
-$width = 20;
-$top = $y - 30;
-$botton = $y + 30;
+$width = 16;
 $x2 = $x + $width;
 
-$uncut = 20;
+tooth_y($x,$y,10,10,8);
+tooth_y($x2,$y,8,8,10);
 
 }
 

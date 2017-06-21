@@ -109,9 +109,9 @@ sb.module() {
 sb.init(){
 # source all of the modules
 
-color.aqua
 . ~/.sbshell/sb.ini
 . $SB_HOME/color
+color.aqua
 . $SB_HOME/docker
 . $SB_HOME/web
 . $SB_HOME/site5

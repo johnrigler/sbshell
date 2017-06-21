@@ -11,10 +11,10 @@ lasersaurheader();
 
 tooth_poly_x( 50, 30 );
 
-tooth_poly_x( 80, 30 );
+//tooth_poly_x( 80, 30 );
 
-tooth_y ( 100, 100, 10, 10, 10 );
-
-svgclose();
+//tooth_y ( 200, 200, 10, 10, 10 );
+tooth_poly_y (100,100);
+svgclose()
 
 ?>

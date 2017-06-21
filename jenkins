@@ -2,6 +2,8 @@
 
 jenkins() {
 
-sudo apt-get install jenkins
+- sudo apt-get install jenkins
+
+- 127.0.0.1:8080
 
 }
