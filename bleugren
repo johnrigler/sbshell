@@ -1,9 +1,16 @@
 bleugren() {
 
+echo
 color.aqua
-echo -n "Bleu"
+echo -n " Bleu"
 color.no.32
 echo "gren"
+color.aqua
+echo -n "  Far"
+color.no.32
+echo "ms"
 color.white
 
 }
+
+# water retention landscape, constant water system

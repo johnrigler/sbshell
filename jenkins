@@ -6,4 +6,6 @@ jenkins() {
 
 - 127.0.0.1:8080
 
+- builds to /var/lib/jenkins/workspace/..
+
 }

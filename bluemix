@@ -1,0 +1,43 @@
+#!/bin/bash
+
+bluemix() {
+
+--- bluemix
+
+ - the IBM LinuxONE Community Cloud hosted at Marist College.
+
+ - cloud dashboard at https://linuxone20.cloud.marist.edu/cloud  with the following credentials.
+
+ - support https://developer.ibm.com/answers/smart-spaces/171/linuxone.html  
+ - QuickStartGuide https://developer.ibm.com/linuxone/wp-content/uploads/sites/57/virtual-servers-quick-start.pdf
+ - KnowledgeCorner https://developer.ibm.com/linuxone/resources/knowledge-corner
+
+ssh linux1@148.100.5.125
+
+}
+
+bluemix.build() {
+
+- grabbed when it kicked off
+
+cat <<BUILD
+	Name	Status	Linux User	Key Pair	IP Address	Create Date	Details
+	bleugren	
+spawning
+linux1	john		Wed 19.Jul.2017 at 18:21:38 UTC	View details
+User Name:john@rigler.org
+Project Name:john@rigler.org
+Time Since Created:0 day 0 hour 2 minutes
+Running Time:Not running now
+Flavor ID:1
+Flavor Name:LinuxONE-Small
+VCPUS:1
+RAM:2048MB
+Root Disk:6GB
+Attached Disk:40GB
+Image ID:c3432649-385b-4b7a-909d-80ba79d5e84b
+Image Name:RHEL7.2
+Description:Test drop shipping site
+BUILD
+
+}
