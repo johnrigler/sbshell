@@ -129,6 +129,7 @@ color.aqua
 . $SB_HOME/web
 . $SB_HOME/site5
 . $SB_HOME/svg
+. $SB_HOME/bluemix
 color.blue
 
 }
