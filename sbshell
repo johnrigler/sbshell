@@ -116,6 +116,9 @@ sb.module() {
 - act on module
   - you can yaml right into the code
 
+. ~/.sbshell/$1
+. $SB_HOME/$1
+
 }
 
 
@@ -136,7 +139,7 @@ color.blue
 
 
 sb.home() { 
-cd ~/.sbshell 
+cd /usr/local/sbshell 
 }
 
 sb.usr() {
