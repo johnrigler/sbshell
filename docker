@@ -88,3 +88,12 @@ docker.hack() {
 sudo rm /var/lib/docker/network/files/local-kv.db
 
 }
+
+docker.wordpress() {
+
+- docker pull wordpress
+docker pull mysql
+docker run -e WORDPRESS_DB_PASSWORD=password -d --name wordpress --link wordpressdb:mysql  wordpress
+
+
+}

@@ -95,7 +95,7 @@ color.white
 
 # Modify [module] 
 sb.vi() {
-- edit various modules
+sb.env 
 
 if [[ "$1" ]] 
   then
@@ -104,8 +104,8 @@ if [[ "$1" ]]
   MOD="sbshell"
   fi
 
-vi ~/.sbshell/$MOD
-. ~/.sbshell/$MOD
+#vi ~/.sbshell/$MOD
+#. ~/.sbshell/$MOD
 
 vi $SB_HOME/$MOD
 . $SB_HOME/$MOD
@@ -210,6 +210,12 @@ sb.onload() {
 vi $SB_WEB_LOCAL/$SB_PATH/.onload.php
 
 }
+
+sb.phar() {
+
+php /usr/local/sbshell/modules/composer.phar $*
+
+}	
 
 sb.wvi() {
 ##sb.wvi  Edit index.php
