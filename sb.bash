@@ -173,6 +173,12 @@ source $_SBLIB
 
 }
 
+_sb.env() {
+
+env | grep "SB"
+
+}
+
 function _sb.init() {
 
 #declare -f __sb.$1 > /tmp/$$
