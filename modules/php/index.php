@@ -32,7 +32,7 @@ unset($_SESSION['W']);
 <br>
 <br>
 
-<?php
+<?
 // map this directory
 
 $dir = opendir(".");
@@ -183,17 +183,17 @@ if($format != "htmldoc")
    </div>";
 
 
-if($sections[$nextpage])
-        $visibility="visible";
-        else
-        $visibility="hidden";
+//if($sections[$nextpage])
+  //      $visibility="visible";
+    //    else
+      //  $visibility="hidden";
 
-  echo "<div class=shortspacing style='border:none;float:left;visibility: $visibility '>
-      <div class=contentsbox style='border:none'>
-      <a href=?page=$nextpage style='color:white'> Next </a>
-      </div>
-   </div>
-</div>";
+//  echo "<div class=shortspacing style='border:none;float:left;visibility: $visibility '>
+  //    <div class=contentsbox style='border:none'>
+    //  <a href=?page=$nextpage style='color:white'> Next </a>
+    //  </div>
+  // </div>
+//</div>";
 }
 
 ?>

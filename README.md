@@ -2,18 +2,17 @@ In order to install this tool, you will need a working version of php on a unix 
 
 Fixed simple cosmetic issues.
 
+<pre>
 --------------- add to .bashrc -------------
-. /home/jrigler/sbshell.init
-. /home/jrigler/somemod/somemod.bash
-
+. ~/sbshell.init
 ------------- contents of ~/sbshell.init
 
 __sb.sb.shell () 
 { 
     _SBFILE=sb.bash;
     _SBCOLOR=white;
-    _SBDIR=/home/jrigler/sbshell/;
-    _SBLIB=$_SBDIR/$_SBFILE;
+    _SBDIR=~/sbshell/;
+    _SBLIB=$_SBDIR$_SBFILE;
 }
 
 __sb.sb.shell
@@ -23,3 +22,4 @@ __sb.sb.shell
 _sb.load
 
 _sb.init 'sb.shell'
+</pre>
