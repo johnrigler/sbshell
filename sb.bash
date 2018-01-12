@@ -142,7 +142,7 @@ case $2 in
 "save")
   CMD=`echo "$1" | cut -c 6-`
   TARGET=`echo $CMD | sed 's/\./\//'`
-  TARGETFILE=`echo $_SBDIR"lib/$TARGET".bash`
+  TARGETFILE=`echo "$_SBDIR/lib/$TARGET".bash`
   declare -f $1 > $TARGETFILE
   echo >> $TARGETFILE
   echo "_sb.init $CMD" >> $TARGETFILE
