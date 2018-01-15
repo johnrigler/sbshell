@@ -1,4 +1,4 @@
-sb.home () 
+__sb.sb.home () 
 { 
     cd $_SBDIR/lib
 }

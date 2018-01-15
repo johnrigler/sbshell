@@ -6,10 +6,10 @@ declare -f $1 >> $$
    echo "----------------------------------------------------------"
    cat $$
 
-if [[ $1 == "_"* ]] 
+if [[ $1 == "__"* ]] 
    then
    : function name matches "_*"
-   cat $$ | sed "s/^_/_sb./g" > /tmp/$$ 
+   cat $$ | sed "s/^__/__sb./g" > /tmp/$$ 
 else
    : function name does not match "_*"
    : append 'sb.' before function or some other behaviour

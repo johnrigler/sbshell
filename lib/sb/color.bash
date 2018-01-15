@@ -39,6 +39,6 @@ __sb.color ()
     else
         - sb.help color;
     fi
-}
 
-_sb.init color
+}
+echo "color loaded..."

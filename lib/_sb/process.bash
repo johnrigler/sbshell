@@ -6,7 +6,7 @@ _sb.process ()
             vi /tmp/$$;
             source /tmp/$$;
             echo "edited $1";
-            _sb.process.derive $1;
+            _sb.init $1;
             rm /tmp/$$
         ;;
         "help")

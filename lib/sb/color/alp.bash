@@ -6,5 +6,3 @@ __sb.color.alp ()
     alias green='color.no.32';
     alias blue='color.no.34'
 }
-
-_sb.init color.alp

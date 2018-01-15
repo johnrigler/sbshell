@@ -5,12 +5,17 @@ _sb.shell() {
 . $_SBDIR/lib/_sb/declare_F.bash
 . $_SBDIR/lib/_sb/source.bash
 . $_SBDIR/lib/_sb/process.bash
-. $_SBDIR/lib/_sb/derive.bash
-. $_SBDIR/lib/_sb/process.bash
 . $_SBDIR/lib/_sb/init.bash
-. $_SBDIR/lib/sb/home.bash
-. $_SBDIR/lib/sb/checkip.bash
-. $_SBDIR/lib/sb/color.bash
+
+#. $_SBDIR/lib/sb/home.bash
+#. $_SBDIR/lib/sb/checkip.bash
+
+_sb.init home
+_sb.init color
+_sb.init checkip
+_sb.init env
+
+#. $_SBDIR/lib/sb/color.bash
 . $_SBDIR/lib/sb/color/no.bash
 : sb/color/alp.bash
 : sb/modules.bash
@@ -23,5 +28,9 @@ _sb.shell() {
 : sb/tar.bash
 : sb/env.bash
 : sb/color.bash
+
+-() { :; }
+--() { :; }
+---() { :; }
 
 }
