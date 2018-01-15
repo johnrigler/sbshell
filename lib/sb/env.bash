@@ -1,4 +1,4 @@
-__sb.sb.env () 
+sb.env () 
 { 
     env | grep --color=auto "_SB"
 }

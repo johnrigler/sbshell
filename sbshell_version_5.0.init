@@ -1,0 +1,11 @@
+: version_5.0 pre-merge
+_SBCOLOR=red;
+_SBDIR=~/sbshell;
+
+cd ~/sbshell
+git pull
+git checkout version_5.0
+
+. $_SBDIR/lib/_sb/shell.bash
+
+_sb.shell
