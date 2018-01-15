@@ -33,4 +33,14 @@ _sb.init sb.env
 --() { :; }
 ---() { :; }
 
+-1() {
+
+if [[ -n $2 ]]
+then
+ARG1=$2
+else
+ARG1=$1;
+fi
+    }
+
 }

@@ -1,4 +1,4 @@
-__sb.checkip () 
+sb.checkip () 
 { 
     -1 google.com $1;
     host $ARG1 > /dev/null 2>&1;
