@@ -1,6 +1,6 @@
 : version_5.0 pre-merge
-_SBCOLOR=red;
-_SBDIR=~/sbshell;
+export _SBCOLOR=red;
+export _SBDIR=~/sbshell;
 
 cd ~/sbshell
 git pull

@@ -1,7 +1,7 @@
 sb.color () 
 { 
-    - color Changed the color in the shell or web version;
-    - color Possible colors are white,bold,underline,error,red,green,yellow,blue,purple,aqua;
+    : color Changed the color in the shell or web version;
+    : color Possible colors are white,bold,underline,error,red,green,yellow,blue,purple,aqua;
     if [ -n $1 ]; then
         case $1 in 
             white)
@@ -37,8 +37,7 @@ sb.color ()
         esac;
         printf "\033[$FG";
     else
-        - sb.help color;
+        : sb.help color;
     fi
 
 }
-echo "color loaded..."
