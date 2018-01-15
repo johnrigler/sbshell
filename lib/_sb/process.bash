@@ -1,13 +1,13 @@
 _sb.process () 
 { 
     case $2 in 
-        "edit")
-            declare -f $1 | sed 's/--color=auto//g' > /tmp/$$;
-            vi /tmp/$$;
-            source /tmp/$$;
+        "--edit")
+            declare -f $1 | sed 's/--color=auto//g' > ~/$$;
+            vi ~/$$;
+            source ~/$$;
             echo "edited $1";
-            _sb.init $1;
-            rm /tmp/$$
+#            _sb.init $1;
+            rm ~/$$
         ;;
         "help")
             declare -f $1 | grep "^    -"

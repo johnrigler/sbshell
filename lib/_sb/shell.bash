@@ -1,6 +1,6 @@
 _sb.shell() {
 : creates base functionality for _sb
-	echo version 4.1;
+	echo version 5.0;
 
 . $_SBDIR/lib/_sb/declare_F.bash
 . $_SBDIR/lib/_sb/source.bash
@@ -10,10 +10,10 @@ _sb.shell() {
 #. $_SBDIR/lib/sb/home.bash
 #. $_SBDIR/lib/sb/checkip.bash
 
-_sb.init home
-_sb.init color
-_sb.init checkip
-_sb.init env
+_sb.init sb.home
+_sb.init sb.color
+_sb.init sb.checkip
+_sb.init sb.env
 
 #. $_SBDIR/lib/sb/color.bash
 . $_SBDIR/lib/sb/color/no.bash

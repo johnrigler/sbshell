@@ -1,4 +1,4 @@
-__sb.color () 
+sb.color () 
 { 
     - color Changed the color in the shell or web version;
     - color Possible colors are white,bold,underline,error,red,green,yellow,blue,purple,aqua;

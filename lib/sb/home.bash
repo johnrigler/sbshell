@@ -1,6 +1,4 @@
-__sb.sb.home () 
+sb.home () 
 { 
-    cd $_SBDIR/lib
+    cd $_SBDIR;
 }
-
-echo "home"
