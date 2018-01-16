@@ -1,0 +1,4 @@
+echo "Reload site5..."
+
+- https://customers.site5.com/clientarea.php
+ - log into whm on left
