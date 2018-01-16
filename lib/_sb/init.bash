@@ -16,7 +16,7 @@ _sb.init ()
     : overload stub over original name
     EVAL="$1() { _sb.process __sb.$1 ARGS; }";
     EVAL=`echo $EVAL | sed 's/ARGS/$*/'`;
-    echo $EVAL
+#    echo $EVAL
     eval $EVAL
 
 }
