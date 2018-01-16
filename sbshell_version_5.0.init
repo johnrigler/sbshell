@@ -8,25 +8,25 @@ cd ~/sbshell
 git pull
 git checkout version_5.0
 
-#. $_SBDIR/lib/_sb/shell.bash
-
-#_sb.shell
-
-sbshell() {
-
-: Verify that _SBDIR is the correct path 
-
-
-_SBDIR=~/sbshell
-. $_SBDIR/lib/_sb/shell.bash
-
-_sb.shell
-
-}
+                                          #SB
+sbshell() {                               #SB
+                                          #SB
+: Verify that _SBDIR is the correct path  #SB
+                                          #SB
+                                          #SB
+export _SBDIR=~/sbshell                   #SB
+. $_SBDIR/lib/_sb/shell.bash              #SB
+                                          #SB
+echo "$SBDIR from sbshell()"              #SB
+                                          #SB
+_sb.shell                                 #SB
+                                          #SB
+}                                         #SB
+                                          #SB                               
 
 echo >> ~/.bashrc
-declare -f sbshell >> ~/.bashrc
+grep -v "#SB" ~/.bashrc >> $$
+grep "#SB" $0 | grep -v "^grep" >> $$
+mv $$ ~/.bashrc
 
 vi ~/.bashrc
-
-sbshell
