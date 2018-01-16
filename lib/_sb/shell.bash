@@ -2,6 +2,12 @@ _sb.shell() {
 : creates base functionality for _sb
 	echo version 5.0;
 
+
+if [ -n $1 ]
+  then
+   echo xxx
+  fi
+
 . $_SBDIR/lib/_sb/declare_F.bash
 . $_SBDIR/lib/_sb/source.bash
 . $_SBDIR/lib/_sb/process.bash
