@@ -19,7 +19,6 @@ if [ -n $1 ]
 _sb.init sb.home
 _sb.init sb.color
 _sb.init sb.checkip
-_sb.init sb.env
 _sb.init sb.test
 
 #. $_SBDIR/lib/sb/color.bash
