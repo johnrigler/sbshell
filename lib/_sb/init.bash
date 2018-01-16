@@ -11,6 +11,7 @@ _sb.init ()
     declare -f $1
     ) > $$
     source $$ 
+    rm $$
 
     : overload stub over original name
     EVAL="$1() { _sb.process __sb.$1 ARGS; }";
