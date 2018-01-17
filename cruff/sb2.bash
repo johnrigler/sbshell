@@ -128,7 +128,7 @@ case $2 in
   edit /tmp/$$
   source /tmp/$$
   echo "edited $1"
-  _sb.derive $1 
+  _sb.process.derive $1 
   rm /tmp/$$
   #_sb.save $1
  
@@ -194,7 +194,7 @@ eval $EVAL
 
 }
 
-function _sb.derive() {
+function _sb.sprocess.derive() {
 
 BASE=`echo $1 | cut -c 6-`
 EVAL="$BASE() { _sb.process $1 ARGS; }"
