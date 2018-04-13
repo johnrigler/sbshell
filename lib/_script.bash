@@ -1,10 +1,14 @@
+---() { echo $* ; }
+-() { echo $* ; }
+
+
 sb.color () 
 { 
     : color Changed the color in the shell or web version;
     : color Possible colors are white,bold,underline,error,red,green,yellow,blue,purple,aqua;
     if [ -n $1 ]; then
         case $1 in 
-            black)
+            white)
                 FG='00m'
             ;;
             bold)
@@ -37,5 +41,51 @@ sb.color ()
         esac;
         printf "\033[$FG";
     fi
+} 
 
+sb.color green 
+
+echo "welcome to the shell.." 
+
+sb.color aqua
+
+sb.hodor() {
+
+while true
+do
+echo -n .
+sleep 10
+done
+
+}
+
+sb.grabname () 
+{ 
+    NAME=`ps -ef | grep --color=auto LOG | head -1 | sed 's/^.*LOG/LOG/' | sed 's/.ts//'`
+    . /home/jrigler/softball/fabreq/"$NAME".init
+}
+
+knife.search.role.is_netproxy () 
+{ 
+    knife search role:is_netproxy -i ;
+}
+
+sb.env () 
+{ 
+    env | grep --color=auto _FABREQ
+}
+
+sb.date.HM () 
+{ 
+    date "+%H%M"
+}
+
+sb.date.YWw () 
+{ 
+    date "+%Y%W%w"
+}
+
+sb.info () 
+{
+    echo "welcome"
 }

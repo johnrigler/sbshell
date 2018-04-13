@@ -1,0 +1,43 @@
+Script started on Mon 29 Jan 2018 11:52:47 AM CST
+[32mwelcome to the shell..
+[36mfabreq 57
+netproxyhkg0201.softlayer.local
+netproxyams0301.softlayer.local
+netproxydal0501.softlayer.local
+netproxydal0502.softlayer.local
+netproxydal0503.softlayer.local
+netproxyhkg0202.softlayer.local x
+netproxyams0302.softlayer.local
+[?1034hbash-4.2$ fabreq.info 
+fabreq 57
+netproxyhkg0201.softlayer.local
+netproxyams0301.softlayer.local
+netproxydal0501.softlayer.local
+netproxydal0502.softlayer.local
+netproxydal0503.softlayer.local
+netproxyhkg0202.softlayer.local x
+netproxyams0302.softlayer.local
+bash-4.2$ fabreq.inif[K[Ko[Kfo | while read A B
+> do
+> knife tag create $A is_netproxy
+> done
+[31m[1mERROR:[0m The object you are looking for could not be found
+Response: node 'fabreq' not found
+Created tags is_netproxy for node netproxyhkg0201.softlayer.local.
+Created tags is_netproxy for node netproxyams0301.softlayer.local.
+Created tags is_netproxy for node netproxydal0501.softlayer.local.
+Created tags is_netproxy for node netproxydal0502.softlayer.local.
+Created tags is_netproxy for node netproxydal0503.softlayer.local.
+Created tags is_netproxy for node netproxyhkg0202.softlayer.local.
+Created tags is_netproxy for node netproxyams0302.softlayer.local.
+bash-4.2$ knife tag 
+FATAL: Cannot find subcommand for: 'tag'
+Available tag subcommands: (for details, knife SUB-COMMAND --help)
+
+** TAG COMMANDS **
+knife tag create NODE TAG ...
+knife tag delete NODE TAG ...
+knife tag list NODE
+
+bash-4.2$ ^C
+bash-4.2$ 

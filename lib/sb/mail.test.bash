@@ -1,6 +1,4 @@
-__sb.sb.mail.test () 
+sb.mail.test () 
 { 
-    ( echo 'EHLO joinnahc.com' )
+    ( echo 'EHLO somemail.com' )
 }
-
-_sb.init sb.mail.test

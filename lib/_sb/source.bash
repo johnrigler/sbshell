@@ -1,24 +1,12 @@
 _sb.source() {
 
-touch $$ /tmp/$$
+ls *.bash | while read SCRIPT
+  do
+  echo "# $SCRIPT"
+  echo source $SCRIPT
+  done > $$
 
-declare -f $1 >> $$
-   echo "----------------------------------------------------------"
-   cat $$
+  source $$
+  rm $$
 
-if [[ $1 == "__"* ]] 
-   then
-   : function name matches "_*"
-   cat $$ | sed "s/^__/__sb./g" > /tmp/$$ 
-else
-   : function name does not match "_*"
-   : append 'sb.' before function or some other behaviour
-   cat $$ | s/^[az]/sb./g > /tmp/$$
-fi 
-
-   echo "----------------------------------------------------------"
-cat /tmp/$$  
-source /tmp/$$ 
-rm $$ /tmp/$$ 
-  
 }

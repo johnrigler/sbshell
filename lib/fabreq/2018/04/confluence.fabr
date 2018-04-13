@@ -1,0 +1,615 @@
+Script started on Sat 27 Jan 2018 12:05:56 AM CST
+[32mwelcome to the shell..
+[36mbash: fabreq.info: command not found
+[?1034hbash-4.2$ fabreq.
+fabreq.color     fabreq.date.YWw  fabreq.grabname  
+fabreq.date.HM   fabreq.env       fabreq.hodor     
+bash-4.2$ fabreq.
+fabreq.color     fabreq.date.YWw  fabreq.grabname  
+fabreq.date.HM   fabreq.env       fabreq.hodor     
+bash-4.2$ fabreq.
+fabreq.color     fabreq.date.YWw  fabreq.grabname  
+fabreq.date.HM   fabreq.env       fabreq.hodor     
+bash-4.2$ fabreq.[K[K[K[K[K[K[Kexit
+exit
+
+Script done on Sat 27 Jan 2018 12:06:07 AM CST
+Script started on Sat 27 Jan 2018 12:08:11 AM CST
+[32mwelcome to the shell..
+[36mbash: fabreq.info: command not found
+[?1034hbash-4.2$ exit
+exit
+
+Script done on Sat 27 Jan 2018 12:08:17 AM CST
+Script started on Sat 27 Jan 2018 12:09:14 AM CST
+[32mwelcome to the shell..
+[36mwelcome
+[?1034hbash-4.2$ shs [K[K[Ksh confluence
+The authenticity of host 'confluence (172.17.13.25)' can't be established.
+RSA key fingerprint is SHA256:yiudcntfxCKCr+izAKPgfKkQJW5WDAcsriSubDYByq0.
+RSA key fingerprint is MD5:61:ea:52:e7:c9:4a:4d:c0:03:a5:26:71:76:fe:25:3c.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'confluence,172.17.13.25' (RSA) to the list of known hosts.
+Authorized uses only. All activity may be monitored and reported.
+
+Last login: Mon Jan 22 19:44:05 2018 from deploymentdal0101.softlayer.local
+Authorized uses only. All activity may be monitored and reported.
+
+]0;jrigler@confluence:~[?1034h[jrigler@confluence ~]$ vmstat 4 4
+procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+20  0 603148 5400500 1225924 11554912    0    0     5    12    0    0  4  0 95  0  0	
+20  0 603148 5399852 1225924 11554916    0    0     0   350 20519 1265 83  0 17  0  0	
+20  0 603148 5400108 1225928 11554920    0    0     0   273 20649 1481 83  0 17  0  0	
+20  0 603148 5398592 1225932 11554920    0    0     0     5 20537 1237 83  0 17  0  0	
+]0;jrigler@confluence:~[jrigler@confluence ~]$ ;[K: hello, this is my shell[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K# hello this is my sh[K[Kshell capure [K[K[K[Kture solution
+]0;jrigler@confluence:~[jrigler@confluence ~]$ p[K$ [K[K# look for existing vmstat [K[K[K[K[K[K[Ksat[K[Ktat caches
+]0;jrigler@confluence:~[jrigler@confluence ~]$ ps -ef | gre p[K[Kp stat
+root     32272  3766  0 00:11 ?        00:00:00 /bin/sh /opt/splunkforwarder/etc/apps/Splunk_TA_nix_no_netstat/bin/lastlog.sh
+jrigler  32289 31975  0 00:11 pts/1    00:00:00 grep stat
+]0;jrigler@confluence:~[jrigler@confluence ~]$ sar
+Linux 2.6.32-696.13.2.el6.x86_64 (confluence.softlayer.local) 	01/27/2018 	_x86_64_	(24 CPU)
+
+12:00:01 AM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+12:10:01 AM     all     82.10      0.00      0.16      0.00      0.00     17.74
+Average:        all     82.10      0.00      0.16      0.00      0.00     17.74
+]0;jrigler@confluence:~[jrigler@confluence ~]$ # why so much user>?[K[K?
+]0;jrigler@confluence:~[jrigler@confluence ~]$ top[K[K[Kps aux | more
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0  21444  1344 ?        Ss    2017   1:03 /sbin/init
+root         2  0.0  0.0      0     0 ?        S     2017   0:00 [kthreadd]
+root         3  0.0  0.0      0     0 ?        S     2017   0:12 [migration/0]
+root         4  0.0  0.0      0     0 ?        S     2017   1:16 [ksoftirqd/0]
+root         5  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/0]
+root         6  0.0  0.0      0     0 ?        S     2017   0:06 [watchdog/0]
+root         7  0.0  0.0      0     0 ?        S     2017   0:08 [migration/1]
+root         8  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/1]
+root         9  0.0  0.0      0     0 ?        S     2017   0:13 [ksoftirqd/1]
+root        10  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/1]
+root        11  0.0  0.0      0     0 ?        S     2017   0:07 [migration/2]
+root        12  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/2]
+root        13  0.0  0.0      0     0 ?        S     2017   0:17 [ksoftirqd/2]
+root        14  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/2]
+root        15  0.0  0.0      0     0 ?        S     2017   0:06 [migration/3]
+root        16  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/3]
+root        17  0.0  0.0      0     0 ?        S     2017   0:10 [ksoftirqd/3]
+root        18  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/3]
+root        19  0.0  0.0      0     0 ?        S     2017   0:05 [migration/4]
+root        20  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/4]
+root        21  0.0  0.0      0     0 ?        S     2017   0:04 [ksoftirqd/4]
+root        22  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/4]
+[7m--More--[27mroot        23  0.0  0.0      0     0 ?        S     2017   0:05 [migration/5]
+root        24  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/5]
+root        25  0.0  0.0      0     0 ?        S     2017   0:03 [ksoftirqd/5]
+root        26  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/5]
+root        27  0.0  0.0      0     0 ?        S     2017   0:09 [migration/6]
+root        28  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/6]
+root        29  0.0  0.0      0     0 ?        S     2017   0:19 [ksoftirqd/6]
+root        30  0.0  0.0      0     0 ?        S     2017   0:06 [watchdog/6]
+root        31  0.0  0.0      0     0 ?        S     2017   0:08 [migration/7]
+root        32  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/7]
+root        33  0.0  0.0      0     0 ?        S     2017   0:11 [ksoftirqd/7]
+root        34  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/7]
+root        35  0.0  0.0      0     0 ?        S     2017   0:05 [migration/8]
+root        36  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/8]
+root        37  0.0  0.0      0     0 ?        S     2017   0:10 [ksoftirqd/8]
+root        38  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/8]
+root        39  0.0  0.0      0     0 ?        S     2017   0:04 [migration/9]
+root        40  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/9]
+root        41  0.0  0.0      0     0 ?        S     2017   0:08 [ksoftirqd/9]
+root        42  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/9]
+root        43  0.0  0.0      0     0 ?        S     2017   0:04 [migration/10]
+root        44  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/10]
+root        45  0.0  0.0      0     0 ?        S     2017   0:07 [ksoftirqd/10]
+[7m--More--[27mroot        46  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/10]
+root        47  0.0  0.0      0     0 ?        S     2017   0:04 [migration/11]
+root        48  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/11]
+root        49  0.0  0.0      0     0 ?        S     2017   0:11 [ksoftirqd/11]
+root        50  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/11]
+root        51  0.0  0.0      0     0 ?        S     2017   0:01 [migration/12]
+root        52  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/12]
+root        53  0.0  0.0      0     0 ?        S     2017   0:18 [ksoftirqd/12]
+root        54  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/12]
+root        55  0.0  0.0      0     0 ?        S     2017   2:02 [migration/13]
+root        56  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/13]
+root        57  0.0  0.0      0     0 ?        S     2017   0:12 [ksoftirqd/13]
+root        58  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/13]
+root        59  0.0  0.0      0     0 ?        S     2017   0:18 [migration/14]
+root        60  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/14]
+root        61  0.0  0.0      0     0 ?        S     2017   0:12 [ksoftirqd/14]
+root        62  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/14]
+root        63  0.0  0.0      0     0 ?        S     2017   0:04 [migration/15]
+root        64  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/15]
+root        65  0.0  0.0      0     0 ?        S     2017   0:08 [ksoftirqd/15]
+root        66  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/15]
+root        67  0.0  0.0      0     0 ?        S     2017   0:03 [migration/16]
+root        68  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/16]
+[7m--More--[27mroot        69  0.0  0.0      0     0 ?        S     2017   0:04 [ksoftirqd/16]
+root        70  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/16]
+root        71  0.0  0.0      0     0 ?        S     2017   0:02 [migration/17]
+root        72  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/17]
+root        73  0.0  0.0      0     0 ?        S     2017   0:04 [ksoftirqd/17]
+root        74  0.0  0.0      0     0 ?        S     2017   0:04 [watchdog/17]
+root        75  0.0  0.0      0     0 ?        S     2017   0:00 [migration/18]
+root        76  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/18]
+root        77  0.0  0.0      0     0 ?        S     2017   0:18 [ksoftirqd/18]
+root        78  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/18]
+root        79  0.0  0.0      0     0 ?        S     2017   1:48 [migration/19]
+root        80  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/19]
+root        81  0.0  0.0      0     0 ?        S     2017   0:16 [ksoftirqd/19]
+root        82  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/19]
+root        83  0.0  0.0      0     0 ?        S     2017   0:20 [migration/20]
+root        84  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/20]
+root        85  0.0  0.0      0     0 ?        S     2017   0:17 [ksoftirqd/20]
+root        86  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/20]
+root        87  0.0  0.0      0     0 ?        S     2017   0:02 [migration/21]
+root        88  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/21]
+root        89  0.0  0.0      0     0 ?        S     2017   0:11 [ksoftirqd/21]
+root        90  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/21]
+root        91  0.0  0.0      0     0 ?        S     2017   0:02 [migration/22]
+[7m--More--[27mroot        92  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/22]
+root        93  0.0  0.0      0     0 ?        S     2017   0:06 [ksoftirqd/22]
+root        94  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/22]
+root        95  0.0  0.0      0     0 ?        S     2017   0:01 [migration/23]
+root        96  0.0  0.0      0     0 ?        S     2017   0:00 [stopper/23]
+root        97  0.0  0.0      0     0 ?        S     2017   0:23 [ksoftirqd/23]
+root        98  0.0  0.0      0     0 ?        S     2017   0:05 [watchdog/23]
+root        99  0.0  0.0      0     0 ?        S     2017  15:09 [events/0]
+root       100  0.0  0.0      0     0 ?        S     2017   3:19 [events/1]
+root       101  0.0  0.0      0     0 ?        S     2017   2:53 [events/2]
+root       102  0.0  0.0      0     0 ?        S     2017   3:12 [events/3]
+root       103  0.0  0.0      0     0 ?        S     2017   2:15 [events/4]
+root       104  0.0  0.0      0     0 ?        S     2017   2:20 [events/5]
+root       105  0.0  0.0      0     0 ?        S     2017   4:08 [events/6]
+root       106  0.0  0.0      0     0 ?        S     2017   2:33 [events/7]
+root       107  0.0  0.0      0     0 ?        S     2017   2:13 [events/8]
+root       108  0.0  0.0      0     0 ?        S     2017   2:05 [events/9]
+root       109  0.0  0.0      0     0 ?        S     2017   2:04 [events/10]
+root       110  0.0  0.0      0     0 ?        S     2017   2:15 [events/11]
+root       111  0.0  0.0      0     0 ?        S     2017   3:14 [events/12]
+root       112  0.0  0.0      0     0 ?        S     2017   2:46 [events/13]
+root       113  0.0  0.0      0     0 ?        S     2017   2:55 [events/14]
+root       114  0.0  0.0      0     0 ?        S     2017   3:04 [events/15]
+[7m--More--[27mroot       115  0.0  0.0      0     0 ?        S     2017   2:55 [events/16]
+root       116  0.0  0.0      0     0 ?        S     2017   3:17 [events/17]
+root       117  0.0  0.0      0     0 ?        S     2017   2:32 [events/18]
+root       118  0.0  0.0      0     0 ?        S     2017   3:09 [events/19]
+root       119  0.0  0.0      0     0 ?        S     2017   2:22 [events/20]
+root       120  0.0  0.0      0     0 ?        S     2017   2:45 [events/21]
+root       121  0.0  0.0      0     0 ?        S     2017   2:15 [events/22]
+root       122  0.0  0.0      0     0 ?        S     2017   3:04 [events/23]
+root       123  0.0  0.0      0     0 ?        S     2017   0:00 [events/0]
+root       124  0.0  0.0      0     0 ?        S     2017   0:00 [events/1]
+root       125  0.0  0.0      0     0 ?        S     2017   0:00 [events/2]
+root       126  0.0  0.0      0     0 ?        S     2017   0:00 [events/3]
+root       127  0.0  0.0      0     0 ?        S     2017   0:00 [events/4]
+root       128  0.0  0.0      0     0 ?        S     2017   0:00 [events/5]
+root       129  0.0  0.0      0     0 ?        S     2017   0:00 [events/6]
+root       130  0.0  0.0      0     0 ?        S     2017   0:00 [events/7]
+root       131  0.0  0.0      0     0 ?        S     2017   0:00 [events/8]
+root       132  0.0  0.0      0     0 ?        S     2017   0:00 [events/9]
+root       133  0.0  0.0      0     0 ?        S     2017   0:00 [events/10]
+root       134  0.0  0.0      0     0 ?        S     2017   0:00 [events/11]
+root       135  0.0  0.0      0     0 ?        S     2017   0:00 [events/12]
+root       136  0.0  0.0      0     0 ?        S     2017   0:00 [events/13]
+root       137  0.0  0.0      0     0 ?        S     2017   0:00 [events/14]
+[7m--More--[27mroot       138  0.0  0.0      0     0 ?        S     2017   0:00 [events/15]
+root       139  0.0  0.0      0     0 ?        S     2017   0:00 [events/16]
+root       140  0.0  0.0      0     0 ?        S     2017   0:00 [events/17]
+root       141  0.0  0.0      0     0 ?        S     2017   0:00 [events/18]
+root       142  0.0  0.0      0     0 ?        S     2017   0:00 [events/19]
+root       143  0.0  0.0      0     0 ?        S     2017   0:00 [events/20]
+root       144  0.0  0.0      0     0 ?        S     2017   0:00 [events/21]
+root       145  0.0  0.0      0     0 ?        S     2017   0:00 [events/22]
+root       146  0.0  0.0      0     0 ?        S     2017   0:00 [events/23]
+root       147  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/0]
+root       148  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/1]
+root       149  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/2]
+root       150  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/3]
+root       151  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/4]
+root       152  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/5]
+root       153  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/6]
+root       154  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/7]
+root       155  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/8]
+root       156  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/9]
+root       157  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/10]
+root       158  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/11]
+root       159  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/12]
+root       160  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/13]
+[7m--More--[27mroot       161  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/14]
+root       162  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/15]
+root       163  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/16]
+root       164  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/17]
+root       165  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/18]
+root       166  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/19]
+root       167  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/20]
+root       168  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/21]
+root       169  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/22]
+root       170  0.0  0.0      0     0 ?        S     2017   0:00 [events_long/23]
+root       171  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       172  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       173  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       174  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       175  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       176  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       177  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       178  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       179  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       180  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       181  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       182  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       183  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+[7m--More--[27mroot       184  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       185  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       186  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       187  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       188  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       189  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       190  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       191  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       192  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       193  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       194  0.0  0.0      0     0 ?        S     2017   0:00 [events_power_ef]
+root       195  0.0  0.0      0     0 ?        S     2017   0:00 [cgroup]
+root       196  0.0  0.0      0     0 ?        S     2017   0:00 [khelper]
+root       197  0.0  0.0      0     0 ?        S     2017   0:00 [netns]
+root       198  0.0  0.0      0     0 ?        S     2017   0:00 [async/mgr]
+root       199  0.0  0.0      0     0 ?        S     2017   0:00 [pm]
+root       200  0.0  0.0      0     0 ?        S     2017   0:23 [sync_supers]
+root       201  0.0  0.0      0     0 ?        S     2017   0:00 [bdi-default]
+root       202  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/0]
+root       203  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/1]
+root       204  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/2]
+root       205  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/3]
+root       206  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/4]
+[7m--More--[27mroot       207  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/5]
+root       208  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/6]
+root       209  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/7]
+root       210  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/8]
+root       211  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/9]
+root       212  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/10]
+root       213  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/11]
+root       214  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/12]
+root       215  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/13]
+root       216  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/14]
+root       217  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/15]
+root       218  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/16]
+root       219  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/17]
+root       220  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/18]
+root       221  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/19]
+root       222  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/20]
+root       223  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/21]
+root       224  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/22]
+root       225  0.0  0.0      0     0 ?        S     2017   0:00 [kintegrityd/23]
+root       226  0.0  0.0      0     0 ?        S     2017   8:47 [kblockd/0]
+root       227  0.0  0.0      0     0 ?        S     2017   0:09 [kblockd/1]
+root       228  0.0  0.0      0     0 ?        S     2017   0:03 [kblockd/2]
+root       229  0.0  0.0      0     0 ?        S     2017   0:02 [kblockd/3]
+[7m--More--[27mroot       230  0.0  0.0      0     0 ?        S     2017   0:01 [kblockd/4]
+root       231  0.0  0.0      0     0 ?        S     2017   0:00 [kblockd/5]
+root       232  0.0  0.0      0     0 ?        S     2017   0:54 [kblockd/6]
+root       233  0.0  0.0      0     0 ?        S     2017   0:23 [kblockd/7]
+root       234  0.0  0.0      0     0 ?        S     2017   0:14 [kblockd/8]
+root       235  0.0  0.0      0     0 ?        S     2017   0:12 [kblockd/9]
+root       236  0.0  0.0      0     0 ?        S     2017   0:14 [kblockd/10]
+root       237  0.0  0.0      0     0 ?        S     2017   0:27 [kblockd/11]
+root       238  0.0  0.0      0     0 ?        S     2017   0:21 [kblockd/12]
+root       239  0.0  0.0      0     0 ?        S     2017   0:01 [kblockd/13]
+root       240  0.0  0.0      0     0 ?        S     2017   0:01 [kblockd/14]
+root       241  0.0  0.0      0     0 ?        S     2017   0:01 [kblockd/15]
+root       242  0.0  0.0      0     0 ?        S     2017   0:01 [kblockd/16]
+root       243  0.0  0.0      0     0 ?        S     2017   0:01 [kblockd/17]
+root       244  0.0  0.0      0     0 ?        S     2017   0:58 [kblockd/18]
+root       245  0.0  0.0      0     0 ?        S     2017   0:12 [kblockd/19]
+root       246  0.0  0.0      0     0 ?        S     2017   0:13 [kblockd/20]
+root       247  0.0  0.0      0     0 ?        S     2017   0:15 [kblockd/21]
+root       248  0.0  0.0      0     0 ?        S     2017   0:08 [kblockd/22]
+root       249  0.0  0.0      0     0 ?        S     2017   1:05 [kblockd/23]
+root       250  0.0  0.0      0     0 ?        S     2017   0:00 [kacpid]
+root       251  0.0  0.0      0     0 ?        S     2017   0:00 [kacpi_notify]
+root       252  0.0  0.0      0     0 ?        S     2017   0:00 [kacpi_hotplug]
+[7m--More--[27mroot       253  0.0  0.0      0     0 ?        S     2017   0:00 [ata_aux]
+root       254  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/0]
+root       255  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/1]
+root       256  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/2]
+root       257  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/3]
+root       258  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/4]
+root       259  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/5]
+root       260  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/6]
+root       261  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/7]
+root       262  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/8]
+root       263  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/9]
+root       264  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/10]
+root       265  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/11]
+root       266  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/12]
+root       267  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/13]
+root       268  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/14]
+root       269  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/15]
+root       270  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/16]
+root       271  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/17]
+root       272  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/18]
+root       273  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/19]
+root       274  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/20]
+root       275  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/21]
+[7m--More--[27mroot       276  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/22]
+root       277  0.0  0.0      0     0 ?        S     2017   0:00 [ata_sff/23]
+root       278  0.0  0.0      0     0 ?        S     2017   0:00 [ksuspend_usbd]
+root       279  0.0  0.0      0     0 ?        S     2017   0:00 [khubd]
+root       280  0.0  0.0      0     0 ?        S     2017   0:00 [kseriod]
+root       281  0.0  0.0      0     0 ?        S     2017   0:00 [md/0]
+root       282  0.0  0.0      0     0 ?        S     2017   0:00 [md/1]
+root       283  0.0  0.0      0     0 ?        S     2017   0:00 [md/2]
+root       284  0.0  0.0      0     0 ?        S     2017   0:00 [md/3]
+root       285  0.0  0.0      0     0 ?        S     2017   0:00 [md/4]
+root       286  0.0  0.0      0     0 ?        S     2017   0:00 [md/5]
+root       287  0.0  0.0      0     0 ?        S     2017   0:00 [md/6]
+root       288  0.0  0.0      0     0 ?        S     2017   0:00 [md/7]
+root       289  0.0  0.0      0     0 ?        S     2017   0:00 [md/8]
+root       290  0.0  0.0      0     0 ?        S     2017   0:00 [md/9]
+root       291  0.0  0.0      0     0 ?        S     2017   0:00 [md/10]
+root       292  0.0  0.0      0     0 ?        S     2017   0:00 [md/11]
+root       293  0.0  0.0      0     0 ?        S     2017   0:00 [md/12]
+root       294  0.0  0.0      0     0 ?        S     2017   0:00 [md/13]
+root       295  0.0  0.0      0     0 ?        S     2017   0:00 [md/14]
+root       296  0.0  0.0      0     0 ?        S     2017   0:00 [md/15]
+root       297  0.0  0.0      0     0 ?        S     2017   0:00 [md/16]
+root       298  0.0  0.0      0     0 ?        S     2017   0:00 [md/17]
+[7m--More--[27mroot       299  0.0  0.0      0     0 ?        S     2017   0:00 [md/18]
+root       300  0.0  0.0      0     0 ?        S     2017   0:00 [md/19]
+root       301  0.0  0.0      0     0 ?        S     2017   0:00 [md/20]
+root       302  0.0  0.0      0     0 ?        S     2017   0:00 [md/21]
+root       303  0.0  0.0      0     0 ?        S     2017   0:00 [md/22]
+root       304  0.0  0.0      0     0 ?        S     2017   0:00 [md/23]
+root       305  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/0]
+root       306  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/1]
+root       307  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/2]
+root       308  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/3]
+root       309  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/4]
+root       310  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/5]
+root       311  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/6]
+root       312  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/7]
+root       313  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/8]
+root       314  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/9]
+root       315  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/10]
+root       316  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/11]
+root       317  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/12]
+root       318  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/13]
+root       319  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/14]
+root       320  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/15]
+root       321  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/16]
+[7m--More--[27mroot       322  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/17]
+root       323  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/18]
+root       324  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/19]
+root       325  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/20]
+root       326  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/21]
+root       327  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/22]
+root       328  0.0  0.0      0     0 ?        S     2017   0:00 [md_misc/23]
+root       329  0.0  0.0      0     0 ?        S     2017   0:00 [linkwatch]
+root       346  0.0  0.0      0     0 ?        S     2017   0:07 [khungtaskd]
+root       347  0.0  0.0      0     0 ?        S     2017   0:11 [kswapd0]
+root       348  0.0  0.0      0     0 ?        S     2017   0:05 [kswapd1]
+root       349  0.0  0.0      0     0 ?        SN    2017   0:00 [ksmd]
+root       350  0.0  0.0      0     0 ?        SN    2017   1:44 [khugepaged]
+root       351  0.0  0.0      0     0 ?        S     2017   0:00 [aio/0]
+root       352  0.0  0.0      0     0 ?        S     2017   0:00 [aio/1]
+root       353  0.0  0.0      0     0 ?        S     2017   0:00 [aio/2]
+root       354  0.0  0.0      0     0 ?        S     2017   0:00 [aio/3]
+root       355  0.0  0.0      0     0 ?        S     2017   0:00 [aio/4]
+root       356  0.0  0.0      0     0 ?        S     2017   0:00 [aio/5]
+root       357  0.0  0.0      0     0 ?        S     2017   0:00 [aio/6]
+root       358  0.0  0.0      0     0 ?        S     2017   0:00 [aio/7]
+root       359  0.0  0.0      0     0 ?        S     2017   0:00 [aio/8]
+root       360  0.0  0.0      0     0 ?        S     2017   0:00 [aio/9]
+[7m--More--[27mroot       361  0.0  0.0      0     0 ?        S     2017   0:00 [aio/10]
+root       362  0.0  0.0      0     0 ?        S     2017   0:00 [aio/11]
+root       363  0.0  0.0      0     0 ?        S     2017   0:00 [aio/12]
+root       364  0.0  0.0      0     0 ?        S     2017   0:00 [aio/13]
+root       365  0.0  0.0      0     0 ?        S     2017   0:00 [aio/14]
+root       366  0.0  0.0      0     0 ?        S     2017   0:00 [aio/15]
+root       367  0.0  0.0      0     0 ?        S     2017   0:00 [aio/16]
+root       368  0.0  0.0      0     0 ?        S     2017   0:00 [aio/17]
+root       369  0.0  0.0      0     0 ?        S     2017   0:00 [aio/18]
+root       370  0.0  0.0      0     0 ?        S     2017   0:00 [aio/19]
+root       371  0.0  0.0      0     0 ?        S     2017   0:00 [aio/20]
+root       372  0.0  0.0      0     0 ?        S     2017   0:00 [aio/21]
+root       373  0.0  0.0      0     0 ?        S     2017   0:00 [aio/22]
+root       374  0.0  0.0      0     0 ?        S     2017   0:00 [aio/23]
+root       375  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/0]
+root       376  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/1]
+root       377  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/2]
+root       378  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/3]
+root       379  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/4]
+root       380  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/5]
+root       381  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/6]
+root       382  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/7]
+root       383  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/8]
+[7m--More--[27mroot       384  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/9]
+root       385  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/10]
+root       386  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/11]
+root       387  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/12]
+root       388  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/13]
+root       389  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/14]
+root       390  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/15]
+root       391  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/16]
+root       392  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/17]
+root       393  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/18]
+root       394  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/19]
+root       395  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/20]
+root       396  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/21]
+root       397  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/22]
+root       398  0.0  0.0      0     0 ?        S     2017   0:00 [crypto/23]
+root       405  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/0]
+root       406  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/1]
+root       407  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/2]
+root       408  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/3]
+root       409  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/4]
+root       410  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/5]
+root       411  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/6]
+root       412  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/7]
+[7m--More--[27mroot       413  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/8]
+root       414  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/9]
+root       415  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/10]
+root       416  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/11]
+root       417  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/12]
+root       418  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/13]
+root       419  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/14]
+root       420  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/15]
+root       421  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/16]
+root       422  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/17]
+root       423  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/18]
+root       424  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/19]
+root       425  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/20]
+root       426  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/21]
+root       427  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/22]
+root       428  0.0  0.0      0     0 ?        S     2017   0:00 [kthrotld/23]
+root       441  0.0  0.0      0     0 ?        S     2017   0:00 [kpsmoused]
+root       442  0.0  0.0      0     0 ?        S     2017   0:00 [usbhid_resumer]
+root       443  0.0  0.0      0     0 ?        S     2017   0:00 [deferwq]
+root       476  0.0  0.0      0     0 ?        S     2017   0:00 [kdmremove]
+root       477  0.0  0.0      0     0 ?        S     2017   0:00 [kstriped]
+root       885  0.0  0.0      0     0 ?        S     2017   0:00 [scsi_eh_0]
+root       886  0.0  0.0      0     0 ?        S     2017   0:00 [scsi_eh_1]
+[7m--More--[27mroot       887  0.0  0.0      0     0 ?        S     2017   0:00 [scsi_eh_2]
+root       888  0.0  0.0      0     0 ?        S     2017   0:00 [scsi_eh_3]
+root       889  0.0  0.0      0     0 ?        S     2017   0:00 [scsi_eh_4]
+root       890  0.0  0.0      0     0 ?        S     2017   0:00 [scsi_eh_5]
+jrigler    899  2.0  0.0 110248  1140 pts/1    R+   00:14   0:00 ps aux
+jrigler    900  0.0  0.0 103144   852 pts/1    S+   00:14   0:00 more
+root      1040  0.0  0.0      0     0 ?        S     2017   0:00 [scsi_eh_6]
+root      1101  0.0  0.0      0     0 ?        S     2017   0:00 [kdmflush]
+root      1103  0.0  0.0      0     0 ?        S     2017   0:36 [kdmflush]
+root      1121  0.0  0.0      0     0 ?        S     2017   2:30 [jbd2/dm-1-8]
+root      1122  0.0  0.0      0     0 ?        S     2017   0:00 [ext4-dio-unwrit]
+root      1216  0.0  0.0  11292   280 ?        S<s   2017   0:00 /sbin/udevd -d
+root      1471  0.0  0.0      0     0 ?        S     2017   3:31 [edac-poller]
+root      1921  0.0  0.0      0     0 ?        S    Jan18   0:06 [flush-8:16]
+root      2032  0.0  0.0      0     0 ?        SN    2017   0:50 [kipmi0]
+root      2090  0.0  0.0      0     0 ?        S     2017   0:04 [kdmflush]
+root      2091  0.0  0.0      0     0 ?        S     2017   0:17 [kdmflush]
+root      2094  0.0  0.0      0     0 ?        S     2017   0:38 [kdmflush]
+root      2095  0.0  0.0  11288   276 ?        S<    2017   0:00 /sbin/udevd -d
+root      2096  0.0  0.0  11288   256 ?        S<    2017   0:00 /sbin/udevd -d
+root      2153  0.0  0.0      0     0 ?        S     2017   0:50 [jbd2/dm-3-8]
+root      2154  0.0  0.0      0     0 ?        S     2017   0:00 [ext4-dio-unwrit]
+root      2155  0.0  0.0      0     0 ?        S     2017   0:16 [jbd2/dm-2-8]
+[7m--More--[27mroot      2156  0.0  0.0      0     0 ?        S     2017   0:00 [ext4-dio-unwrit]
+root      2157  0.0  0.0      0     0 ?        S     2017   2:45 [jbd2/dm-4-8]
+root      2158  0.0  0.0      0     0 ?        S     2017   0:00 [ext4-dio-unwrit]
+root      2159  0.0  0.0      0     0 ?        S     2017  13:04 [jbd2/sdb1-8]
+root      2160  0.0  0.0      0     0 ?        S     2017   0:00 [ext4-dio-unwrit]
+root      2201  0.0  0.0      0     0 ?        S     2017  16:44 [kauditd]
+root      2389  0.0  0.0      0     0 ?        S     2017   1:07 [flush-253:1]
+root      2390  0.0  0.0      0     0 ?        S     2017   0:18 [flush-253:2]
+root      2392  0.0  0.0      0     0 ?        S     2017   1:59 [flush-253:4]
+root      2456  0.0  0.0  27660   696 ?        S<sl  2017  41:36 auditd
+nslcd     2477  0.0  0.0 457460  6332 ?        Ssl   2017  76:20 /usr/sbin/nslcd
+root      2493  0.0  0.0 256184  5732 ?        Sl    2017   6:15 /sbin/rsyslogd -i /var/run/sys
+logd.pid -c 5
+root      2546  0.0  0.0  18380   676 ?        Ss    2017  11:06 irqbalance --pid=/var/run/irqb
+alance.pid
+dbus      2564  0.0  0.0  23524   740 ?        Ss    2017   0:00 dbus-daemon --system
+root      2590  0.2  0.0 455248 13604 ?        Sl    2017 216:59 /usr/bin/python /usr/bin/diamo
+nd -p /var/run/diamond.pid
+root      2619  0.0  0.0   4076   532 ?        Ss    2017   0:00 /usr/sbin/acpid
+68        2631  0.0  0.0  40760  2360 ?        Ssl   2017   0:42 hald
+root      2632  0.0  0.0  20396   936 ?        S     2017   0:00 hald-runner
+root      2664  0.0  0.0  22516   888 ?        S     2017   0:00 hald-addon-input: Listening on
+ /dev/input/event4 /dev/input/event0 /dev/input/event1
+[7m--More--[27m68        2675  0.0  0.0  18004   876 ?        S     2017   0:00 hald-addon-acpi: listening on 
+acpid socket /var/run/acpid.socket
+root      2793  0.0  0.0   6780   152 ?        Ss    2017   0:00 /usr/sbin/mcelog --daemon
+root      2807  0.0  0.0 318736 22792 ?        Sl    2017  12:41 ./ncpa_posix_listener --start
+root      2823  0.0  0.0 230496 16016 ?        S     2017   2:34 /usr/local/ncpa/ncpa_posix_pas
+sive --start
+root      2851  0.0  0.0  66256   552 ?        Ss    2017   0:07 /usr/sbin/sshd
+ntp       2862  0.0  0.0  32836  1628 ?        Ss    2017   0:07 ntpd -u ntp:ntp -p /var/run/nt
+pd.pid -g
+root      2877  0.0  0.0  93812   776 ?        Ss    2017   0:03 /usr/sbin/lldpd -rc
+_lldpd    2880  0.0  0.0  93812   576 ?        S     2017   0:33 /usr/sbin/lldpd -rc
+root      3534  0.0  0.0 121636  4420 ?        Ss   Jan26   0:00 sshd: rjaquez [priv]
+root      3558  1.2  0.0  33832 21532 ?        Sl    2017 1159:50 /usr/bin/consul agent -config
+-file /etc/consul/consul.json -config-dir /etc/consul/consul.d -pid-file=/etc/consul/consul.pid
+root      3653  0.0  0.0  80952  2468 ?        Ss    2017   0:15 /usr/libexec/postfix/master
+postfix   3666  0.0  0.0  83300  2592 ?        S     2017   0:04 qmgr -l -t fifo -u
+root      3667  0.0  0.0 182980  1260 ?        Ss    2017   0:00 /usr/sbin/abrtd
+rjaquez   3685  0.0  0.0 121636  2084 ?        S    Jan26   0:00 sshd: rjaquez@pts/0
+rjaquez   3686  0.0  0.0 110444  1812 pts/0    Ss+  Jan26   0:00 -bash
+root      3692  0.0  0.0 180676  1360 ?        Ss    2017   0:03 abrt-dump-oops -d /var/spool/a
+brt -rwx /var/log/messages
+root      3728  0.0  0.0 116884   712 ?        Ss    2017   0:09 crond
+root      3763  0.3  0.3 329372 196800 ?       Sl    2017 329:37 splunkd -h 172.17.13.25 -p 808
+[7m--More--[27m9 start[K
+root      3766  0.0  0.0  70348  7968 ?        Ss    2017  14:22 [splunkd pid=3763] splunkd -h 
+172.17.13.25 -p 8089 start [process-runner]
+root      3785  0.0  0.0  21104   320 ?        Ss    2017   0:00 /usr/sbin/atd
+root      3798  0.0  0.0 100940   548 ?        Ss    2017   0:00 rhnsd
+root      4313  0.0  0.0  56868  2516 ?        Ssl   2017   0:04 /opt/lsi/mrmonitor/bin/mrmonit
+ord
+root      4316  0.0  0.0  23036   448 ?        Ss    2017   0:00 /opt/lsi/mrmonitor/bin/mrmonit
+ord
+postfix   4321  0.0  0.0  83580  2760 ?        S     2017   0:01 tlsmgr -l -t unix -u
+root      4350  0.0  0.0  13080   288 ?        S     2017   0:01 /var/ossec/bin/ossec-execd
+ossec     4354  0.0  0.0   6408   616 ?        S     2017   0:01 /var/ossec/bin/ossec-agentd
+root      4358  0.0  0.0   4208   280 ?        S     2017   0:46 /var/ossec/bin/ossec-logcollec
+tor
+root      4362  0.0  0.0   4360   284 ?        S     2017   0:47 /var/ossec/bin/ossec-syscheckd
+telegraf  4381  0.0  0.0 1543668 28592 ?       Sl    2017  83:23 /usr/bin/telegraf -pidfile /va
+r/run/telegraf/telegraf.pid -config /etc/telegraf/telegraf.conf -config-directory /etc/telegraf
+/telegraf.d
+root      4390  0.0  0.0   4060   464 tty1     Ss+   2017   0:00 /sbin/mingetty /dev/tty1
+root      4392  0.0  0.0   4060   464 tty2     Ss+   2017   0:00 /sbin/mingetty /dev/tty2
+root      4393  0.0  0.0   4076   500 ttyS1    Ss+   2017   0:00 /sbin/agetty /dev/ttyS1 19200 
+vt100-nav
+root      4395  0.0  0.0   4060   464 tty3     Ss+   2017   0:00 /sbin/mingetty /dev/tty3
+[7m--More--[27mroot      4397  0.0  0.0   4060   464 tty4     Ss+   2017   0:00 /sbin/mingetty /dev/tty4
+root      4399  0.0  0.0   4060   464 tty5     Ss+   2017   0:00 /sbin/mingetty /dev/tty5
+root      4401  0.0  0.0   4060   464 tty6     Ss+   2017   0:00 /sbin/mingetty /dev/tty6
+apache   11480  0.0  0.0 196908  5580 ?        S    Jan26   0:05 /usr/sbin/httpd
+root     11497  0.0  0.0 217220 40584 ?        SNl  Jan26   0:00 /opt/chef/embedded/bin/ruby /u
+sr/bin/chef-client -d -c /etc/chef/client.rb -L /var/log/chef/client.log -P /var/run/chef/clien
+t.pid -i 1800 -s 300 -f
+apache   11717  0.0  0.0 196908  5596 ?        S    Jan26   0:05 /usr/sbin/httpd
+root     12601  0.0  0.0 194572  6304 ?        Ss   Jan17   0:25 /usr/sbin/httpd
+495      12880 15.6 13.0 19880056 6457004 ?    Sl   Jan17 2031:41 /usr/java/jdk1.8.0_161/jre/bi
+n/java -Djava.util.logging.config.file=/opt/atlassian/latest/conf/logging.properties -Djava.uti
+l.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Dcom
+.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8666 -Dcom.sun.management.jmxremo
+te.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Djava.rmi.server.hostname=172.17
+.13.25 -Dcom.sun.management.jmxremote.password.file=/var/atlassian/application-data/confluence/
+jmxremote.password -Dcom.sun.management.jmxremote.access=/var/atlassian/application-data/conflu
+ence/jmxremote.access -Xms1024m -Xmx4096m -XX:MaxPermSize=2048m -XX:+UseG1GC -Datlassian.plugin
+s.enable.wait=300 -Djava.awt.headless=true -XX:G1ReservePercent=20 -Xloggc:/opt/atlassian/lates
+t/logs/gc-2018-01-17_23-19-33.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogF
+ileSize=2M -XX:-PrintGCDetails -XX:+PrintGCDateStamps -XX:-PrintTenuringDistribution -Djava.end
+orsed.dirs=/opt/atlassian/latest/endorsed -classpath /opt/atlassian/latest/bin/bootstrap.jar:/o
+pt/atlassian/latest/bin/tomcat-juli.jar -Dcatalina.base=/opt/atlassian/latest -Dcatalina.home=/
+opt/atlassian/latest -Djava.io.tmpdir=/opt/atlassian/latest/temp org.apache.catalina.startup.Bo
+[7m--More--[27motstrap start
+root     12951  0.0  0.0      0     0 ?        S    Jan17   0:06 [flush-253:3]
+apache   13080  0.0  0.0 196908  5548 ?        S    Jan26   0:04 /usr/sbin/httpd
+apache   16106  0.0  0.0 196920  5616 ?        S    Jan26   0:05 /usr/sbin/httpd
+apache   16244  0.0  0.0 196908  5580 ?        S    Jan26   0:05 /usr/sbin/httpd
+root     20014  0.0  0.0 108352  1256 ?        S    Jan02   0:00 /bin/sh /usr/bin/mysqld_safe -
+-datadir=/var/lib/pgsql/mysql/ --socket=/var/lib/pgsql/mysql/mysql.sock --pid-file=/var/run/mys
+qld/mysqld.pid --basedir=/usr --user=mysql
+mysql    20596  227 46.1 30935212 22791336 ?   Sl   Jan02 80054:18 /usr/sbin/mysqld --basedir=/
+usr --datadir=/var/lib/pgsql/mysql --plugin-dir=/usr/lib64/mysql/plugin --user=mysql --log-erro
+r=/var/log/mysqld.log --open-files-limit=65535 --pid-file=/var/run/mysqld/mysqld.pid --socket=/
+var/lib/pgsql/mysql/mysql.sock
+apache   23998  0.0  0.0 196928  5572 ?        S    Jan26   0:04 /usr/sbin/httpd
+apache   25844  0.0  0.0 196908  5588 ?        S    Jan26   0:04 /usr/sbin/httpd
+apache   26738  0.0  0.0 196920  5688 ?        S    Jan26   0:15 /usr/sbin/httpd
+root     27355  0.0  0.0 200552  5660 ?        S    Jan23   1:36 /usr/sbin/snmpd -LS0-5d -Lf /d
+ev/null -p /var/run/snmpd.pid
+apache   27970  0.0  0.0 196908  5536 ?        S    Jan26   0:02 /usr/sbin/httpd
+apache   28175  0.0  0.0 196908  5592 ?        S    Jan26   0:06 /usr/sbin/httpd
+apache   28254  0.0  0.0 196908  5608 ?        S    Jan26   0:06 /usr/sbin/httpd
+postfix  31260  0.0  0.0  83124  3388 ?        S    00:06   0:00 pickup -l -t fifo -u
+root     31952  0.0  0.0 134156  6960 ?        Ss   00:09   0:00 sshd: jrigler [priv]
+jrigler  31974  0.0  0.0 134156  2696 ?        S    00:09   0:00 sshd: jrigler@pts/1
+[7m--More--[27mjrigler  31975  0.0  0.0 110448  1812 pts/1    Ss   00:09   0:00 -bash
+]0;jrigler@confluence:~[jrigler@confluence ~]$ logout
+Connection to confluence closed.
+bash-4.2$ exit
+
+Script done on Sat 27 Jan 2018 12:18:29 AM CST

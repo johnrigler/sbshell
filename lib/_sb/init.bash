@@ -1,22 +1,21 @@
 _sb.init () 
 { 
-    echo "--- $1 ----";
-    original=`echo $1 | sed 's/\./\//'`
-    : load original function into shell 
-    source "$_SBDIR/lib/$original".bash
-#    ORIGINAL=$(declare -f $1)
-    : reload with __sb. prefix
+
+    : load with __sb. prefix
     (
     echo -n "__sb."
-    declare -f $1
-    ) > $$
+    while read LINE
+      do
+      echo $LINE
+      done
+    ) > $$ < $1
     source $$ 
-    rm $$
 
-    : overload stub over original name
-    EVAL="$1() { _sb.process __sb.$1 ARGS; }";
-    EVAL=`echo $EVAL | sed 's/ARGS/$*/'`;
-#    echo $EVAL
-    eval $EVAL
+ ORIGINAL=`head -1 $$ | cut -c 6- | sed "s/(.*//g"`
+
+   : overload stub over original name
+   EVAL="$ORIGINAL() { _sb.process __sb.$ORIGINAL ARGS; }";
+   EVAL=`echo $EVAL | sed 's/ARGS/$*/'`;
+   eval $EVAL
 
 }

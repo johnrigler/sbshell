@@ -1,10 +1,10 @@
-sb.color () 
+fabreq.color () 
 { 
     : color Changed the color in the shell or web version;
     : color Possible colors are white,bold,underline,error,red,green,yellow,blue,purple,aqua;
     if [ -n $1 ]; then
         case $1 in 
-            black)
+            white)
                 FG='00m'
             ;;
             bold)
@@ -37,5 +37,4 @@ sb.color ()
         esac;
         printf "\033[$FG";
     fi
-
 }

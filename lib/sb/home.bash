@@ -1,4 +1,4 @@
-sb.home () 
+sb.dir () 
 { 
     cd $_SBDIR;
 }

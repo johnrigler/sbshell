@@ -1,4 +1,4 @@
-__sb.sb.runfor () 
+sb.runfor () 
 { 
     ARG1=$1;
     shift;
@@ -6,5 +6,3 @@ __sb.sb.runfor ()
         echo "$ARG1 $X > $X";
     done
 }
-
-_sb.init sb.runfor
