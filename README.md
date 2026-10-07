@@ -2,37 +2,25 @@
 
 SB Shell started as a Bash/PHP environment for using the filesystem itself as a publishing and documentation system.
 
-The current revival keeps the original model but moves the browser-facing layer toward Mogwai:
+The current revival is part of Mogwai:
 
 - Bash and vi remain the authoring environment.
+- The repo currently contains the working filesystem.
 - Files and directories remain the source of truth.
 - Zero-padded ordinal filenames define page/position/nesting.
-- A tiny Python service describes the local tree.
-- Vanilla JavaScript renders it in the browser.
-- FileProxy, ALP, Daisy, signed feeds, and IPFS can be layered on later.
+- Each browsable directory can carry a checked-in `index.js` manifest.
+- A shared static renderer displays HTML, scans/images, and other files.
+- Python/FileProxy are optional helpers, not requirements for reading the finished tree.
+- Scanner, fax, Gemini/LLM output, Daisy, signed feeds, and IPFS can all enter the same filesystem pipeline.
 
-See [MOGWAI.md](MOGWAI.md) for the architecture.
-
-## Quick start
-
-From the directory you want Mogwai to browse:
+Open the repository through any ordinary static HTTP server. For example:
 
 ```bash
-python3 /path/to/sbshell/mogwai/server.py .
+python3 -m http.server 8000
 ```
 
-Then open:
+Then browse the directory containing the repo.
 
-```
-http://127.0.0.1:8765/
-```
+The older Mogwai Python service under `mogwai/` is still available for API experiments, but static directory manifests are now the durable representation.
 
-The first implementation is intentionally read-only. Editing remains where SB Shell began: Bash and vi.
-
-
-
-RESPONSE
-
-
-I added a "now"directory and something from gemini, this stuff needs to get processd into 
-sbshell like webpages.
+See [MOGWAI.md](MOGWAI.md) for the architecture and [mogwai/SCAN-INGEST.md](mogwai/SCAN-INGEST.md) for scan filename/provenance rules.
