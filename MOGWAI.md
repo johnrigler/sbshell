@@ -1,18 +1,42 @@
 # SB Shell → Mogwai
 
-SB Shell is being revived as a local-first publishing/workbench layer for Mogwai.
+SB Shell is a local-first publishing/workbench layer for Mogwai.
 
-The core rule stays Unix-simple:
+The core rule is Unix-simple:
 
 - Bash and vi are first-class authoring tools.
 - The filesystem is the document model.
 - File and directory names carry order and structure.
-- A browser renders the local tree through a very small Python service.
-- IPFS publication is a later projection of the local tree, not the editing environment.
+- The repository currently contains the working filesystem.
+- A directory should remain readable after an edit even when Python, FileProxy, or another helper is no longer running.
+- IPFS publication is a later projection of that filesystem, not the editing environment.
+
+## Solid-state directories
+
+A browsable directory carries its own checked-in `index.js` manifest.
+
+```
+directory/
+    index.html   -> shared child renderer
+    index.js     # frozen description of this directory
+    files...
+```
+
+The shared root `index.html` is the renderer. `child.html` points to it, and nested directories may symlink their local `index.html` back to `child.html`.
+
+Because the browser URL remains the nested directory URL, the renderer loads that directory's own:
+
+```html
+<script src="./index.js"></script>
+```
+
+This removes directory-listing APIs from the document format.
+
+Python, FileProxy, Termux, scanner/fax ingestion, or another tool may regenerate `index.js` after a change. Once that write is complete, the directory is again in a solid state and can be served by an ordinary static HTTP server.
 
 ## Ordinal filenames
 
-Content files use underscore-delimited ordinal fields followed by an optional label:
+Content files can use underscore-delimited ordinal fields followed by an optional label:
 
 ```
 1_01_intro.md
@@ -21,7 +45,7 @@ Content files use underscore-delimited ordinal fields followed by an optional la
 1_03_graph.md
 ```
 
-Zero padding is deliberate. It allows ordinary lexical ordering from `ls`, shell globs, Python, and JavaScript to agree without special numeric sorting.
+Zero padding is deliberate. Ordinary lexical sorting then agrees with numeric page order without requiring parsing just to sort.
 
 Interpretation:
 
@@ -35,49 +59,28 @@ Interpretation:
 
 The number of ordinal fields is open-ended. Mogwai consumes leading numeric underscore-separated fields as coordinates. Remaining text is metadata/label.
 
-The filename is therefore both an address and a lightweight ordered tree.
+## Scan ingestion
 
-## Local architecture
+Scanner output may arrive as:
 
 ```
-Bash / vi
-    ↓
-files + directories
-    ↓
-Python local service
-    ↓
-JSON filesystem description
-    ↓
-Vanilla JavaScript renderer
-    ↓
-browser / optional extension
+scan_261005-191332_1.png
 ```
 
-The first implementation lives under `mogwai/`.
+This means source type `scan`, capture time `2026-10-05 19:13:32`, page `1`.
 
-Start it from any directory you want to browse:
+Files sharing the timestamp are treated as one scan event unless later evidence says otherwise. Preserve the original scanner filename as provenance. Mogwai may add packet ordering separately without destroying that identity.
+
+See `mogwai/SCAN-INGEST.md`.
+
+## Optional local service
+
+The existing Python server remains useful as a convenience tool and for future editing APIs:
 
 ```bash
 python3 /path/to/sbshell/mogwai/server.py .
 ```
 
-Then open:
+But the static SB Shell representation does not require its `/api/list` or `/api/load` endpoints.
 
-```
-http://127.0.0.1:8765/
-```
-
-## Direction
-
-Future pieces can add:
-
-- save/write endpoints compatible with FileProxy
-- directory watching
-- Markdown and structured-data renderers
-- graph modules such as the old SB Stats idea
-- ALP/Daisy conventions
-- signed feed manifests
-- IPFS publication
-- Mogwai identity/access rules
-
-The local filesystem remains authoritative. Databases and network services are optional indexes or projections, not the source of truth.
+The filesystem remains authoritative. Databases, services, blockchain indexes, and IPFS are projections or transport layers, not the source of truth.
