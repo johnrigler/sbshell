@@ -28,3 +28,11 @@ http://127.0.0.1:8765/
 ```
 
 The first implementation is intentionally read-only. Editing remains where SB Shell began: Bash and vi.
+
+
+
+RESPONSE
+
+
+I added a "now"directory and something from gemini, this stuff needs to get processd into 
+sbshell like webpages.
