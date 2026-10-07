@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SB Shell / Mogwai</title>
+<style>
+:root{color-scheme:dark}
+body{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;margin:0;background:#111;color:#ddd}
+header{padding:12px 16px;border-bottom:1px solid #333;position:sticky;top:0;background:#111;z-index:2}
+main{display:grid;grid-template-columns:minmax(250px,32%) 1fr;min-height:calc(100vh - 48px)}
+#tree{border-right:1px solid #333;padding:12px;overflow:auto}
+#view{padding:18px;overflow:auto}
+button,a.entry{font:inherit;color:#ddd;background:#181818;border:1px solid #444;padding:7px 9px;margin:2px;cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,a.entry:hover{background:#252525}
+.meta{opacity:.65;font-size:.85em}
+iframe{width:100%;height:78vh;border:1px solid #333;background:white}
+img.scan{max-width:100%;height:auto;display:block;margin:auto}
+pre{white-space:pre-wrap;overflow-wrap:anywhere}
+.note{margin:.5rem 0 1rem;color:#aaa}
+@media(max-width:700px){main{grid-template-columns:1fr}#tree{border-right:0;border-bottom:1px solid #333}}
+</style>
+</head>
+<body>
+<header><strong>SB Shell / Mogwai</strong> <span id="where" class="meta"></span></header>
+<main>
+<section id="tree">Loading index.js…</section>
+<section id="view">Select an item.</section>
+</main>
+<script src="./index.js"></script>
+<script>
+const tree=document.querySelector("#tree");
+const view=document.querySelector("#view");
+const where=document.querySelector("#where");
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function kind(e){
+  if(e.type) return e.type;
+  const n=(e.name||"").toLowerCase();
+  if(/\.(png|jpe?g|gif|webp|svg)$/.test(n)) return "image";
+  if(/\.html?$/.test(n)) return "html";
+  return "text";
+}
+function show(e){
+  const k=kind(e);
+  const note=e.note ? '<div class="note">'+esc(e.note)+'</div>' : "";
+  if(k==="dir"){ location.href=e.href || e.name.replace(/\/$/,"")+"/"; return; }
+  if(k==="image"){ view.innerHTML=note+'<img class="scan" src="'+encodeURI(e.href||e.name)+'" alt="'+esc(e.name)+'">'; return; }
+  if(k==="html"){ view.innerHTML=note+'<iframe src="'+encodeURI(e.href||e.name)+'"></iframe>'; return; }
+  view.innerHTML=note+'<iframe src="'+encodeURI(e.href||e.name)+'"></iframe>';
+}
+function render(){
+  const m=window.SB_INDEX;
+  if(!m){tree.textContent="No index.js manifest found in this directory.";return;}
+  document.title=(m.title||m.path||"SB Shell")+" / Mogwai";
+  where.textContent=m.path||"";
+  tree.innerHTML="";
+  if(m.parent){
+    const up=document.createElement("a");
+    up.className="entry"; up.href=m.parent; up.textContent="..";
+    tree.append(up,document.createElement("br"));
+  }
+  for(const e of (m.entries||[])){
+    const b=document.createElement("button");
+    const ordinal=e.coordinate ? "["+e.coordinate+"] " : "";
+    b.textContent=(kind(e)==="dir"?"▸ ":"")+ordinal+e.name;
+    b.onclick=()=>show(e);
+    tree.append(b,document.createElement("br"));
+  }
+}
+render();
+</script>
+</body>
+</html>
