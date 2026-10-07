@@ -37,6 +37,24 @@ The number of ordinal fields is open-ended. Mogwai consumes leading numeric unde
 
 The filename is therefore both an address and a lightweight ordered tree.
 
+## Page rendering
+
+Files with at least two ordinal fields are grouped by their first field.
+
+For example:
+
+```
+1_01.html
+1_02.html
+1_03_notes.txt
+```
+
+form page `1`. The renderer loads them in lexical order and places each source into its own `<pre>` element. This keeps the source files simple while letting one visible page be assembled from multiple ordered pieces.
+
+Files that do not match the page/position form, such as `live.png`, remain ordinary loose files in the left-hand browser rather than being forced into the page sequence.
+
+The current directory is stored in the URL as `?path=...`. The selected page is stored as `&page=...`, so browser refresh and back/forward navigation restore the same location.
+
 ## Local architecture
 
 ```
