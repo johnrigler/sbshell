@@ -12,6 +12,7 @@ window.SB_INDEX = {
     { name: "02.png", type: "image", coordinate: "02" },
     { name: "03.png", type: "image", coordinate: "03" },
     { name: "04.png", type: "image", coordinate: "04" },
+    { name: "05.png", type: "image", coordinate: "05" },	   
     { name: "06.png", type: "image", coordinate: "06" }
   ]
 };
