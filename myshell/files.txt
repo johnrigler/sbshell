@@ -1,0 +1,16 @@
+.
+./1_02.html
+./live.png
+./1_01-gemini-balloon.html
+./LLxGEMiNizzzzzzzzzzzzzzzzzzzZboYyL
+./now
+./now/02.png
+./now/06.png
+./now/03.png
+./now/04.png
+./now/index.html
+./now/05.png
+./now/01.png
+./now/index.js
+./index.html
+./index.js
