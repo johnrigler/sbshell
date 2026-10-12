@@ -1,6 +1,0 @@
-myshell/1_01-gemini-balloon.html
-myshell/1_02.html
-myshell/index.html
-myshell/index.js
-myshell/live.png
-myshell/LLxGEMiNizzzzzzzzzzzzzzzzzzzZboYyL
