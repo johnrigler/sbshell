@@ -58,3 +58,15 @@ Visit `http://localhost:8000/myshell/`. You should see `1_01-gemini-balloon.html
 A `.files.txt` variant is **not the canonical repository layout yet**. One copy of the shared renderer has been changed to probe `.files.txt` first, then fall back to `files.txt`, but `myshell/index.html` still follows the existing `files.txt` behavior. The current working convention remains root `files.txt`. A future migration must update both renderer copies and the Bash generator together. A dotfile is not private and can still be served publicly.
 
 See [MOGWAI.md](MOGWAI.md) for architecture and [mogwai/SCAN-INGEST.md](mogwai/SCAN-INGEST.md) for scan naming.
+
+## Project Jupiter: first CertLedger-style publication page
+
+[`myshell/1_03-project-jupiter.html`](myshell/1_03-project-jupiter.html) is a
+static, self-contained, US Letter-printable dated dossier with YouTube video,
+evidence links, two New Mexico Supreme Court docket IDs, a timeline, and
+explicit missing-document/telemetry statuses. It is listed in the **root**
+`files.txt`, respecting the working navigation convention. It is a public
+editorial derivative of the private
+[`daisy_2026/421`](https://github.com/johnrigler/daisy_2026/tree/main/421)
+record, not a live private-repo synchronization. Material changes need a
+reviewed new publication snapshot.
