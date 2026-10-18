@@ -1,6 +1,20 @@
 <?php
 // This file also works as the router passed to php -S.
 $sb_root = realpath(($_SERVER["DOCUMENT_ROOT"] ?? "") ?: getcwd());
+require_once __DIR__ . "/catalog.php";
+if(isset($_GET["document"])){
+	try{
+		if(!is_string($_GET["document"])) throw new RuntimeException("Enter a document name.", 400);
+		$file = sb_document_path($_GET["document"]);
+		$path = substr($file, strlen($sb_root) + 1);
+		$url = "/" . implode("/", array_map("rawurlencode", explode("/", $path)));
+		header("Location: " . $url . (isset($_GET["raw"]) ? "?raw=1" : ""));
+	}catch(Throwable $error){
+		http_response_code(in_array($error->getCode(), [400,404,409]) ? $error->getCode() : 500);
+		echo htmlspecialchars($error->getMessage());
+	}
+	exit();
+}
 $sb_path = rawurldecode(explode("?", $_SERVER["REQUEST_URI"] ?? "/", 2)[0]);
 if(in_array("..", explode("/", $sb_path), true) || str_contains($sb_path, "\0")){
 	http_response_code(404);
@@ -13,6 +27,10 @@ if($sb_index){
 	$sb_path = dirname($sb_path);
 	$sb_target = realpath($sb_root . $sb_path);
 }elseif(PHP_SAPI === "cli-server" && is_file($sb_target ?: "")){
+	if(strtolower(pathinfo($sb_path, PATHINFO_EXTENSION)) === "pdf" && !isset($_GET["raw"])){
+		include __DIR__ . "/document.php";
+		exit();
+	}
 	return false;
 }
 if(!$sb_target || !is_dir($sb_target) || !chdir($sb_target)){
@@ -30,6 +48,8 @@ if(!$sb_index && !str_ends_with($sb_path, "/")){
 
 $ls = array_values(array_filter(glob("1_*.*") ?: [], "is_file"));
 $sb_dirs = $sb_files = [];
+$sb_names = [];
+try { $sb_names = sb_document_names(); } catch(Throwable $error) { /* Browsing also works without SQLite3. */ }
 foreach(scandir(".") as $file){
 	if($file[0] === "." || realpath($file) === __FILE__) continue;
 	if(is_dir($file)) $sb_dirs[] = $file . "/";
@@ -75,7 +95,11 @@ foreach($sb_crumbs as $link => $label){
 <?php
 foreach(array_merge($sb_dirs, $sb_files) as $file){
 	$link = $sb_url . rawurlencode(rtrim($file, "/")) . (str_ends_with($file, "/") ? "/" : "");
-	echo '<li><a href="' . $link . '">' . htmlspecialchars($file) . '</a></li>' . "\n";
+	$relative = ltrim(rawurldecode($sb_url), "/") . $file;
+	$label = $sb_names[$relative] ?? $file;
+	echo '<li><a href="' . $link . '">' . htmlspecialchars($label) . '</a>';
+	if($label !== $file) echo ' <small>(' . htmlspecialchars($file) . ')</small>';
+	echo '</li>' . "\n";
 }
 ?>
 </ul>

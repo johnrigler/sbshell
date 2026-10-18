@@ -33,14 +33,57 @@ The list starts open when there are no numbered parts, and closed when there are
 
 Breadcrumbs, the directory list and the refresh checkbox are automatically
 hidden when printing. Dotfiles and the shared index itself are omitted from
-the list. Existing files still use PHP's normal serving behavior, including
-relative CSS, JavaScript, images and PDFs. Directory URLs get a trailing slash
+the list. CSS, JavaScript and images use PHP's normal serving behavior. PDFs
+open in the document view described below. Directory URLs get a trailing slash
 so those relative links keep working.
 
 Using the [PHP built-in server's router](https://www.php.net/commandline.webserver)
 means child directories need no index.php copies or inventory file. Existing
 index.php symlinks also keep using the requested directory, rather than the
 directory holding the shared renderer source.
+
+## Name a document while viewing it
+
+With the router above, open any PDF from the directory list or its original
+URL. The page shows the PDF below a **Document name** field. Enter a name such
+as `Centro welcome letter` and click **Save name**. Directory listings then
+show that name beside the original filename. The viewer's **Reference by name**
+link opens the saved document through `/?document=Centro%20welcome%20letter`.
+Saving a different name updates that file's entry; names must be unique within
+the catalog, ignoring ASCII letter case.
+
+PHP writes the name, root-relative source path, 32-byte SHA-256 and save time
+to the `sb_documents` table in **catalog.sqlite3 at the PHP document root**.
+Start PHP at the Daisy archive root to share FileProxy's archive catalog.
+Existing catalog rows are preserved. A new catalog also contains FileProxy's
+empty `files` and `metadata` tables, so its normal scan can populate them.
+FileProxy scans replace the file index while preserving `sb_documents`.
+The catalog and its directory must be writable by the account running PHP.
+
+PHP needs its **SQLite3** extension; check with `php8.2 --ri sqlite3`. The PDF
+still displays if that extension is missing, with a message beside the naming
+form. **Open original PDF / print** opens the original PDF in Chrome; use its
+PDF print controls. Adding `?raw=1` to a PDF URL also serves the original bytes.
+The viewer's name field and breadcrumbs are hidden in print styles.
+
+Numbered PHP parts can reference a saved name directly:
+
+```php
+<a href="<?= htmlspecialchars(sb_document_url('Centro welcome letter')) ?>">Welcome letter</a>
+```
+
+`sb_document_path($name)` returns the verified local path. `sb_document_url($name)`
+resolves it while PHP renders and emits a relative file URL, so saved HTML can
+travel with its source assets. These functions are loaded by `cruff/index.php`.
+A separate CLI builder can require `cruff/catalog.php` and set `$sb_root` to
+the archive directory and `$sb_url` to the output directory's root-relative URL
+(for example, `/42/firmus-ncs/`) before rendering its parts.
+
+A missing source or changed fingerprint stops lookup by name with a visible
+message. Open the file and save its name again to accept its current contents.
+No PDF bytes or source filename are changed by naming a document.
+
+Check naming and catalog preservation with `php8.2 tests/document-names.php`.
 
 ## Script logs in PHP
 
