@@ -2,11 +2,32 @@
 <html>
 <head>
  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
- <meta http-equiv="refresh" content="10">
  <title>John Rigler</title>
  		<link rel="stylesheet" type="text/css" href="/style.css">
 
 </head>
+<body>
+<div class="refresh-control">
+<label><input type="checkbox" id="auto-refresh" checked> Auto-refresh every 10 seconds</label>
+</div>
+<style>@media print { .refresh-control { display:none; } }</style>
+<script>
+(() => {
+  const refresh = document.getElementById('auto-refresh');
+  const key = 'sbshell-refresh:' + location.pathname;
+  let timer;
+  try { refresh.checked = localStorage.getItem(key) !== 'off'; } catch {}
+  function schedule() {
+    clearTimeout(timer);
+    if (refresh.checked) timer = setTimeout(() => location.reload(), 10000);
+  }
+  refresh.addEventListener('change', () => {
+    try { localStorage.setItem(key, refresh.checked ? 'on' : 'off'); } catch {}
+    schedule();
+  });
+  schedule();
+})();
+</script>
 <?php 
 $ls=explode("\n",`ls 1_*.*;`);
 array_pop($ls);

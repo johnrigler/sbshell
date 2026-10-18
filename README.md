@@ -33,7 +33,9 @@ The PHP include embeds the recording and viewer in the assembled HTML, so a
 saved page needs no transcript fetch or external library. Transcript text is
 displayed literally, including any captured HTML or PHP source. Each recording
 has its own controls. Chrome printing wraps terminal lines and uses dark text
-on paper. The assembler's existing ten-second refresh still applies.
+on paper. Use **Auto-refresh every 10 seconds** at the top of the PHP page to
+pause or resume updates. Refresh starts on and remembers your choice for that
+page in this browser.
 
 From the repository root:
 
