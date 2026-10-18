@@ -206,3 +206,11 @@ editorial derivative of the annual
 [`daisy_2026/421`](https://github.com/johnrigler/daisy_2026/tree/main/421)
 record, not a live private-repo synchronization. Material changes need a
 reviewed new publication snapshot.
+
+## Email and mail registration
+
+[Packet registration](tools/packet-registration/index.html) fingerprints the
+separate final email and mail PDFs, prepares the email body and actual dispatch
+reference, and prints a separate registration sheet and transaction receipt.
+It reuses Chisel's CTP500 printer modules and runs as static browser files.
+See [the sequence and hash boundaries](tools/packet-registration/README.md).
