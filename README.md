@@ -15,6 +15,35 @@ PHP path running locally; commit 5344787 records the October 18 revival.
 The PHP assembler reads its directory. The static inventory conventions below
 describe the separate static browser path.
 
+## Script logs in PHP
+
+The current `cruff/index.php` loop assembles `1_*.*` in directory order.
+PHP parts still use `include`; `.ts`, `.unixTs` and `.script` recordings use
+[cruff/script.php](cruff/script.php). Here `.ts` means a Unix `script` log.
+Prefer **`.unixTs`** for new recordings, matching Daisy's `d.script` filenames;
+existing `.ts` files, including `cruff/1_05.ts`, keep working without renaming.
+
+The viewer comes from `daisy_2026/42/sbshell-script-viewer.html`. Terminal mode
+preserves ANSI colors and basic cursor editing. Sections mode groups `-->>`
+commands and turns `-->> #` comments into annotations. Previous, Next and
+Show all step through blocks. Complete alternate-screen sessions, such as Vim,
+become boundary markers; their original recording stays intact.
+
+The PHP include embeds the recording and viewer in the assembled HTML, so a
+saved page needs no transcript fetch or external library. Transcript text is
+displayed literally, including any captured HTML or PHP source. Each recording
+has its own controls. Chrome printing wraps terminal lines and uses dark text
+on paper. The assembler's existing ten-second refresh still applies.
+
+From the repository root:
+
+```bash
+php8.2 -S localhost:8000 -t .
+```
+
+Open `http://localhost:8000/cruff/` to read the sample. The nested index.php
+symlinks use the same include while continuing to read their own directories.
+
 ## Public annual Daisy archives and local PHP
 
 SB Shell will maintain each public `daisy_YYYY` archive beyond its ISO week/day

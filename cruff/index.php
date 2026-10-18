@@ -16,7 +16,12 @@ echo("</pre>");
 
 foreach($ls as $file){
 	echo "<hr>$file";
-	include $file;
+	if(in_array(pathinfo($file, PATHINFO_EXTENSION), array("ts", "unixTs", "script"))){
+		include_once __DIR__ . "/script.php";
+		script_log($file);
+	}else{
+		include $file;
+	}
 };
 
 exit();
