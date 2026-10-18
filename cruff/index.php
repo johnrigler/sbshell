@@ -7,6 +7,10 @@
  		<link rel="stylesheet" type="text/css" href="/style.css">
 
 </head>
+<?php 
+$ls_=(explode(" ",`ls;`));
+print_r("xxxx<hr>" . $ls);
+?>
 
 
 <?php
