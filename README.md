@@ -2,6 +2,13 @@
 
 Filesystem-first publishing for Mogwai. Files and directories are the source of truth, Bash creates a plain-text inventory, and an ordinary static server (including an IPFS gateway) serves the browser interface. Python and FileProxy are optional.
 
+## Public annual Daisy archives and local PHP
+
+SB Shell will maintain each public `daisy_YYYY` archive beyond its ISO week/day
+structure. Mogwai owns the reusable year starter and tool references. PHP is
+installed on the user's laptop for restoring the local assembler. See
+[the October 18 direction and PHP sources](notes/2026-10-18-public-daisy-and-local-php.md).
+
 ## Current navigation convention (October 12, 2026)
 
 **The inventory is at the repository root: `files.txt`.** The entries are qualified paths relative to that root, for example:
@@ -66,7 +73,7 @@ static, self-contained, US Letter-printable dated dossier with YouTube video,
 evidence links, two New Mexico Supreme Court docket IDs, a timeline, and
 explicit missing-document/telemetry statuses. It is listed in the **root**
 `files.txt`, respecting the working navigation convention. It is a public
-editorial derivative of the private
+editorial derivative of the annual
 [`daisy_2026/421`](https://github.com/johnrigler/daisy_2026/tree/main/421)
 record, not a live private-repo synchronization. Material changes need a
 reviewed new publication snapshot.
