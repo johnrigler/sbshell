@@ -11,27 +11,25 @@ that coordinate: selected units, numbered fragments, images, symlinks,
 navigation and long printable pages. Root files.txt remains the current
 root-relative inventory; preserve ALP's separate .files.txt convention.
 
-## PHP on the laptop
+## PHP running locally
 
-The user has PHP installed. Inspect the local configuration:
+John reports the PHP assembler working locally. Commit 5344787
+records renewed PHP work in [cruff/index.php](../cruff/index.php). The
+nested cruff/test/index.php and cruff/test/test/index.php entries point to
+../index.php, reusing the renderer. The project now records the direct
+PHP/shell approach in [STANDARDS.md](../STANDARDS.md) and
+[AGENTS.md](../AGENTS.md).
 
-~~~bash
-php -r 'phpinfo();'
-~~~
+From the intended working content directory:
 
-Serve the current static SB Shell through PHP:
+```bash
+php8.2 -S 127.0.0.1:8000 -t "$PWD"
+```
 
-~~~bash
-php -S 127.0.0.1:8000 -t "$HOME/sbshell"
-~~~
+Inspect GD and other extensions with php8.2 --ri gd and php8.2 -m.
+Working-directory behavior, includes, commands and symlinks are part of
+the composition and should be preserved when making a change.
 
-Open http://127.0.0.1:8000/myshell/ for the existing static view.
-
-The historical assemblers are modules/php/index.php and cruff/sb_shell.php.
-They contain legacy short tags/unquoted array keys and assumptions about
-accompanying files. This note identifies the revival starting point; the
-old assemblers have not been modernized or tested on current PHP here.
-
-Next: select an annual Daisy checkout, assemble its ordered units in PHP,
-and export HTML plus assets for static hosting/IPFS. PHP executes locally;
-GitHub Pages serves the export. Chrome handles US Letter printing.
+PHP assembles pages locally; rendered HTML and assets can be published
+statically or through IPFS. Chrome handles US Letter printing. The static
+browser's root files.txt convention continues to describe that reader.

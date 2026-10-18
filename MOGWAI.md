@@ -2,6 +2,11 @@
 
 SB Shell is a local-first publishing/workbench layer for Mogwai.
 
+Current work follows [STANDARDS.md](STANDARDS.md) and [AGENTS.md](AGENTS.md).
+The PHP assembler uses its directory directly. The static browser path uses
+root files.txt as documented in README.md; the per-directory index.js layout
+below is an earlier static design.
+
 The core rule is Unix-simple:
 
 - Bash and vi are first-class authoring tools.
@@ -11,7 +16,7 @@ The core rule is Unix-simple:
 - A directory should remain readable after an edit even when Python, FileProxy, or another helper is no longer running.
 - IPFS publication is a later projection of that filesystem, not the editing environment.
 
-## Solid-state directories
+## Earlier static directory layout
 
 A browsable directory carries its own checked-in `index.js` manifest.
 

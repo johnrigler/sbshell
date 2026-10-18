@@ -1,12 +1,24 @@
 # SB Shell
 
-Filesystem-first publishing for Mogwai. Files and directories are the source of truth, Bash creates a plain-text inventory, and an ordinary static server (including an IPFS gateway) serves the browser interface. Python and FileProxy are optional.
+Filesystem-first publishing with a local PHP assembler and a static browser
+path. Files, names, directories and symlinks supply the document structure.
+Bash and vi remain first-class authoring tools; Python and FileProxy are optional.
+
+## Working standards
+
+[STANDARDS.md](STANDARDS.md) records John's direct PHP/shell style and the
+mechanisms visible in the current source. [AGENTS.md](AGENTS.md) applies those
+standards to assistant changes. The PHP work is in [cruff/index.php](cruff/index.php)
+with nested index.php symlinks reusing the same renderer. John reports this
+PHP path running locally; commit 5344787 records the October 18 revival.
+
+The PHP assembler reads its directory. The static inventory conventions below
+describe the separate static browser path.
 
 ## Public annual Daisy archives and local PHP
 
 SB Shell will maintain each public `daisy_YYYY` archive beyond its ISO week/day
-structure. Mogwai owns the reusable year starter and tool references. PHP is
-installed on the user's laptop for restoring the local assembler. See
+structure. Mogwai owns the reusable year starter and tool references. The user reports the local PHP assembler running. See
 [the October 18 direction and PHP sources](notes/2026-10-18-public-daisy-and-local-php.md).
 
 ## Current navigation convention (October 12, 2026)
