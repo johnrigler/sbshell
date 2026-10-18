@@ -1,4 +1,42 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?php
+// This file also works as the router passed to php -S.
+$sb_root = realpath(($_SERVER["DOCUMENT_ROOT"] ?? "") ?: getcwd());
+$sb_path = rawurldecode(explode("?", $_SERVER["REQUEST_URI"] ?? "/", 2)[0]);
+if(in_array("..", explode("/", $sb_path), true) || str_contains($sb_path, "\0")){
+	http_response_code(404);
+	exit("Directory not found.");
+}
+$sb_target = realpath($sb_root . $sb_path);
+$sb_index = $sb_target === __FILE__;
+if($sb_index){
+	// A symlinked index belongs to its URL directory, not this source directory.
+	$sb_path = dirname($sb_path);
+	$sb_target = realpath($sb_root . $sb_path);
+}elseif(PHP_SAPI === "cli-server" && is_file($sb_target ?: "")){
+	return false;
+}
+if(!$sb_target || !is_dir($sb_target) || !chdir($sb_target)){
+	http_response_code(404);
+	exit("Directory not found.");
+}
+$sb_parts = array_values(array_filter(explode("/", $sb_path), fn($part) => $part !== "" && $part !== "."));
+$sb_url = "/";
+foreach($sb_parts as $part) $sb_url .= rawurlencode($part) . "/";
+if(!$sb_index && !str_ends_with($sb_path, "/")){
+	$query = $_SERVER["QUERY_STRING"] ?? "";
+	header("Location: " . $sb_url . ($query === "" ? "" : "?" . $query));
+	exit();
+}
+
+$ls = array_values(array_filter(glob("1_*.*") ?: [], "is_file"));
+$sb_dirs = $sb_files = [];
+foreach(scandir(".") as $file){
+	if($file[0] === "." || realpath($file) === __FILE__) continue;
+	if(is_dir($file)) $sb_dirs[] = $file . "/";
+	elseif(is_file($file)) $sb_files[] = $file;
+}
+?>
+<!doctype html>
 <html>
 <head>
  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
@@ -7,10 +45,47 @@
 
 </head>
 <body>
+<style>
+.sb-navigation, .refresh-control { font:14px/1.5 system-ui,sans-serif; color:#273749; margin:10px 16px; }
+.sb-navigation a { color:#135da8; text-decoration:underline; }
+.sb-navigation summary { cursor:pointer; }
+.sb-navigation ul { padding-left:24px; }
+.sb-navigation li { margin:4px 0; overflow-wrap:anywhere; }
+@media print { .sb-navigation, .refresh-control { display:none !important; } }
+</style>
+<nav class="sb-navigation" aria-label="Breadcrumbs">
+<?php
+$sb_crumbs = ["/" => basename($sb_root) ?: "Home"];
+$sb_link = "/";
+foreach($sb_parts as $part){
+	$sb_link .= rawurlencode($part) . "/";
+	$sb_crumbs[$sb_link] = $part;
+}
+foreach($sb_crumbs as $link => $label){
+	if($link !== "/") echo ' <span aria-hidden="true">/</span> ';
+	if($link === $sb_url) echo '<span aria-current="page">' . htmlspecialchars($label) . '</span>';
+	else echo '<a href="' . $link . '">' . htmlspecialchars($label) . '</a>';
+}
+?>
+</nav>
+<details class="sb-navigation"<?php if(!$ls) echo " open"; ?>>
+<summary>Files and directories</summary>
+<?php if($sb_dirs || $sb_files){ ?>
+<ul>
+<?php
+foreach(array_merge($sb_dirs, $sb_files) as $file){
+	$link = $sb_url . rawurlencode(rtrim($file, "/")) . (str_ends_with($file, "/") ? "/" : "");
+	echo '<li><a href="' . $link . '">' . htmlspecialchars($file) . '</a></li>' . "\n";
+}
+?>
+</ul>
+<?php }else{ ?>
+<p>This directory is empty.</p>
+<?php } ?>
+</details>
 <div class="refresh-control">
 <label><input type="checkbox" id="auto-refresh" checked> Auto-refresh every 10 seconds</label>
 </div>
-<style>@media print { .refresh-control { display:none; } }</style>
 <script>
 (() => {
   const refresh = document.getElementById('auto-refresh');
@@ -28,15 +103,8 @@
   schedule();
 })();
 </script>
-<?php 
-$ls=explode("\n",`ls 1_*.*;`);
-array_pop($ls);
-echo("<pre>");
-print_r($ls); 
-echo("</pre>");
-
+<?php
 foreach($ls as $file){
-	echo "<hr>$file";
 	if(in_array(pathinfo($file, PATHINFO_EXTENSION), array("ts", "unixTs", "script"))){
 		include_once __DIR__ . "/script.php";
 		script_log($file);
@@ -44,7 +112,10 @@ foreach($ls as $file){
 		include $file;
 	}
 };
-
+?>
+</body>
+</html>
+<?php
 exit();
 ?>
 

@@ -15,6 +15,33 @@ PHP path running locally; commit 5344787 records the October 18 revival.
 The PHP assembler reads its directory. The static inventory conventions below
 describe the separate static browser path.
 
+## Directory navigation in PHP
+
+Start PHP in the directory you want to browse, with the assembler as its router:
+
+```bash
+cd /home/john/daisy_2026
+php8.2 -S 127.0.0.1:39692 -t . /home/john/sbshell/cruff/index.php
+```
+
+Open `http://127.0.0.1:39692/`. A directory without `1_*.*` parts shows an
+unordered list of its directories and files. Click down through `42/` to
+`firmus-ncs/`, for example. Each assembled page has breadcrumbs back to the
+directory where you started PHP. Directories with numbered parts assemble
+them as before, with their directory list available under **Files and directories**.
+The list starts open when there are no numbered parts, and closed when there are.
+
+Breadcrumbs, the directory list and the refresh checkbox are automatically
+hidden when printing. Dotfiles and the shared index itself are omitted from
+the list. Existing files still use PHP's normal serving behavior, including
+relative CSS, JavaScript, images and PDFs. Directory URLs get a trailing slash
+so those relative links keep working.
+
+Using the [PHP built-in server's router](https://www.php.net/commandline.webserver)
+means child directories need no index.php copies or inventory file. Existing
+index.php symlinks also keep using the requested directory, rather than the
+directory holding the shared renderer source.
+
 ## Script logs in PHP
 
 The current `cruff/index.php` loop assembles `1_*.*` in directory order.
@@ -68,7 +95,7 @@ SB Shell will maintain each public `daisy_YYYY` archive beyond its ISO week/day
 structure. Mogwai owns the reusable year starter and tool references. The user reports the local PHP assembler running. See
 [the October 18 direction and PHP sources](notes/2026-10-18-public-daisy-and-local-php.md).
 
-## Current navigation convention (October 12, 2026)
+## Static navigation convention (October 12, 2026)
 
 **The inventory is at the repository root: `files.txt`.** The entries are qualified paths relative to that root, for example:
 
