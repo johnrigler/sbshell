@@ -32,10 +32,26 @@ become boundary markers; their original recording stays intact.
 The PHP include embeds the recording and viewer in the assembled HTML, so a
 saved page needs no transcript fetch or external library. Transcript text is
 displayed literally, including any captured HTML or PHP source. Each recording
-has its own controls. Chrome printing wraps terminal lines and uses dark text
-on paper. Use **Auto-refresh every 10 seconds** at the top of the PHP page to
+has its own controls. The HTML viewer uses a larger 16px monospace font in
+an 80-column panel; narrow screens scroll horizontally. Chrome printing uses
+9pt type and compact padding to fit an 80-column listing on US Letter with
+one-inch margins. Longer metadata or older, wider output can still wrap.
+Use **Auto-refresh every 10 seconds** at the top of the PHP page to
 pause or resume updates. Refresh starts on and remembers your choice for that
 page in this browser.
+
+Capture new recordings at 80 columns:
+
+```bash
+source ./lib/d.script.bash
+d.script
+```
+
+`d.script` sets the terminal width before starting `script`, so both the
+recording header and commands such as `ls` use 80 columns. Leaving the recording
+restores the previous terminal width. The timestamped `.unixTs` naming stays
+the same; use the usual numbered part name to place a recording in the page.
+Already recorded output, including `1_05.ts`, keeps its original layout.
 
 From the repository root:
 
