@@ -8,8 +8,18 @@
 
 </head>
 <?php 
-$ls_=(explode(" ",`ls;`));
-print_r("xxxx<hr>" . $ls);
+$ls=explode("\n",`ls 1_*.*;`);
+array_pop($ls);
+echo("<pre>");
+print_r($ls); 
+echo("</pre>");
+
+foreach($ls as $file){
+	echo "<hr>$file";
+	include $file;
+};
+
+exit();
 ?>
 
 
