@@ -127,38 +127,34 @@ directory holding the shared renderer source.
 
 ### Browser selection to shell clipboard
 
-Check rows and click **Copy selected** to replace the global persistent
-clipboard. JavaScript sends the selected filenames to PHP, which atomically
-saves ordered, absolute paths in `sb_clipboard` in **`~/catalog.sqlite3`**.
-This home-directory database is the shared book of record for the user's
-tools. The clipboard is one list across all SB Shell windows and archives.
-Files and directories keep their original paths and contents.
-Checkbox selection or expansion alone does not change this saved clipboard.
+Check rows and click **Copy selected** to write **`.clip` in the directory
+being viewed**. It is a plain text list of the selected absolute file or
+directory paths, one per line, in table order. Each directory keeps its own
+list, and copying again replaces that directory's `.clip`. Checkbox selection
+or expansion alone does not save the list.
 
 Load the inspectable shell function using its full path:
 
 ```bash
 source ~/sbshell/lib/sb/clip.bash
-sb.clip
-```
-
-Run `sb.clip` from any working directory. It reads the home database directly
-and prints one absolute path per line in saved table order:
-
-```bash
+cd ~/daisy_2026/42
 sb.clip | more
 ```
 
-It reads SQLite without changing the database and does not require the web
-server to be running. The clipboard persists across browser restarts and
-navigation; copying another selection, including from another archive,
-replaces it. An empty clipboard produces no output. `SB_PHP` selects the PHP executable when
-needed; otherwise the function uses `php8.2`, falling back to `php`.
-The browser's PHP process and the shell use the same user's `HOME` by default.
-`SB_DATABASE` can select a different absolute database path for both processes
-when needed. First copy a selection after updating to populate the global list.
-Standard output contains only paths; errors go to standard error with a
-nonzero exit status. For example, preserve spaces while consuming the list:
+The shell function is simply:
+
+```bash
+sb.clip() {
+    cat -- .clip
+}
+```
+
+It reads `.clip` in the shell's current directory. You can also read the file
+directly with `cat /path/to/week/.clip`. Saving the list uses PHP's file
+operations; reading it uses ordinary shell tools. The complete list replaces
+the old file atomically. `.clip` and its temporary files are hidden from the
+directory table, catalog scans and change checks. For example, preserve
+spaces while consuming the list:
 
 ```bash
 sb.clip | while IFS= read -r file; do
