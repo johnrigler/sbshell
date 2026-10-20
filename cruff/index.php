@@ -57,6 +57,32 @@ if(isset($_GET["sb-refresh"])){
 	catch(Throwable $error){ http_response_code(503); echo json_encode(["error" => $error->getMessage()]); }
 	exit();
 }
+if(isset($_GET["sb-clipboard"])){
+	header("Content-Type: application/json; charset=utf-8");
+	header("Cache-Control: no-store");
+	try{
+		if(($_SERVER["REQUEST_METHOD"] ?? "GET") !== "POST") throw new RuntimeException("Use Copy selected to save the clipboard.", 405);
+		if(strtolower(trim(explode(";", $_SERVER["CONTENT_TYPE"] ?? "")[0])) !== "application/json"){
+			throw new RuntimeException("Send the selection as JSON.", 415);
+		}
+		$origin = $_SERVER["HTTP_ORIGIN"] ?? "";
+		$scheme = !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off" ? "https" : "http";
+		if(($origin && strtolower(rtrim($origin, "/")) !== $scheme . "://" . strtolower($_SERVER["HTTP_HOST"]))
+			|| ($_SERVER["HTTP_SEC_FETCH_SITE"] ?? "") === "cross-site"){
+			throw new RuntimeException("Copy the selection from this archive's own page.", 403);
+		}
+		$input = json_decode(file_get_contents("php://input"), true, 512, JSON_THROW_ON_ERROR);
+		require_once __DIR__ . "/clipboard.php";
+		$count = sb_save_clipboard(ltrim(rawurldecode($sb_url), "/"), $input["files"] ?? null);
+		echo json_encode(["count" => $count]);
+	}catch(Throwable $error){
+		$status = $error instanceof JsonException ? 400 : $error->getCode();
+		http_response_code(in_array($status, [400,403,405,409,415]) ? $status : 500);
+		if($status === 405) header("Allow: POST");
+		echo json_encode(["error" => $error instanceof JsonException ? "Invalid selection JSON." : $error->getMessage()]);
+	}
+	exit();
+}
 
 $ls = array_values(array_filter(glob("1_*.*") ?: [], "is_file"));
 require_once __DIR__ . "/preview.php";
@@ -109,6 +135,8 @@ foreach(scandir(".") as $file){
 .sb-file-controls button { font:inherit; padding:5px 10px; cursor:pointer; }
 .sb-file-controls button:disabled { opacity:.5; cursor:default; }
 #sb-selected-count { margin-left:auto; color:#526170; }
+#sb-clipboard-status { color:#526170; overflow-wrap:anywhere; }
+#sb-clipboard-status[data-error] { color:#9c2424; }
 .sb-table { width:100%; table-layout:fixed; border-collapse:collapse; margin-top:10px; }
 .sb-table th, .sb-table td { padding:8px; border-bottom:1px solid #ddd; text-align:left; vertical-align:top; overflow-wrap:anywhere; }
 .sb-table th { background:#e6e6e6; font-weight:600; }
@@ -180,9 +208,11 @@ foreach($sb_crumbs as $link => $label){
 <div class="sb-file-controls" id="sb-file-controls" role="group" aria-label="Directory controls" hidden>
 <button type="button" id="sb-select-all">Select all</button>
 <button type="button" id="sb-unselect-all">Unselect all</button>
+<button type="button" id="sb-copy-selected" disabled>Copy selected</button>
 <button type="button" id="sb-expand-selected" disabled>Expand selected</button>
 <button type="button" id="sb-expand-all">Expand all</button>
 <button type="button" id="sb-collapse-all">Collapse all</button>
+<span id="sb-clipboard-status" role="status" aria-live="polite"></span>
 <span id="sb-selected-count" role="status" aria-live="polite">0 selected</span>
 </div>
 </header>

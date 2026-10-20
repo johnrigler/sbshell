@@ -19,6 +19,9 @@ function sb_catalog($write = false){
 		CREATE TABLE IF NOT EXISTS sb_documents (
 			path TEXT PRIMARY KEY, name TEXT NOT NULL COLLATE NOCASE UNIQUE,
 			sha256 BLOB NOT NULL CHECK(length(sha256) = 32), updated_at TEXT NOT NULL
+		);
+		CREATE TABLE IF NOT EXISTS sb_clipboard (
+			position INTEGER PRIMARY KEY, path TEXT NOT NULL UNIQUE
 		);");
 	}
 	return $db;
