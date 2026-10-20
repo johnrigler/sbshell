@@ -31,8 +31,27 @@ directory where you started PHP. Directories with numbered parts assemble
 them as before, with their directory list available under **Files and directories**.
 The list starts open when there are no numbered parts, and closed when there are.
 
-Breadcrumbs, the directory list and the refresh checkbox are automatically
-hidden when printing. Dotfiles and the shared index itself are omitted from
+In a week directory, click a file's disclosure arrow or filename to expand its
+preview in place. PNG and other images display at the available width, PDFs
+embed the original document, Markdown renders basic headings, paragraphs,
+lists, links, quotes and fenced code, and `.unixTs` recordings use the terminal
+viewer. **Expand all** and **Collapse all** control these file previews;
+subdirectories remain ordinary navigation links. **Open file** keeps the
+original URL available, including the PDF naming page. If a phone's browser
+does not embed PDFs, use **Open original PDF / print**.
+
+Expanded files are remembered for this browser tab and directory across
+refreshes. JavaScript checks a file-date/size and directory-entry fingerprint
+every ten seconds and reloads only when it changes. Polling does not rewrite
+SQLite; catalog journals and other generated files cannot cause a refresh loop.
+The same check notices changes to saved document names and atomic file
+replacements. Images and PDFs load on expansion, and terminal display starts on
+expansion. A week listing prints its expanded previews; an assembled page's
+auxiliary listing stays hidden in print. Print a PDF through its own original
+PDF link for all pages.
+
+Breadcrumbs, file controls and the refresh checkbox are automatically
+hidden when printing. Dotfiles, catalog files and the shared index itself are omitted from
 the list. CSS, JavaScript and images use PHP's normal serving behavior. PDFs
 open in the document view described below. Directory URLs get a trailing slash
 so those relative links keep working.
@@ -41,6 +60,30 @@ Using the [PHP built-in server's router](https://www.php.net/commandline.webserv
 means child directories need no index.php copies or inventory file. Existing
 index.php symlinks also keep using the requested directory, rather than the
 directory holding the shared renderer source.
+
+### Automatic SQLite catalog
+
+Opening a directory creates **catalog.sqlite3 at the PHP document root** if
+needed and refreshes its file records for that directory and its descendants.
+Opening the archive root indexes the whole archive. Change-triggered refresh
+maintains the browsed subtree as files are added, changed, renamed or
+removed. Records outside that subtree, saved document names and FileProxy's
+metadata remain intact. Existing single-root FileProxy catalogs keep their
+root alias; a new catalog uses the document-root directory's name.
+
+The shared `files` table stores root-relative paths, sizes, modification times,
+MIME types and full SHA-256 as 32-byte BLOBs. Page loads verify file hashes;
+the periodic change check reads only file metadata and saved document names.
+Dotfiles, symlinks, `files.txt`, the catalog and its journal/sidecar files are
+excluded from the scan. Symlinks remain usable in the directory viewer.
+Scans use one transaction and record their time in `metadata.sbScannedAt`.
+There is no second database or background service. Enable PHP's **SQLite3**
+extension and make the archive directory writable; a failed catalog update
+shows a message while file browsing remains available.
+
+Check scanning and previews with `php8.2 tests/week-directory.php`, the browser
+polling decisions with `node tests/directory-refresh.mjs`, and naming
+compatibility with `php8.2 tests/document-names.php`.
 
 ## Name a document while viewing it
 
@@ -55,8 +98,8 @@ the catalog, ignoring ASCII letter case.
 PHP writes the name, root-relative source path, 32-byte SHA-256 and save time
 to the `sb_documents` table in **catalog.sqlite3 at the PHP document root**.
 Start PHP at the Daisy archive root to share FileProxy's archive catalog.
-Existing catalog rows are preserved. A new catalog also contains FileProxy's
-empty `files` and `metadata` tables, so its normal scan can populate them.
+Existing catalog rows are preserved. The directory browser also maintains
+FileProxy-compatible `files` and `metadata` tables as described above.
 FileProxy scans replace the file index while preserving `sb_documents`.
 The catalog and its directory must be writable by the account running PHP.
 
@@ -106,8 +149,8 @@ has its own controls. The HTML viewer uses a larger 16px monospace font in
 an 80-column panel; narrow screens scroll horizontally. Chrome printing uses
 9pt type and compact padding to fit an 80-column listing on US Letter with
 one-inch margins. Longer metadata or older, wider output can still wrap.
-Use **Auto-refresh every 10 seconds** at the top of the PHP page to
-pause or resume updates. Refresh starts on and remembers your choice for that
+Use **Auto-refresh when files change** at the top of the PHP page to
+pause or resume checks. Refresh starts on and remembers your choice for that
 page in this browser.
 
 Capture new recordings at 80 columns:
