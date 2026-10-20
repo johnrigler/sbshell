@@ -1,6 +1,11 @@
 <?php
 // This file also works as the router passed to php -S.
 $sb_root = realpath(($_SERVER["DOCUMENT_ROOT"] ?? "") ?: getcwd());
+if(isset($_GET["sb-check"])){
+	require_once __DIR__ . "/check.php";
+	sb_php_setup_page($sb_root);
+	exit();
+}
 require_once __DIR__ . "/catalog.php";
 if(isset($_GET["document"])){
 	try{
@@ -124,10 +129,11 @@ foreach($sb_crumbs as $link => $label){
 	if($link === $sb_url) echo '<span aria-current="page">' . htmlspecialchars($label) . '</span>';
 	else echo '<a href="' . $link . '">' . htmlspecialchars($label) . '</a>';
 }
+echo ' · <a href="' . $sb_url . '?sb-check=1">PHP setup</a>';
 ?>
 </nav>
 <?php if($sb_catalog_error){ ?>
-<p class="sb-catalog-error" role="status">Catalog update failed: <?php echo htmlspecialchars($sb_catalog_error); ?></p>
+<p class="sb-catalog-error" role="status">Catalog update failed: <?php echo htmlspecialchars($sb_catalog_error); ?> <a href="<?= $sb_url ?>?sb-check=1">Check PHP setup</a>.</p>
 <?php } ?>
 <details class="sb-navigation sb-directory<?php if($ls) echo ' sb-assembled-files'; ?>" id="sb-directory"<?php if(!$ls) echo " open"; ?>>
 <summary>Files and directories</summary>
