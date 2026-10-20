@@ -76,8 +76,8 @@ cd /home/john/daisy_2026
 php8.2 -S 127.0.0.1:39692 -t . /home/john/sbshell/cruff/index.php
 ```
 
-Open `http://127.0.0.1:39692/`. A directory without `1_*.*` parts shows an
-unordered list of its directories and files. Click down through `42/` to
+Open `http://127.0.0.1:39692/`. A directory without `1_*.*` parts shows
+a table of its directories and files. Click down through `42/` to
 `firmus-ncs/`, for example. Each assembled page has breadcrumbs back to the
 directory where you started PHP. Directories with numbered parts assemble
 them as before, with their directory list available under **Files and directories**.
@@ -87,8 +87,8 @@ Files and directories appear in a table with alternating white and light-gray
 rows, a selection checkbox on the left, and a **Tags** column on the right
 reserved for future tag associations. The header stays visible while scrolling
 and contains **Select all**, **Unselect all**, **Expand all**, **Collapse all**,
-**Expand selected**, the selected-entry count, breadcrumbs and the hamburger
-menu. **Expand selected** opens checked previewable files without collapsing
+**Expand selected**, **Copy selected**, the selected-entry count, breadcrumbs
+and the hamburger menu. **Expand selected** opens checked previewable files without collapsing
 other open previews; the button is disabled when none of the checked rows has
 a preview. Selection covers
 the current directory's rows, independently of preview expansion, and is
@@ -125,7 +125,47 @@ means child directories need no index.php copies or inventory file. Existing
 index.php symlinks also keep using the requested directory, rather than the
 directory holding the shared renderer source.
 
-### Automatic SQLite catalog
+### Browser selection to shell clipboard
+
+Check rows and click **Copy selected** to replace the archive's persistent
+clipboard. JavaScript sends the selected filenames to PHP, which atomically
+saves ordered, archive-relative references in `sb_clipboard` inside the same
+`catalog.sqlite3`. Files and directories keep their original paths and contents.
+Checkbox selection or expansion alone does not change this saved clipboard.
+
+Load the inspectable shell function using its full path:
+
+```bash
+source ~/sbshell/lib/sb/clip.bash
+cd ~/daisy_2026/42
+sb.clip
+```
+
+The command finds the nearest `catalog.sqlite3` in the current directory or its
+parents and prints one absolute path per line in saved table order. To use it
+from anywhere, pass the archive or a week directory:
+
+```bash
+sb.clip ~/daisy_2026
+```
+
+It reads SQLite without changing the catalog. The clipboard persists across
+browser restarts and navigation; copying another selection replaces it. An
+empty clipboard produces no output. `SB_PHP` selects the PHP executable when
+needed; otherwise the function uses `php8.2`, falling back to `php`.
+Standard output contains only paths; errors go to standard error with a
+nonzero exit status. For example, preserve spaces while consuming the list:
+
+```bash
+sb.clip | while IFS= read -r file; do
+    printf '%s\n' "$file"
+done
+```
+
+Check persistence with `php8.2 tests/clipboard.php` and browser-request-to-shell
+interoperation with `SB_PHP=php8.2 node tests/clipboard-cli.mjs`.
+
+### Automatic SQLite catalog maintenance
 
 Opening a directory creates **catalog.sqlite3 at the PHP document root** if
 needed and refreshes its file records for that directory and its descendants.

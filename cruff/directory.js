@@ -12,6 +12,9 @@
   const directory = document.getElementById('sb-directory');
   const entries = [...directory.querySelectorAll('.sb-entry')];
   const selections = [...directory.querySelectorAll('.sb-select')];
+  const copySelected = document.getElementById('sb-copy-selected');
+  const clipboardStatus = document.getElementById('sb-clipboard-status');
+  let copying = false;
   const selectionKey = 'sbshell-selected:' + location.pathname;
   let selected = [];
   try { selected = JSON.parse(sessionStorage.getItem(selectionKey) || '[]'); } catch {}
@@ -21,6 +24,7 @@
     if (count) count.textContent = files.length + ' selected';
     const expandSelected = document.getElementById('sb-expand-selected');
     if (expandSelected) expandSelected.disabled = !entries.some(entry => files.includes(entry.dataset.file));
+    if (copySelected) copySelected.disabled = copying || !files.length || !/^https?:$/.test(location.protocol);
     try { sessionStorage.setItem(selectionKey, JSON.stringify(files)); } catch {}
   }
   selections.forEach(input => {
@@ -28,6 +32,25 @@
     input.addEventListener('change', rememberSelection);
   });
   rememberSelection();
+  if (copySelected) copySelected.addEventListener('click', async () => {
+    const files = selections.filter(input => input.checked).map(input => input.value);
+    if (copying || !files.length) return;
+    copying = true;
+    rememberSelection();
+    clipboardStatus.textContent = 'Saving clipboard…';
+    delete clipboardStatus.dataset.error;
+    const url = new URL(location.href);
+    url.searchParams.set('sb-clipboard', '1');
+    try {
+      const response = await fetch(url, {method:'POST', cache:'no-store', headers:{'Content-Type':'application/json'}, body:JSON.stringify({files})});
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Could not save the clipboard.');
+      clipboardStatus.textContent = 'Copied ' + result.count + (result.count === 1 ? ' entry' : ' entries') + ' to clipboard';
+    } catch (error) {
+      clipboardStatus.textContent = error.message || 'Could not save the clipboard.';
+      clipboardStatus.dataset.error = 'true';
+    } finally { copying = false; rememberSelection(); }
+  });
   if (selections.length) {
     document.getElementById('sb-file-controls').hidden = false;
     document.getElementById('sb-select-all').addEventListener('click', () => {
@@ -89,12 +112,13 @@
   try { refresh.checked = localStorage.getItem(key) !== 'off'; } catch {}
   async function check() {
     if (!refresh.checked) return;
+    if (copying) { schedule(); return; }
     controller = new AbortController();
     try {
       const response = await fetch(refreshUrl, {cache:'no-store', signal:controller.signal});
       if (response.ok) {
         const result = await response.json();
-        if (refresh.checked && result.stamp && result.stamp !== refresh.dataset.stamp) {
+        if (refresh.checked && !copying && result.stamp && result.stamp !== refresh.dataset.stamp) {
           remember();
           rememberSelection();
           location.reload();
