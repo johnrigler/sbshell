@@ -10,7 +10,7 @@ function browser({protocol='http:', enabled=true, stamp='original'}={}) {
   const localStorage={getItem:key=>storage.get(key), setItem:(key,value)=>storage.set(key,value)};
   const location={href:protocol==='file:' ? 'file:///archive/42/index.html' : 'http://localhost/42/?view=week', pathname:'/42/', protocol, reload(){reloads++;}};
   vm.runInNewContext(source,{
-    document:{getElementById:id=>id==='sb-directory' ? {querySelectorAll:()=>[]} : refresh},
+    document:{getElementById:id=>id==='sb-directory' ? {querySelectorAll:()=>[]} : id==='auto-refresh' ? refresh : null},
     location, localStorage, sessionStorage:{getItem:()=>null,setItem(){}}, URL, AbortController,
     setTimeout(callback,delay){timer={callback,delay};return timer;},
     clearTimeout(){timer=null;},
