@@ -268,6 +268,15 @@ $('all').addEventListener('click',()=>{visibleBlocks = Infinity;render();});
   loadTranscript(JSON.parse(host.querySelector('.script-source').textContent),filename);
   host.querySelector('.toolbar').hidden = false;
 }
-document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('.script-log').forEach(scriptLog));
+document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('.script-log').forEach(host => {
+  const entry = host.closest('.sb-entry');
+  function show() {
+    if (host.dataset.ready || (entry && !entry.open)) return;
+    host.dataset.ready = 'true';
+    scriptLog(host);
+  }
+  if (entry) entry.addEventListener('toggle', show);
+  show();
+}));
 })();
 </script>

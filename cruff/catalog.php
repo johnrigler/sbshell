@@ -24,6 +24,99 @@ function sb_catalog($write = false){
 	return $db;
 }
 
+// A cheap change semaphore: file dates/sizes and directory membership, not DB writes.
+function sb_directory_stamp($directory){
+	clearstatcache();
+	$hash = hash_init("sha256");
+	$walk = new RecursiveIteratorIterator(new RecursiveCallbackFilterIterator(
+		new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS),
+		fn($entry) => $entry->getFilename()[0] !== "."
+			&& !in_array($entry->getFilename(), ["catalog.sqlite3", "files.txt"])
+			&& !str_starts_with($entry->getFilename(), "catalog.sqlite3-")
+	), RecursiveIteratorIterator::SELF_FIRST);
+	foreach($walk as $entry){
+		$path = $entry->getPathname();
+		hash_update($hash, $path . "\0");
+		if($entry->isLink()) hash_update($hash, readlink($path) . "\0");
+		// Directory dates include SQLite journal creation; names already track entries.
+		if($entry->isFile()){
+			$stat = stat($path);
+			if($stat) hash_update($hash, $stat["mtime"] . ":" . $stat["ctime"] . ":" . $stat["size"] . ":" . $stat["ino"] . "\0");
+		}
+	}
+	try { hash_update($hash, json_encode(sb_document_names(), JSON_INVALID_UTF8_SUBSTITUTE)); }
+	catch(Throwable $error) { /* File changes can still be checked without SQLite. */ }
+	return hash_final($hash);
+}
+
+// Refresh the browsed subtree in the same catalog used by FileProxy and names.
+function sb_catalog_scan($directory){
+	clearstatcache();
+	$db = sb_catalog(true);
+	$roots = [];
+	$rows = $db->query("SELECT DISTINCT root FROM files");
+	while($row = $rows->fetchArray(SQLITE3_ASSOC)) $roots[] = $row["root"];
+	$root = count($roots) === 1 ? $roots[0] : basename($GLOBALS["sb_root"]);
+	$prefix = ltrim(substr($directory, strlen($GLOBALS["sb_root"])), "/");
+	if($prefix !== "") $prefix .= "/";
+	$stmt = $db->prepare("SELECT * FROM files WHERE root=:root AND substr(path,1,length(:prefix))=:prefix");
+	$stmt->bindValue(":root", $root, SQLITE3_TEXT);
+	$stmt->bindValue(":prefix", $prefix, SQLITE3_TEXT);
+	$rows = $stmt->execute();
+	$old = [];
+	while($row = $rows->fetchArray(SQLITE3_ASSOC)) $old[$row["path"]] = $row;
+	$stmt->close();
+	$put = $db->prepare("INSERT INTO files(root,path,bytes,mtime_ns,sha256,mime)
+		VALUES (:root,:path,:bytes,:mtime,:sha256,:mime)
+		ON CONFLICT(root,path) DO UPDATE SET bytes=excluded.bytes, mtime_ns=excluded.mtime_ns,
+		sha256=excluded.sha256, mime=excluded.mime");
+	$remove = $db->prepare("DELETE FROM files WHERE root=:root AND path=:path");
+	$walk = new RecursiveIteratorIterator(new RecursiveCallbackFilterIterator(
+		new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS),
+		fn($entry) => $entry->getFilename()[0] !== "." && !$entry->isLink()
+			&& !in_array($entry->getFilename(), ["catalog.sqlite3", "files.txt"])
+			&& !str_starts_with($entry->getFilename(), "catalog.sqlite3-")
+	));
+	$db->exec("BEGIN IMMEDIATE");
+	try{
+		foreach($walk as $entry){
+			if(!$entry->isFile()) continue;
+			$path = substr($entry->getPathname(), strlen($GLOBALS["sb_root"]) + 1);
+			$previous = $old[$path] ?? null;
+			unset($old[$path]);
+			$bytes = $entry->getSize();
+			$mtime = $entry->getMTime();
+			$digest = hash_file("sha256", $entry->getPathname(), true);
+			if($digest === false) throw new RuntimeException("Cannot read " . $path);
+			// Only page loads scan contents; polling uses the cheap date semaphore.
+			if($previous && $previous["bytes"] === $bytes && $previous["sha256"] === $digest
+				&& intdiv($previous["mtime_ns"], 1000000000) === $mtime) continue;
+			$put->bindValue(":root", $root, SQLITE3_TEXT);
+			$put->bindValue(":path", $path, SQLITE3_TEXT);
+			$put->bindValue(":bytes", $bytes, SQLITE3_INTEGER);
+			$put->bindValue(":mtime", $mtime * 1000000000, SQLITE3_INTEGER);
+			$put->bindValue(":sha256", $digest, SQLITE3_BLOB);
+			$mime = function_exists("mime_content_type") ? mime_content_type($entry->getPathname()) : false;
+			$put->bindValue(":mime", $mime ?: "application/octet-stream", SQLITE3_TEXT);
+			$put->execute();
+		}
+		foreach($old as $path => $row){
+			$remove->bindValue(":root", $root, SQLITE3_TEXT);
+			$remove->bindValue(":path", $path, SQLITE3_TEXT);
+			$remove->execute();
+		}
+		$db->exec("INSERT OR REPLACE INTO metadata VALUES ('sbScannedAt', strftime('%Y-%m-%dT%H:%M:%SZ','now'))");
+		$db->exec("COMMIT");
+	}catch(Throwable $error){
+		$db->exec("ROLLBACK");
+		throw $error;
+	}finally{
+		$put->close();
+		$remove->close();
+		$db->close();
+	}
+}
+
 function sb_document_names(){
 	$db = sb_catalog();
 	if(!$db) return [];

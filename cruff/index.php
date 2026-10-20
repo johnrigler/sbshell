@@ -45,13 +45,28 @@ if(!$sb_index && !str_ends_with($sb_path, "/")){
 	header("Location: " . $sb_url . ($query === "" ? "" : "?" . $query));
 	exit();
 }
+if(isset($_GET["sb-refresh"])){
+	header("Content-Type: application/json; charset=utf-8");
+	header("Cache-Control: no-store");
+	try { echo json_encode(["stamp" => sb_directory_stamp($sb_target)]); }
+	catch(Throwable $error){ http_response_code(503); echo json_encode(["error" => $error->getMessage()]); }
+	exit();
+}
 
 $ls = array_values(array_filter(glob("1_*.*") ?: [], "is_file"));
+require_once __DIR__ . "/preview.php";
 $sb_dirs = $sb_files = [];
 $sb_names = [];
-try { $sb_names = sb_document_names(); } catch(Throwable $error) { /* Browsing also works without SQLite3. */ }
+$sb_catalog_error = "";
+try{
+	sb_catalog_scan(rtrim($sb_root . rawurldecode($sb_url), "/") ?: "/");
+}catch(Throwable $error){ $sb_catalog_error = $error->getMessage(); }
+try { $sb_names = sb_document_names(); } catch(Throwable $error) { $sb_catalog_error = $error->getMessage(); }
+$sb_stamp = "";
+try { $sb_stamp = sb_directory_stamp($sb_target); } catch(Throwable $error) { /* Retry on the next directory load. */ }
 foreach(scandir(".") as $file){
 	if($file[0] === "." || realpath($file) === __FILE__) continue;
+	if($file === "catalog.sqlite3" || str_starts_with($file, "catalog.sqlite3-")) continue;
 	if(is_dir($file)) $sb_dirs[] = $file . "/";
 	elseif(is_file($file)) $sb_files[] = $file;
 }
@@ -60,6 +75,7 @@ foreach(scandir(".") as $file){
 <html>
 <head>
  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
  <title>John Rigler</title>
  		<link rel="stylesheet" type="text/css" href="/style.css">
 
@@ -71,9 +87,31 @@ foreach(scandir(".") as $file){
 .sb-navigation summary { cursor:pointer; }
 .sb-navigation ul { padding-left:24px; }
 .sb-navigation li { margin:4px 0; overflow-wrap:anywhere; }
-@media print { .sb-navigation, .refresh-control { display:none !important; } }
+.sb-file-controls { margin:10px 0; }
+.sb-file-controls button { font:inherit; padding:5px 12px; cursor:pointer; }
+.sb-entry { margin:8px 0; }
+.sb-entry > summary { padding:6px 0; }
+.sb-preview { min-width:0; padding:8px 0 16px; }
+.sb-file-actions { margin:4px 0 10px; }
+.sb-image, .sb-markdown img { max-width:100%; height:auto; }
+.sb-image:not([src]) { display:none; }
+.sb-pdf { display:block; width:100%; height:75vh; min-height:320px; border:1px solid #b8c3cf; }
+.sb-pdf-fallback { height:auto; min-height:0; padding:0 12px; box-sizing:border-box; }
+.sb-markdown { color:#172433; font:16px/1.6 system-ui,sans-serif; max-width:85ch; }
+.sb-markdown pre { padding:12px; background:#eef2f6; overflow:auto; white-space:pre; }
+.sb-markdown blockquote { margin-left:0; padding-left:16px; border-left:3px solid #b8c3cf; }
+.sb-catalog-error { margin:10px 16px; color:#9c2424; font:14px/1.5 system-ui,sans-serif; }
+@media print {
+  .sb-breadcrumbs, .sb-assembled-files, .sb-directory > summary, .sb-file-controls,
+  .sb-file-actions, .sb-entry:not([open]), .refresh-control, .sb-catalog-error { display:none !important; }
+  .sb-directory, .sb-directory > ul, .sb-directory > ul > li { margin:0; padding:0; list-style:none; }
+  .sb-directory > ul > li:not(:has(> .sb-entry[open])) { display:none; }
+  .sb-entry > summary { font-weight:bold; }
+  .sb-navigation { color:#000; }
+  .sb-markdown pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+}
 </style>
-<nav class="sb-navigation" aria-label="Breadcrumbs">
+<nav class="sb-navigation sb-breadcrumbs" aria-label="Breadcrumbs">
 <?php
 $sb_crumbs = ["/" => basename($sb_root) ?: "Home"];
 $sb_link = "/";
@@ -88,17 +126,34 @@ foreach($sb_crumbs as $link => $label){
 }
 ?>
 </nav>
-<details class="sb-navigation"<?php if(!$ls) echo " open"; ?>>
+<?php if($sb_catalog_error){ ?>
+<p class="sb-catalog-error" role="status">Catalog update failed: <?php echo htmlspecialchars($sb_catalog_error); ?></p>
+<?php } ?>
+<details class="sb-navigation sb-directory<?php if($ls) echo ' sb-assembled-files'; ?>" id="sb-directory"<?php if(!$ls) echo " open"; ?>>
 <summary>Files and directories</summary>
 <?php if($sb_dirs || $sb_files){ ?>
+<div class="sb-file-controls" hidden>
+<button type="button" id="sb-expand-all">Expand all</button>
+<button type="button" id="sb-collapse-all">Collapse all</button>
+</div>
 <ul>
 <?php
 foreach(array_merge($sb_dirs, $sb_files) as $file){
 	$link = $sb_url . rawurlencode(rtrim($file, "/")) . (str_ends_with($file, "/") ? "/" : "");
 	$relative = ltrim(rawurldecode($sb_url), "/") . $file;
 	$label = $sb_names[$relative] ?? $file;
-	echo '<li><a href="' . $link . '">' . htmlspecialchars($label) . '</a>';
-	if($label !== $file) echo ' <small>(' . htmlspecialchars($file) . ')</small>';
+	if(is_file($file) && sb_preview_type($file)){
+		echo '<li><details class="sb-entry" data-file="' . htmlspecialchars($file) . '"><summary>' . htmlspecialchars($label);
+		if($label !== $file) echo ' <small>(' . htmlspecialchars($file) . ')</small>';
+		echo '</summary><div class="sb-preview"><p class="sb-file-actions"><a href="' . $link . '">Open file</a>';
+		if(sb_preview_type($file) === "pdf") echo ' · <a href="' . $link . '?raw=1" target="_blank" rel="noopener">Open original PDF / print</a>';
+		echo '</p>';
+		sb_preview($file, rawurlencode($file), true);
+		echo '</div></details>';
+	}else{
+		echo '<li><a href="' . $link . '">' . htmlspecialchars($label) . '</a>';
+		if($label !== $file) echo ' <small>(' . htmlspecialchars($file) . ')</small>';
+	}
 	echo '</li>' . "\n";
 }
 ?>
@@ -108,30 +163,15 @@ foreach(array_merge($sb_dirs, $sb_files) as $file){
 <?php } ?>
 </details>
 <div class="refresh-control">
-<label><input type="checkbox" id="auto-refresh" checked> Auto-refresh every 10 seconds</label>
+<label><input type="checkbox" id="auto-refresh" data-stamp="<?php echo $sb_stamp; ?>" checked> Auto-refresh when files change (check every 10 seconds)</label>
 </div>
 <script>
-(() => {
-  const refresh = document.getElementById('auto-refresh');
-  const key = 'sbshell-refresh:' + location.pathname;
-  let timer;
-  try { refresh.checked = localStorage.getItem(key) !== 'off'; } catch {}
-  function schedule() {
-    clearTimeout(timer);
-    if (refresh.checked) timer = setTimeout(() => location.reload(), 10000);
-  }
-  refresh.addEventListener('change', () => {
-    try { localStorage.setItem(key, refresh.checked ? 'on' : 'off'); } catch {}
-    schedule();
-  });
-  schedule();
-})();
+<?php readfile(__DIR__ . "/directory.js"); ?>
 </script>
 <?php
 foreach($ls as $file){
-	if(in_array(pathinfo($file, PATHINFO_EXTENSION), array("ts", "unixTs", "script"))){
-		include_once __DIR__ . "/script.php";
-		script_log($file);
+	if(sb_preview_type($file)){
+		sb_preview($file, rawurlencode($file));
 	}else{
 		include $file;
 	}
