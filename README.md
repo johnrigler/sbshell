@@ -127,32 +127,36 @@ directory holding the shared renderer source.
 
 ### Browser selection to shell clipboard
 
-Check rows and click **Copy selected** to replace the archive's persistent
+Check rows and click **Copy selected** to replace the global persistent
 clipboard. JavaScript sends the selected filenames to PHP, which atomically
-saves ordered, archive-relative references in `sb_clipboard` inside the same
-`catalog.sqlite3`. Files and directories keep their original paths and contents.
+saves ordered, absolute paths in `sb_clipboard` in **`~/catalog.sqlite3`**.
+This home-directory database is the shared book of record for the user's
+tools. The clipboard is one list across all SB Shell windows and archives.
+Files and directories keep their original paths and contents.
 Checkbox selection or expansion alone does not change this saved clipboard.
 
 Load the inspectable shell function using its full path:
 
 ```bash
 source ~/sbshell/lib/sb/clip.bash
-cd ~/daisy_2026/42
 sb.clip
 ```
 
-The command finds the nearest `catalog.sqlite3` in the current directory or its
-parents and prints one absolute path per line in saved table order. To use it
-from anywhere, pass the archive or a week directory:
+Run `sb.clip` from any working directory. It reads the home database directly
+and prints one absolute path per line in saved table order:
 
 ```bash
-sb.clip ~/daisy_2026
+sb.clip | more
 ```
 
-It reads SQLite without changing the catalog. The clipboard persists across
-browser restarts and navigation; copying another selection replaces it. An
-empty clipboard produces no output. `SB_PHP` selects the PHP executable when
+It reads SQLite without changing the database and does not require the web
+server to be running. The clipboard persists across browser restarts and
+navigation; copying another selection, including from another archive,
+replaces it. An empty clipboard produces no output. `SB_PHP` selects the PHP executable when
 needed; otherwise the function uses `php8.2`, falling back to `php`.
+The browser's PHP process and the shell use the same user's `HOME` by default.
+`SB_DATABASE` can select a different absolute database path for both processes
+when needed. First copy a selection after updating to populate the global list.
 Standard output contains only paths; errors go to standard error with a
 nonzero exit status. For example, preserve spaces while consuming the list:
 
