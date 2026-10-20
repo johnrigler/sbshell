@@ -46,8 +46,10 @@ FreeType and Fileinfo capabilities. It does not modify archive files. An
 incomplete base setup exits with status 1; a ready setup exits with status 0.
 If no archive argument is supplied, it checks the current directory.
 
-Every directory page has a **PHP setup** link (also available with
-`?sb-check=1`). This checks the PHP process actually serving the page, showing
+Every directory page has a right-hand hamburger menu in its header containing
+**PHP setup** (also available with `?sb-check=1`) and the **Auto-refresh** toggle.
+PHP setup checks the PHP process
+actually serving the page, showing
 its version, binary, configuration and archive root. A terminal and web server
 can use different PHP versions or configurations; the page gives the matching
 installer command. Restart the PHP server after installing or enabling modules,
@@ -85,7 +87,10 @@ Files and directories appear in a table with alternating white and light-gray
 rows, a selection checkbox on the left, and a **Tags** column on the right
 reserved for future tag associations. The header stays visible while scrolling
 and contains **Select all**, **Unselect all**, **Expand all**, **Collapse all**,
-the selected-entry count, breadcrumbs and auto-refresh control. Selection covers
+**Expand selected**, the selected-entry count, breadcrumbs and the hamburger
+menu. **Expand selected** opens checked previewable files without collapsing
+other open previews; the button is disabled when none of the checked rows has
+a preview. Selection covers
 the current directory's rows, independently of preview expansion, and is
 remembered for this tab and directory across refreshes. Selection alone does
 not modify any files or catalog records.
