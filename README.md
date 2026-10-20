@@ -17,6 +17,56 @@ describe the separate static browser path.
 
 ## Directory navigation in PHP
 
+### PHP setup
+
+Run SB Shell's plain Bash/PHP setup check in Penguin's terminal. It uses
+`php8.2` when available, then `php`; select another binary with `SB_PHP`:
+
+```bash
+bash ~/sbshell/setup check ~/daisy_2026
+```
+
+To install the PHP components on **Penguin / Debian / Ubuntu** and run the
+check again:
+
+```bash
+bash ~/sbshell/setup install ~/daisy_2026
+```
+
+The installer matches the selected PHP version, installing its CLI, common
+modules, **SQLite3** and **GD** packages. It enables SQLite3, GD and Fileinfo
+for that version's CLI, including the built-in server. If PHP is absent, it
+installs the distribution's default PHP instead. It uses the normal apt/sudo
+prompts and does not add repositories or change archive permissions. Other
+systems can run the check after installing PHP with their own package manager.
+
+The check tests an in-memory SQLite database and PNG encoding, checks PHP 8+,
+JSON, SHA-256 and archive/catalog permissions, and reports optional GD JPEG,
+FreeType and Fileinfo capabilities. It does not modify archive files. An
+incomplete base setup exits with status 1; a ready setup exits with status 0.
+If no archive argument is supplied, it checks the current directory.
+
+Every directory page has a **PHP setup** link (also available with
+`?sb-check=1`). This checks the PHP process actually serving the page, showing
+its version, binary, configuration and archive root. A terminal and web server
+can use different PHP versions or configurations; the page gives the matching
+installer command. Restart the PHP server after installing or enabling modules,
+then check again. GD is included for graphics work; ordinary image and PDF
+previews still use the browser. No Composer packages or PHP frameworks are
+needed.
+
+For example, to select PHP 8.2 explicitly:
+
+```bash
+SB_PHP=php8.2 bash ~/sbshell/setup install ~/daisy_2026
+```
+
+Check the setup reports with `php8.2 tests/php-setup.php` and
+`php8.2 -n tests/php-setup.php` (extensions disabled). Test installer commands
+without installing packages with `SB_PHP=php8.2 node tests/setup.mjs`.
+
+### Start the viewer
+
 Start PHP in the directory you want to browse, with the assembler as its router:
 
 ```bash
