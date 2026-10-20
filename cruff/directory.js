@@ -1,4 +1,14 @@
 (() => {
+  const menu = document.getElementById('sb-menu');
+  if (menu) {
+    document.addEventListener('click', event => { if (!menu.contains(event.target)) menu.open = false; });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      }
+    });
+  }
   const directory = document.getElementById('sb-directory');
   const entries = [...directory.querySelectorAll('.sb-entry')];
   const selections = [...directory.querySelectorAll('.sb-select')];
@@ -9,6 +19,8 @@
     const files = selections.filter(input => input.checked).map(input => input.value);
     const count = document.getElementById('sb-selected-count');
     if (count) count.textContent = files.length + ' selected';
+    const expandSelected = document.getElementById('sb-expand-selected');
+    if (expandSelected) expandSelected.disabled = !entries.some(entry => files.includes(entry.dataset.file));
     try { sessionStorage.setItem(selectionKey, JSON.stringify(files)); } catch {}
   }
   selections.forEach(input => {
@@ -50,6 +62,14 @@
     entry.addEventListener('toggle', () => { loadMedia(entry); remember(); });
   });
   if (entries.length) {
+    document.getElementById('sb-expand-selected').addEventListener('click', () => {
+      directory.open = true;
+      const files = selections.filter(input => input.checked).map(input => input.value);
+      entries.forEach(entry => {
+        if (files.includes(entry.dataset.file)) { entry.open = true; loadMedia(entry); }
+      });
+      remember();
+    });
     document.getElementById('sb-expand-all').addEventListener('click', () => {
       directory.open = true;
       entries.forEach(entry => { entry.open = true; loadMedia(entry); });

@@ -92,6 +92,18 @@ foreach(scandir(".") as $file){
 .sb-navigation summary { cursor:pointer; }
 .sb-toolbar { position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid #d1d5da; padding:4px 0; }
 .sb-toolbar .sb-navigation, .sb-toolbar .refresh-control { margin:6px 16px; }
+.sb-toolbar-top { display:flex; align-items:center; gap:8px; }
+.sb-toolbar-top .sb-breadcrumbs { min-width:0; overflow-wrap:anywhere; }
+.sb-menu { position:relative; flex-shrink:0; margin:0 16px 0 auto; font:14px/1.5 system-ui,sans-serif; }
+.sb-menu > summary { display:flex; align-items:center; justify-content:center; width:36px; height:36px; list-style:none; cursor:pointer; font-size:24px; background:#fff; border:1px solid #d1d5da; border-radius:4px; }
+.sb-menu > summary::-webkit-details-marker { display:none; }
+.sb-menu > summary:focus-visible { outline:2px solid #135da8; outline-offset:2px; }
+.sb-menu-links { position:absolute; right:0; top:calc(100% + 4px); min-width:210px; background:#fff; border:1px solid #d1d5da; border-radius:4px; box-shadow:0 4px 12px #0002; }
+.sb-menu-links a { display:block; padding:10px 14px; color:#135da8; text-decoration:none; }
+.sb-menu-links a:hover, .sb-menu-links a:focus-visible { background:#eef2f6; }
+.sb-menu-links .refresh-control { margin:0; padding:10px 14px; border-top:1px solid #d1d5da; }
+.sb-menu-links .refresh-control label { display:flex; align-items:flex-start; gap:6px; cursor:pointer; }
+.sb-menu-links .refresh-control input { flex-shrink:0; margin:4px 0 0; }
 .sb-file-controls { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:6px 16px; font:14px/1.5 system-ui,sans-serif; }
 .sb-file-controls[hidden] { display:none; }
 .sb-file-controls button { font:inherit; padding:5px 10px; cursor:pointer; }
@@ -122,6 +134,7 @@ foreach(scandir(".") as $file){
 .sb-catalog-error { margin:10px 16px; color:#9c2424; font:14px/1.5 system-ui,sans-serif; }
 @media (max-width:500px) {
   .sb-navigation, .sb-toolbar .sb-navigation, .sb-toolbar .refresh-control, .sb-file-controls { margin-left:6px; margin-right:6px; }
+  .sb-menu { margin-right:6px; }
   .sb-table th, .sb-table td { padding:6px 4px; }
   .sb-table .sb-selection { width:30px; }
   .sb-table .sb-tags { width:58px; }
@@ -138,6 +151,7 @@ foreach(scandir(".") as $file){
 }
 </style>
 <header class="sb-toolbar">
+<div class="sb-toolbar-top">
 <nav class="sb-navigation sb-breadcrumbs" aria-label="Breadcrumbs">
 <?php
 $sb_crumbs = ["/" => basename($sb_root) ?: "Home"];
@@ -151,18 +165,25 @@ foreach($sb_crumbs as $link => $label){
 	if($link === $sb_url) echo '<span aria-current="page">' . htmlspecialchars($label) . '</span>';
 	else echo '<a href="' . $link . '">' . htmlspecialchars($label) . '</a>';
 }
-echo ' · <a href="' . $sb_url . '?sb-check=1">PHP setup</a>';
 ?>
 </nav>
+<details class="sb-menu" id="sb-menu">
+<summary aria-label="Menu" title="Menu"><span aria-hidden="true">☰</span></summary>
+<nav class="sb-menu-links" aria-label="Settings">
+<a href="<?= $sb_url ?>?sb-check=1">PHP setup</a>
+<div class="refresh-control">
+<label><input type="checkbox" id="auto-refresh" data-stamp="<?php echo $sb_stamp; ?>" checked><span>Auto-refresh<br><small>Check every 10 seconds</small></span></label>
+</div>
+</nav>
+</details>
+</div>
 <div class="sb-file-controls" id="sb-file-controls" role="group" aria-label="Directory controls" hidden>
 <button type="button" id="sb-select-all">Select all</button>
 <button type="button" id="sb-unselect-all">Unselect all</button>
+<button type="button" id="sb-expand-selected" disabled>Expand selected</button>
 <button type="button" id="sb-expand-all">Expand all</button>
 <button type="button" id="sb-collapse-all">Collapse all</button>
 <span id="sb-selected-count" role="status" aria-live="polite">0 selected</span>
-</div>
-<div class="refresh-control">
-<label><input type="checkbox" id="auto-refresh" data-stamp="<?php echo $sb_stamp; ?>" checked> Auto-refresh when files change (check every 10 seconds)</label>
 </div>
 </header>
 <?php if($sb_catalog_error){ ?>
