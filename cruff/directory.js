@@ -37,17 +37,17 @@
     if (copying || !files.length) return;
     copying = true;
     rememberSelection();
-    clipboardStatus.textContent = 'Saving clipboard…';
+    clipboardStatus.textContent = 'Saving .clip…';
     delete clipboardStatus.dataset.error;
     const url = new URL(location.href);
     url.searchParams.set('sb-clipboard', '1');
     try {
       const response = await fetch(url, {method:'POST', cache:'no-store', headers:{'Content-Type':'application/json'}, body:JSON.stringify({files})});
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Could not save the clipboard.');
-      clipboardStatus.textContent = 'Copied ' + result.count + (result.count === 1 ? ' entry' : ' entries') + ' to clipboard';
+      if (!response.ok) throw new Error(result.error || 'Could not save .clip.');
+      clipboardStatus.textContent = 'Saved ' + result.count + (result.count === 1 ? ' entry' : ' entries') + ' to .clip';
     } catch (error) {
-      clipboardStatus.textContent = error.message || 'Could not save the clipboard.';
+      clipboardStatus.textContent = error.message || 'Could not save .clip.';
       clipboardStatus.dataset.error = 'true';
     } finally { copying = false; rememberSelection(); }
   });

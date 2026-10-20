@@ -1,7 +1,7 @@
 // Run with: SB_PHP=php8.2 node tests/clipboard-cli.mjs (no packages required).
 import assert from 'node:assert/strict';
 import {spawn, spawnSync} from 'node:child_process';
-import {mkdtemp, mkdir, writeFile, rm, stat, symlink} from 'node:fs/promises';
+import {mkdtemp, mkdir, writeFile, readFile, rm, stat, symlink} from 'node:fs/promises';
 import {createServer} from 'node:net';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -11,14 +11,11 @@ const php = process.env.SB_PHP || 'php8.2';
 const repo = fileURLToPath(new URL('../', import.meta.url));
 const root = await mkdtemp(join(tmpdir(),'sbshell-clip-cli-'));
 const week = join(root,'42');
-const recordHome = await mkdtemp(join(tmpdir(),'sbshell-record-home-'));
 const secondRoot = await mkdtemp(join(tmpdir(),'sbshell-second-archive-'));
-const database = join(recordHome,'catalog.sqlite3');
-const environment = {...process.env,SB_PHP:php,SB_DATABASE:database};
 let server;
-function clip(args=[], cwd=week) {
-  return spawnSync('bash',['-c','source "$1/lib/sb/clip.bash"; shift; sb.clip "$@"','sb.clip',repo,...args],
-    {cwd,env:environment,encoding:'utf8'});
+function clip(cwd=week) {
+  return spawnSync('bash',['-c','source "$1/lib/sb/clip.bash"; sb.clip','sb.clip',repo],
+    {cwd,encoding:'utf8'});
 }
 try {
   await mkdir(week); await mkdir(join(week,'sub')); await mkdir(join(root,'43'));
@@ -31,7 +28,7 @@ try {
   const port=portServer.address().port;
   await new Promise(resolve=>portServer.close(resolve));
   async function start(archive){
-    server=spawn(php,['-S',`127.0.0.1:${port}`,'-t',archive,join(repo,'cruff/index.php')],{env:environment});
+    server=spawn(php,['-S',`127.0.0.1:${port}`,'-t',archive,join(repo,'cruff/index.php')]);
     let log='';
     await new Promise((resolve,reject)=>{
       const timeout=setTimeout(()=>reject(new Error('PHP did not start: '+log)),10000);
@@ -49,18 +46,18 @@ try {
   assert.equal(response.status,200);
   assert.ok((await response.text()).includes('id="sb-copy-selected"'));
   let listed=clip();
-  assert.equal(listed.status,0); assert.equal(listed.stdout,''); assert.equal(listed.stderr,'');
+  assert.notEqual(listed.status,0); assert.equal(listed.stdout,''); assert.ok(listed.stderr.includes('.clip'));
+  const catalogBefore=await readFile(join(root,'catalog.sqlite3'));
   response=await request({files:['--flag.txt','alpha one.md','sub/','linked.md']});
   assert.equal(response.status,200); assert.deepEqual(await response.json(),{count:4});
   const expected=['--flag.txt','alpha one.md','sub/','linked.md'].map(name=>week+'/'+name+'\n').join('');
   listed=clip();
   assert.equal(listed.status,0); assert.equal(listed.stdout,expected); assert.equal(listed.stderr,'');
-  // No argument or archive lookup: the same home database works from anywhere.
-  assert.equal(clip([],tmpdir()).stdout,expected);
-  assert.equal(clip([],repo).stdout,expected);
-  const before=await stat(database);
-  assert.equal(clip([],tmpdir()).stdout,expected);
-  assert.equal((await stat(database)).mtimeMs,before.mtimeMs,'CLI reads must not modify SQLite.');
+  assert.equal(await readFile(join(week,'.clip'),'utf8'),expected,'Write an ordinary newline-delimited file in the viewed directory.');
+  assert.deepEqual(await readFile(join(root,'catalog.sqlite3')),catalogBefore,'Saving .clip must not write to SQLite.');
+  const before=await stat(join(week,'.clip'));
+  assert.equal(clip().stdout,expected);
+  assert.equal((await stat(join(week,'.clip'))).mtimeMs,before.mtimeMs,'Reading must not modify .clip.');
   response=await request({files:['missing.txt']});
   assert.equal(response.status,409); assert.equal(clip().stdout,expected);
   response=await request({files:['../43/other.txt']});
@@ -76,19 +73,22 @@ try {
   response=await fetch(base+'/43/?sb-clipboard=1',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({files:['other.txt']})});
   assert.equal(response.status,200);
   const other=join(root,'43','other.txt')+'\n';
-  assert.equal(clip([],tmpdir()).stdout,other,'Copying in another week replaces the global clipboard.');
-  const piped=spawnSync('bash',['-c','source "$1/lib/sb/clip.bash"; sb.clip | while IFS= read -r file; do printf "[%s]\\n" "$file"; done','sb.clip',repo],{cwd:tmpdir(),env:environment,encoding:'utf8'});
+  assert.equal(clip(join(root,'43')).stdout,other,'Each viewed directory has its own .clip.');
+  assert.equal(clip().stdout,expected,'Copying elsewhere must preserve this directory selection.');
+  const piped=spawnSync('bash',['-c','source "$1/lib/sb/clip.bash"; sb.clip | while IFS= read -r file; do printf "[%s]\\n" "$file"; done','sb.clip',repo],{cwd:join(root,'43'),encoding:'utf8'});
   assert.equal(piped.status,0); assert.equal(piped.stdout,'['+other.trimEnd()+']\n');
-  // Persistence and direct PHP/SQLite reading do not depend on a running server.
+  // Reading is just cat; neither PHP nor a web server is needed.
   await new Promise(resolve=>{server.once('exit',resolve);server.kill();}); server=null;
-  assert.equal(clip().stdout,other);
+  assert.equal(clip().stdout,expected);
   await writeFile(join(secondRoot,'second.txt'),'another archive');
   await start(secondRoot);
   response=await fetch(base+'/?sb-clipboard=1',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({files:['second.txt']})});
   assert.equal(response.status,200);
-  assert.equal(clip([],week).stdout,join(secondRoot,'second.txt')+'\n','A server with a different archive root must use the same global list.');
-  assert.equal(clip([],repo).stdout,join(secondRoot,'second.txt')+'\n');
-  listed=clip([join(root,'missing')]);
+  assert.equal(clip(secondRoot).stdout,join(secondRoot,'second.txt')+'\n');
+  assert.equal(clip().stdout,expected,'A different archive must not overwrite this directory selection.');
+  await assert.rejects(stat(join(secondRoot,'catalog.sqlite3')),{code:'ENOENT'},'Clipboard requests must not create a database.');
+  await mkdir(join(root,'empty'));
+  listed=clip(join(root,'empty'));
   assert.notEqual(listed.status,0); assert.equal(listed.stdout,''); assert.ok(listed.stderr.trim());
-  console.log('Global clipboard HTTP/CLI passed: shared home database, reads from unrelated working directories, ordered newline paths, spaces, symlinks, pipes, replacement, validation and stopped-server persistence.');
-} finally { server?.kill(); await rm(root,{recursive:true,force:true}); await rm(secondRoot,{recursive:true,force:true}); await rm(recordHome,{recursive:true,force:true}); }
+  console.log('Directory .clip HTTP/CLI passed: plain file output, directory/archive isolation, spaces, symlinks, pipes, validation, no clipboard database writes and stopped-server reading.');
+} finally { server?.kill(); await rm(root,{recursive:true,force:true}); await rm(secondRoot,{recursive:true,force:true}); }
