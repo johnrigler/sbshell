@@ -90,11 +90,25 @@ foreach(scandir(".") as $file){
 .sb-navigation, .refresh-control { font:14px/1.5 system-ui,sans-serif; color:#273749; margin:10px 16px; }
 .sb-navigation a { color:#135da8; text-decoration:underline; }
 .sb-navigation summary { cursor:pointer; }
-.sb-navigation ul { padding-left:24px; }
-.sb-navigation li { margin:4px 0; overflow-wrap:anywhere; }
-.sb-file-controls { margin:10px 0; }
-.sb-file-controls button { font:inherit; padding:5px 12px; cursor:pointer; }
-.sb-entry { margin:8px 0; }
+.sb-toolbar { position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid #d1d5da; padding:4px 0; }
+.sb-toolbar .sb-navigation, .sb-toolbar .refresh-control { margin:6px 16px; }
+.sb-file-controls { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:6px 16px; font:14px/1.5 system-ui,sans-serif; }
+.sb-file-controls[hidden] { display:none; }
+.sb-file-controls button { font:inherit; padding:5px 10px; cursor:pointer; }
+.sb-file-controls button:disabled { opacity:.5; cursor:default; }
+#sb-selected-count { margin-left:auto; color:#526170; }
+.sb-table { width:100%; table-layout:fixed; border-collapse:collapse; margin-top:10px; }
+.sb-table th, .sb-table td { padding:8px; border-bottom:1px solid #ddd; text-align:left; vertical-align:top; overflow-wrap:anywhere; }
+.sb-table th { background:#e6e6e6; font-weight:600; }
+.sb-table tbody > tr:nth-child(odd) { background:#fff; }
+.sb-table tbody > tr:nth-child(even) { background:#f1f1f1; }
+.sb-table .sb-selection { width:38px; text-align:center; }
+.sb-select-label { display:flex; align-items:center; justify-content:center; min-height:32px; cursor:pointer; }
+.sb-select { width:18px; height:18px; margin:0; cursor:pointer; }
+.sb-table .sb-tags { width:20%; color:#526170; }
+.sb-file > a { display:inline-block; padding:6px 0; }
+.sb-file small { color:#526170; }
+.sb-entry { margin:0; }
 .sb-entry > summary { padding:6px 0; }
 .sb-preview { min-width:0; padding:8px 0 16px; }
 .sb-file-actions { margin:4px 0 10px; }
@@ -106,16 +120,24 @@ foreach(scandir(".") as $file){
 .sb-markdown pre { padding:12px; background:#eef2f6; overflow:auto; white-space:pre; }
 .sb-markdown blockquote { margin-left:0; padding-left:16px; border-left:3px solid #b8c3cf; }
 .sb-catalog-error { margin:10px 16px; color:#9c2424; font:14px/1.5 system-ui,sans-serif; }
+@media (max-width:500px) {
+  .sb-navigation, .sb-toolbar .sb-navigation, .sb-toolbar .refresh-control, .sb-file-controls { margin-left:6px; margin-right:6px; }
+  .sb-table th, .sb-table td { padding:6px 4px; }
+  .sb-table .sb-selection { width:30px; }
+  .sb-table .sb-tags { width:58px; }
+}
 @media print {
-  .sb-breadcrumbs, .sb-assembled-files, .sb-directory > summary, .sb-file-controls,
-  .sb-file-actions, .sb-entry:not([open]), .refresh-control, .sb-catalog-error { display:none !important; }
-  .sb-directory, .sb-directory > ul, .sb-directory > ul > li { margin:0; padding:0; list-style:none; }
-  .sb-directory > ul > li:not(:has(> .sb-entry[open])) { display:none; }
+  .sb-toolbar, .sb-assembled-files, .sb-directory > summary, .sb-table thead,
+  .sb-selection, .sb-tags, .sb-file-actions, .sb-entry:not([open]), .sb-catalog-error { display:none !important; }
+  .sb-directory { margin:0; padding:0; }
+  .sb-table, .sb-table tbody, .sb-table tr, .sb-table td.sb-file { display:block; width:auto; margin:0; padding:0; border:0; background:transparent !important; }
+  .sb-table tbody > tr:not(:has(.sb-entry[open])) { display:none; }
   .sb-entry > summary { font-weight:bold; }
   .sb-navigation { color:#000; }
   .sb-markdown pre { white-space:pre-wrap; overflow-wrap:anywhere; }
 }
 </style>
+<header class="sb-toolbar">
 <nav class="sb-navigation sb-breadcrumbs" aria-label="Breadcrumbs">
 <?php
 $sb_crumbs = ["/" => basename($sb_root) ?: "Home"];
@@ -132,24 +154,34 @@ foreach($sb_crumbs as $link => $label){
 echo ' · <a href="' . $sb_url . '?sb-check=1">PHP setup</a>';
 ?>
 </nav>
+<div class="sb-file-controls" id="sb-file-controls" role="group" aria-label="Directory controls" hidden>
+<button type="button" id="sb-select-all">Select all</button>
+<button type="button" id="sb-unselect-all">Unselect all</button>
+<button type="button" id="sb-expand-all">Expand all</button>
+<button type="button" id="sb-collapse-all">Collapse all</button>
+<span id="sb-selected-count" role="status" aria-live="polite">0 selected</span>
+</div>
+<div class="refresh-control">
+<label><input type="checkbox" id="auto-refresh" data-stamp="<?php echo $sb_stamp; ?>" checked> Auto-refresh when files change (check every 10 seconds)</label>
+</div>
+</header>
 <?php if($sb_catalog_error){ ?>
 <p class="sb-catalog-error" role="status">Catalog update failed: <?php echo htmlspecialchars($sb_catalog_error); ?> <a href="<?= $sb_url ?>?sb-check=1">Check PHP setup</a>.</p>
 <?php } ?>
 <details class="sb-navigation sb-directory<?php if($ls) echo ' sb-assembled-files'; ?>" id="sb-directory"<?php if(!$ls) echo " open"; ?>>
 <summary>Files and directories</summary>
 <?php if($sb_dirs || $sb_files){ ?>
-<div class="sb-file-controls" hidden>
-<button type="button" id="sb-expand-all">Expand all</button>
-<button type="button" id="sb-collapse-all">Collapse all</button>
-</div>
-<ul>
+<table class="sb-table" aria-label="Files and directories">
+<thead><tr><th scope="col" class="sb-selection">Select</th><th scope="col">File or directory</th><th scope="col" class="sb-tags">Tags</th></tr></thead>
+<tbody>
 <?php
 foreach(array_merge($sb_dirs, $sb_files) as $file){
 	$link = $sb_url . rawurlencode(rtrim($file, "/")) . (str_ends_with($file, "/") ? "/" : "");
 	$relative = ltrim(rawurldecode($sb_url), "/") . $file;
 	$label = $sb_names[$relative] ?? $file;
+	echo '<tr><td class="sb-selection"><label class="sb-select-label"><input type="checkbox" class="sb-select" value="' . htmlspecialchars($file) . '" aria-label="Select ' . htmlspecialchars($label) . '"></label></td><td class="sb-file">';
 	if(is_file($file) && sb_preview_type($file)){
-		echo '<li><details class="sb-entry" data-file="' . htmlspecialchars($file) . '"><summary>' . htmlspecialchars($label);
+		echo '<details class="sb-entry" data-file="' . htmlspecialchars($file) . '"><summary>' . htmlspecialchars($label);
 		if($label !== $file) echo ' <small>(' . htmlspecialchars($file) . ')</small>';
 		echo '</summary><div class="sb-preview"><p class="sb-file-actions"><a href="' . $link . '">Open file</a>';
 		if(sb_preview_type($file) === "pdf") echo ' · <a href="' . $link . '?raw=1" target="_blank" rel="noopener">Open original PDF / print</a>';
@@ -157,20 +189,17 @@ foreach(array_merge($sb_dirs, $sb_files) as $file){
 		sb_preview($file, rawurlencode($file), true);
 		echo '</div></details>';
 	}else{
-		echo '<li><a href="' . $link . '">' . htmlspecialchars($label) . '</a>';
+		echo '<a href="' . $link . '">' . htmlspecialchars($label) . '</a>';
 		if($label !== $file) echo ' <small>(' . htmlspecialchars($file) . ')</small>';
 	}
-	echo '</li>' . "\n";
+	echo '</td><td class="sb-tags"></td></tr>' . "\n";
 }
 ?>
-</ul>
+</tbody></table>
 <?php }else{ ?>
 <p>This directory is empty.</p>
 <?php } ?>
 </details>
-<div class="refresh-control">
-<label><input type="checkbox" id="auto-refresh" data-stamp="<?php echo $sb_stamp; ?>" checked> Auto-refresh when files change (check every 10 seconds)</label>
-</div>
 <script>
 <?php readfile(__DIR__ . "/directory.js"); ?>
 </script>

@@ -81,6 +81,15 @@ directory where you started PHP. Directories with numbered parts assemble
 them as before, with their directory list available under **Files and directories**.
 The list starts open when there are no numbered parts, and closed when there are.
 
+Files and directories appear in a table with alternating white and light-gray
+rows, a selection checkbox on the left, and a **Tags** column on the right
+reserved for future tag associations. The header stays visible while scrolling
+and contains **Select all**, **Unselect all**, **Expand all**, **Collapse all**,
+the selected-entry count, breadcrumbs and auto-refresh control. Selection covers
+the current directory's rows, independently of preview expansion, and is
+remembered for this tab and directory across refreshes. Selection alone does
+not modify any files or catalog records.
+
 In a week directory, click a file's disclosure arrow or filename to expand its
 preview in place. PNG and other images display at the available width, PDFs
 embed the original document, Markdown renders basic headings, paragraphs,

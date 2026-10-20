@@ -1,6 +1,35 @@
 (() => {
   const directory = document.getElementById('sb-directory');
   const entries = [...directory.querySelectorAll('.sb-entry')];
+  const selections = [...directory.querySelectorAll('.sb-select')];
+  const selectionKey = 'sbshell-selected:' + location.pathname;
+  let selected = [];
+  try { selected = JSON.parse(sessionStorage.getItem(selectionKey) || '[]'); } catch {}
+  function rememberSelection() {
+    const files = selections.filter(input => input.checked).map(input => input.value);
+    const count = document.getElementById('sb-selected-count');
+    if (count) count.textContent = files.length + ' selected';
+    try { sessionStorage.setItem(selectionKey, JSON.stringify(files)); } catch {}
+  }
+  selections.forEach(input => {
+    input.checked = Array.isArray(selected) && selected.includes(input.value);
+    input.addEventListener('change', rememberSelection);
+  });
+  rememberSelection();
+  if (selections.length) {
+    document.getElementById('sb-file-controls').hidden = false;
+    document.getElementById('sb-select-all').addEventListener('click', () => {
+      directory.open = true;
+      selections.forEach(input => { input.checked = true; });
+      rememberSelection();
+    });
+    document.getElementById('sb-unselect-all').addEventListener('click', () => {
+      selections.forEach(input => { input.checked = false; });
+      rememberSelection();
+    });
+    document.getElementById('sb-expand-all').disabled = !entries.length;
+    document.getElementById('sb-collapse-all').disabled = !entries.length;
+  }
   const openKey = 'sbshell-open:' + location.pathname;
   let saved = [];
   try { saved = JSON.parse(sessionStorage.getItem(openKey) || '[]'); } catch {}
@@ -21,8 +50,8 @@
     entry.addEventListener('toggle', () => { loadMedia(entry); remember(); });
   });
   if (entries.length) {
-    directory.querySelector('.sb-file-controls').hidden = false;
     document.getElementById('sb-expand-all').addEventListener('click', () => {
+      directory.open = true;
       entries.forEach(entry => { entry.open = true; loadMedia(entry); });
       remember();
     });
@@ -47,6 +76,7 @@
         const result = await response.json();
         if (refresh.checked && result.stamp && result.stamp !== refresh.dataset.stamp) {
           remember();
+          rememberSelection();
           location.reload();
           return;
         }
