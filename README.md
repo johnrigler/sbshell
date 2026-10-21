@@ -1,5 +1,10 @@
 # SB Shell
 
+> **Current development has moved to [Mogwai's SB Shell component](https://github.com/johnrigler/mogwai/tree/main/sbshell).**
+> Pull `johnrigler/mogwai` for new changes. This original repository keeps
+> its history and existing data; old local checkouts are not moved automatically.
+> See [the migration guide](https://github.com/johnrigler/mogwai/blob/main/docs/CONSOLIDATION.md).
+
 Filesystem-first publishing with a local PHP assembler and a static browser
 path. Files, names, directories and symlinks supply the document structure.
 Bash and vi remain first-class authoring tools; Python and FileProxy are optional.
